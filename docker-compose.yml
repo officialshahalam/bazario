@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  bazario-app:
+    image: bazario-img
+    container_name: bazario
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "4000:4000"
+      - "4001:4001"
+      - "4002:4002"
+    env_file:
+      - .env
