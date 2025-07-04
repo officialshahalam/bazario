@@ -13,7 +13,4 @@ RUN npm install
 # Copy entire monorepo (apps, libs, packages)
 COPY . .
 
-# Optional: re-run prisma generate explicitly if needed
-# RUN npx prisma generate --schema=./prisma/schema.prisma
-
 CMD ["npm", "run", "start"]
