@@ -425,3 +425,4 @@ export const getAllProduct = async (
     next(error);
   }
 };
+

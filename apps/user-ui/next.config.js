@@ -18,7 +18,7 @@ const nextConfig = {
         hostname: "ik.imagekit.io",
       },
     ],
-    domains: ["ik.imagekit.io", "www.freepik.com", "static.vecteezy.com"],
+    domains: ["ik.imagekit.io", "www.freepik.com", "static.vecteezy.com","img.freepik.com"],
   },
 };
 

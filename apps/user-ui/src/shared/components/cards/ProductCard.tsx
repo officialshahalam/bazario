@@ -2,6 +2,11 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Ratings from "../ratings/Ratings";
 import { Eye, Heart, ShoppingBag } from "lucide-react";
+import ProductDetailsCard from "./ProductDetailsCard";
+import { useStore } from "apps/user-ui/src/store";
+import useUser from "apps/user-ui/src/hooks/useUser";
+import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
+import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
 
 const ProductCard = ({
   product,
@@ -10,7 +15,19 @@ const ProductCard = ({
   product: any;
   isEvent?: boolean;
 }) => {
+  const { user } = useUser();
+  const location = useLocationTracking();
+  const deviceInfo = useDeviceTracking();
   const [timeLeft, setTimeLeft] = useState("");
+  const [open, setOpen] = useState(false);
+  const addToCart = useStore((state: any) => state.addToCart);
+  const addToWishlist = useStore((state: any) => state.addToWishlist);
+  const removeFromWishlist = useStore((state: any) => state.removeFromWishlist);
+  const wishlist = useStore((state: any) => state.wishlist);
+  const isWishlisted = wishlist.some((item: any) => item.id === product.id);
+  const cart = useStore((state: any) => state.cart);
+  const isInCart = cart.some((item: any) => item.id === product.id);
+
   useEffect(() => {
     if (isEvent && product?.ending_date) {
       const interval = setInterval(() => {
@@ -93,25 +110,41 @@ const ProductCard = ({
       <div className="absolute z-10 flex flex-col gap-3 right-3 top-10">
         <div className="bg-white rounded-full p-[6px] shadow-md">
           <Heart
-            className="cursor-pointer hover:scale-110 transition"
             size={22}
-            fill="red"
-            stroke="red"
+            fill={isWishlisted ? "red" : "transparent"}
+            stroke={isWishlisted ? "red" : "#4b5563"}
+            className="cursor-pointer hover:scale-110 transition"
+            onClick={() =>
+              isWishlisted
+                ? removeFromWishlist(product.id, user, location, deviceInfo)
+                : addToWishlist(
+                    { ...product, quantity: 1 },
+                    user,
+                    location,
+                    deviceInfo
+                  )
+            }
           />
         </div>
         <div className="bg-white rounded-full p-[6px] shadow-md">
           <Eye
             className="cursor-pointer text-[#4b5563] hover:scale-110 transition"
             size={22}
+            onClick={() => setOpen(!open)}
           />
         </div>
         <div className="bg-white rounded-full p-[6px] shadow-md">
           <ShoppingBag
             className="cursor-pointer text-[#4b5563] hover:scale-110 transition"
             size={22}
+            onClick={() =>
+              !isInCart &&
+              addToCart({ ...product, quantity: 1 }, user, location, deviceInfo)
+            }
           />
         </div>
       </div>
+      {open && <ProductDetailsCard data={product} setOpen={setOpen} />}
     </div>
   );
 };

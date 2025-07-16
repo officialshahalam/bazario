@@ -12,6 +12,7 @@ type FormData = {
   email: string;
   password: string;
 };
+ 
 
 const ForgotPassword = () => {
   const [step, setStep] = useState<"email" | "otp" | "reset">("email");

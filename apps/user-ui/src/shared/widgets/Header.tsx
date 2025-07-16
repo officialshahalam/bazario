@@ -1,12 +1,35 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Search, ShoppingCart, User, Heart } from "lucide-react";
 import HeaderBottom from "./HeaderBottom";
 import useUser from "../../hooks/useUser";
+import { useStore } from "../../store";
+import { getAxiosInstance } from "packages/utills/axios/getAxios";
 
 const Header = () => {
   const { user, isLoading } = useUser();
+  const wishlist = useStore((state: any) => state.wishlist);
+  const cart = useStore((state: any) => state.cart);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+  const handleSearchClik = async () => {
+    if (!searchQuery.trim()) return;
+    setLoadingSuggestions(true);
+    try {
+      const res = await getAxiosInstance("product").get(
+        `/search-product?=${encodeURIComponent(searchQuery)}`
+      );
+      setSuggestions(res.data.product.slice(0, 10));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
 
   return (
     <div className="w-full bg-white">
@@ -20,9 +43,14 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search for product"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 font-Poppins font-medium border-[2.5px] border-[#3489ff] outline-none h-[55px]"
           />
-          <div className="w-[60px] cursor-pointer flex items-center justify-center h-[55px] bg-[#3489ff] absolute top-0 right-0">
+          <div
+            onClick={handleSearchClik}
+            className="w-[60px] cursor-pointer flex items-center justify-center h-[55px] bg-[#3489ff] absolute top-0 right-0"
+          >
             <Search color="#fff" />
           </div>
         </div>
@@ -53,7 +81,9 @@ const Header = () => {
                 </Link>
                 <Link href={"/login"}>
                   <span className="block font-medium">Hello,</span>
-                  <span className="font-semibold">{isLoading?"...":"Sign In"}</span>
+                  <span className="font-semibold">
+                    {isLoading ? "..." : "Sign In"}
+                  </span>
                 </Link>
               </>
             )}
@@ -62,13 +92,17 @@ const Header = () => {
             <Link href={"/wishlist"} className="relative">
               <Heart />
               <div className="h-6 w-6 border-2 border-white bg-red-500 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px] ">
-                <span className="text-white font-medium text-sm">0</span>
+                <span className="text-white font-medium text-sm">
+                  {wishlist.length}
+                </span>
               </div>
             </Link>
             <Link href={"/cart"} className="relative">
               <ShoppingCart />
               <div className="h-6 w-6 border-2 border-white bg-red-500 rounded-full flex items-center justify-center absolute top-[-10px] right-[-10px]">
-                <span className="text-white font-medium text-sm">0</span>
+                <span className="text-white font-medium text-sm">
+                  {cart.length}
+                </span>
               </div>
             </Link>
           </div>
