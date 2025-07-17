@@ -184,6 +184,7 @@ export const createProduct = async (
       customProperties = {},
       images = [],
     } = req.body;
+
     if (
       !title ||
       !slug ||
@@ -198,6 +199,7 @@ export const createProduct = async (
     ) {
       return next(new ValidationError("Missing Required Fields"));
     }
+
     if (!req.seller.id) {
       return next(new AuthError("Only seller can create product"));
     }
@@ -206,11 +208,13 @@ export const createProduct = async (
         slug,
       },
     });
+    console.log("first234",slugChecking);
     if (slugChecking) {
       return next(
         new ValidationError("Slug Already uses! please use a different slug")
       );
     }
+    console.log('second123',slugChecking);
     const newProduct = await prisma.products.create({
       data: {
         title,
@@ -402,7 +406,7 @@ export const getAllProduct = async (
         skip,
         include: {
           images: true,
-          shop: true,
+          shops: true,
         },
       }),
       prisma.products.count({ where: baseFilter }),
@@ -425,4 +429,3 @@ export const getAllProduct = async (
     next(error);
   }
 };
-

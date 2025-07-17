@@ -42,7 +42,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "../../packages/libs/kafka/index.ts"  ],
   "exclude": [
     "out-tsc",
     "dist",

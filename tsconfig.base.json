@@ -7,9 +7,13 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@packages/*": ["packages/*"]
+      "@packages/*": [
+        "packages/*"
+      ]
     },
-    "lib": ["es2022"],
+    "lib": [
+      "es2022"
+    ],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "noEmitOnError": true,
@@ -20,6 +24,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["development"]
+    "customConditions": [
+      "development"
+    ]
   }
 }
