@@ -81,7 +81,6 @@ const CreateProducts = () => {
 
   const onSubmit = async(data: any) => {
     try {
-      console.log('form submit');
       setLoading(true);
       await getAxiosInstance('product').post('/create-product',data);
       router.push("/dashboard/all-products");
@@ -292,10 +291,10 @@ const CreateProducts = () => {
                 )}
               </div>
               {/* Slags */}
-              <div className="mt-2">
+               <div className="mt-2">
                 <Input
                   label="Slug *"
-                  placeholder="product_slug"
+                  placeholder="product-slug"
                   {...register("slug", {
                     required: "Slug is required",
                     pattern: {

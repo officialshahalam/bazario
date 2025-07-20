@@ -1,9 +1,9 @@
 import authAxios from "./instances/auth";
 import productAxios from "./instances/product";
-import paymentAxios from "./instances/payment";
+import userAxios from "./instances/user";
 import orderAxios from "./instances/order";
 
-type ServiceName = "auth" | "product" | "payment" | "order";
+type ServiceName = "auth" | "product" | "user" | "order";
 
 export const getAxiosInstance = (service: ServiceName) => {
   switch (service) {
@@ -11,8 +11,8 @@ export const getAxiosInstance = (service: ServiceName) => {
       return authAxios;
     case "product":
       return productAxios;
-    case "payment":
-      return paymentAxios;
+    case "user":
+      return userAxios;
     case "order":
       return orderAxios;
     default:

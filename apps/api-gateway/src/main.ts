@@ -45,6 +45,7 @@ app.use(limiter);
 
 app.use("/auth", proxy("http://localhost:4001"));
 app.use("/product", proxy("http://localhost:4002"));
+app.use("/user", proxy("http://localhost:4003"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 

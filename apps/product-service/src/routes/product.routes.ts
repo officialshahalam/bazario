@@ -5,11 +5,18 @@ import {
   deleteDiscountCode,
   deleteProduct,
   DeleteProductImage,
+  getAllEvents,
   getAllProduct,
   getCategories,
   getDiscountCodes,
+  getFilteredOffers,
+  getFilteredProducts,
+  getFilteredShops,
+  getProductDetails,
   getShopProducts,
   restoreProduct,
+  searchProducts,
+  topShops,
   uploadProductImage,
 } from "../controllers/product.controller";
 import isAuthenticated from "@packages/middleware/isAuthenticated";
@@ -24,9 +31,15 @@ router.post("/upload-product-image", isAuthenticated, uploadProductImage);
 router.delete("/delete-product-image", isAuthenticated, DeleteProductImage);
 router.post("/create-product", isAuthenticated, createProduct);
 router.get("/get-shop-products", isAuthenticated, getShopProducts);
-router.delete("/delete-product/:productId",isAuthenticated,deleteProduct);
-router.put("/restore-product/:productId",isAuthenticated,restoreProduct);
-router.get('/get-all-products',getAllProduct);
-
+router.delete("/delete-product/:productId", isAuthenticated, deleteProduct);
+router.put("/restore-product/:productId", isAuthenticated, restoreProduct);
+router.get("/get-all-products", getAllProduct);
+router.get("/get-all-events", getAllEvents);
+router.get("/get-product/:slug", getProductDetails);
+router.get("/get-filtered-products", getFilteredProducts);
+router.get("/get-filtered-offers", getFilteredOffers);
+router.get("/get-filtered-shops", getFilteredShops);
+router.get("/search-products", searchProducts);
+router.get("/top-shops", topShops);
 
 export default router;

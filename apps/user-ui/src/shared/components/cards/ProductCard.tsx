@@ -18,7 +18,7 @@ const ProductCard = ({
   const { user } = useUser();
   const location = useLocationTracking();
   const deviceInfo = useDeviceTracking();
-  const [timeLeft, setTimeLeft] = useState("");
+  const [timeLeft, setTimeLeft] = useState("calculating...");
   const [open, setOpen] = useState(false);
   const addToCart = useStore((state: any) => state.addToCart);
   const addToWishlist = useStore((state: any) => state.addToWishlist);
@@ -44,7 +44,7 @@ const ProductCard = ({
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const mints = Math.floor((diff / (1000 * 60)) % 60);
         setTimeLeft(`${day}d ${hours}h ${mints}m left with this price`);
-      }, 60000);
+      }, 1000);
       return () => clearInterval(interval);
     }
     return;
@@ -53,7 +53,7 @@ const ProductCard = ({
   return (
     <div className="w-full min-h-[350px] h-max bg-white rounded-lg relative">
       {isEvent && (
-        <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-semibold px-2 py-1 rounded-sm shadow-md">
+        <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-semibold px-2 py-1 rounded-sm shadow-md uppercase animate-bounce">
           Offer
         </div>
       )}
@@ -101,8 +101,8 @@ const ProductCard = ({
       </div>
 
       {isEvent && timeLeft && (
-        <div className="mt-2">
-          <span className="inline-block text-xs bg-orange-100 text-orange-500">
+        <div className="mt-2 ml-2">
+          <span className="inline-block text-xs bg-orange-100 text-orange-500 px-2 py-[2px]">
             {timeLeft}
           </span>
         </div>

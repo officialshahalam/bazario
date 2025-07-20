@@ -8,11 +8,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -23,9 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "outDir": "dist",
     "rootDir": "../../",
@@ -41,8 +35,9 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    ".next/types/**/*.ts"
-, "../../packages/libs/kafka/index.ts"  ],
+    ".next/types/**/*.ts",
+    "../../packages/libs/kafka/index.ts"
+  ],
   "exclude": [
     "out-tsc",
     "dist",

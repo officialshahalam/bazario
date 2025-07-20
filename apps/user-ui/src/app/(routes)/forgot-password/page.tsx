@@ -14,7 +14,7 @@ type FormData = {
 };
  
 
-const ForgotPassword = () => {
+const Page = () => {
   const [step, setStep] = useState<"email" | "otp" | "reset">("email");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -287,4 +287,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default Page;

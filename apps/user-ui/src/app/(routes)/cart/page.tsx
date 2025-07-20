@@ -1,4 +1,5 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
 import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
 import useUser from "apps/user-ui/src/hooks/useUser";
@@ -7,9 +8,10 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import React, { useEffect, useState } from "react";
 
-const Cart = () => {
+const Page = () => {
   const router = useRouter();
   const { user } = useUser();
   const location = useLocationTracking();
@@ -47,6 +49,23 @@ const Cart = () => {
     (total: number, item: any) => total + item.quantity * item.sale_price,
     0
   );
+
+  const { data: addresses = [] } = useQuery({
+    queryKey: ["shipping-addresses"],
+    queryFn: async () => {
+      const res = await getAxiosInstance("user").get("/shipping-addresses");
+      return res?.data?.addresses;
+    },
+  });
+
+  useEffect(() => {
+    if (addresses.length > 0 && !selectedAddressId) {
+      const defaultAddr = addresses.find((addr: any) => addr.isDefault);
+      if (defaultAddr) {
+        setSelectedAddressId(defaultAddr?.id);
+      }
+    }
+  }, []);
 
   return (
     <div className="w-full bg-white">
@@ -220,8 +239,19 @@ const Cart = () => {
                     value={selectedAddressId}
                     onChange={(e) => setSelectedAddressId(e.target.value)}
                   >
-                    <option value="123">Home - New York - USA</option>
+                    {addresses?.length > 0 &&
+                      addresses.map((address: any) => (
+                        <option key={address?.id} value={address?.id}>
+                          {address?.label} - {address?.street} - {address?.city}{" "}
+                          - {address?.country}
+                        </option>
+                      ))}
                   </select>
+                  {addresses?.length === 0 && (
+                    <p className="text-sm text-slate-800">
+                      Please Add an address from profile to create order
+                    </p>
+                  )}
                 </div>
 
                 <hr className="my-4 text-slate-200" />
@@ -256,4 +286,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Page;

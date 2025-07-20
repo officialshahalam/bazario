@@ -3,6 +3,7 @@ import Header from '../shared/widgets';
 import './global.css';
 import { Poppins, Roboto } from 'next/font/google';
 import  { Toaster } from 'react-hot-toast';
+import Footer from '../shared/components/footer/Footer';
 
 export const metadata = {
   title: 'Bazario',
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Toaster />
+          <Footer/>
         </Providers>
       </body>
     </html>

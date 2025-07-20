@@ -14,7 +14,7 @@ type FormData = {
   password: string;
 };
 
-const Login = () => {
+const Page = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [rememberMe, setRemeberMe] = useState(false);
@@ -150,4 +150,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Page;

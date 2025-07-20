@@ -59,7 +59,7 @@ const setUpStore = persist<Store>(
           };
         }
         return {
-          cart: [...state.cart, { ...product, quantity: 1 }],
+          cart: [...state.cart, { ...product, quantity: product?.quantity }],
         };
       });
       // send kafka event
@@ -100,7 +100,7 @@ const setUpStore = persist<Store>(
         if (state.wishlist.find((item) => item.id === product.id)) return state;
         return { wishlist: [...state.wishlist, product] };
       });
-      if (user?.id && location && deviceInfo ) {
+      if (user?.id && location && deviceInfo) {
         sendKafkaEvent({
           userId: user?.id,
           productId: product?.id,

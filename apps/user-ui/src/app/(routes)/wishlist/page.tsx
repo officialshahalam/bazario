@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const WishList = () => {
+const Page = () => {
   const { user } = useUser();
   const location = useLocationTracking();
   const deviceInfo = useDeviceTracking();
@@ -144,4 +144,4 @@ const WishList = () => {
   );
 };
 
-export default WishList;
+export default Page;

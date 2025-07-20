@@ -4,15 +4,6 @@ import { updateUserAnalytics } from "./services/analytics.service";
 const consumer = kafka.consumer({ groupId: "user-event-group" });
 const admin = kafka.admin();
 
-(async () => {
-  await admin.connect();
-
-  const topics = await admin.listTopics();
-  console.log('Topics:', topics);
-
-  await admin.disconnect();
-})();
-
 (async function () {
   try {
     await admin.connect();
@@ -27,10 +18,18 @@ const admin = kafka.admin();
   } catch (error) {
     console.log(error);
     process.exit(1);
-  }
-  finally{
+  } finally {
     await admin.disconnect();
   }
+})();
+
+(async () => {
+  await admin.connect();
+
+  const topics = await admin.listTopics();
+  console.log("Topics:", topics);
+
+  await admin.disconnect();
 })();
 
 const eventQueue: any[] = [];

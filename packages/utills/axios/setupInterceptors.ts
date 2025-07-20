@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getAxiosInstance } from "./getAxios";
 
 export const setupInterceptors = (axiosInstance: any) => {

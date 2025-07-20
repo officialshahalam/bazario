@@ -15,7 +15,7 @@ type FormData = {
   password: string;
 };
 
-const SignUp = () => {
+const Page = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [canResend, setCanResend] = useState(true);
   const [showOtp, setShowOtp] = useState(false);
@@ -270,4 +270,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Page;

@@ -95,7 +95,7 @@ export const loginUser = async (
     const accessToken = await jwt.sign(
       { id: user.id, role: "user" },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "15m" }
+      { expiresIn: "45m" }
     );
 
     const refreshToken = await jwt.sign(
@@ -456,7 +456,7 @@ export const loginSeller = async (
     const accessToken = await jwt.sign(
       { id: seller.id, role: "seller" },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "15m" }
+      { expiresIn: "45m" }
     );
 
     const refreshToken = await jwt.sign(
