@@ -6,6 +6,7 @@ import HeaderBottom from "./HeaderBottom";
 import useUser from "../../hooks/useUser";
 import { useStore } from "../../store";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import Image from "next/image";
 
 const Header = () => {
   const { user, isLoading } = useUser();
@@ -55,14 +56,22 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-8">
-          <div className="flex items-center gap-2">
-            {!isLoading && user ? (
-              <>
+          <div >
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : user ? (
+              <div className="flex items-center gap-2">
                 <Link
                   href={"/profile"}
                   className="border-2 w-[50px] h-[50px] flex items-center justify-center rounded-full border-[#010f1c1a]"
                 >
-                  <User />
+                  <Image
+                    src={user?.avatars[0]?.url}
+                    alt={"User"}
+                    height={50}
+                    width={50}
+                    style={{ borderRadius: "100%" }}
+                  />
                 </Link>
                 <Link href={"/profile"}>
                   <span className="block font-medium">Hello,</span>
@@ -70,9 +79,9 @@ const Header = () => {
                     {user?.name?.split(" ")[0]}
                   </span>
                 </Link>
-              </>
+              </div>
             ) : (
-              <>
+              <div className="flex items-center gap-2">
                 <Link
                   href={"/login"}
                   className="border-2 w-[50px] h-[50px] flex items-center justify-center rounded-full border-[#010f1c1a]"
@@ -85,7 +94,7 @@ const Header = () => {
                     {isLoading ? "..." : "Sign In"}
                   </span>
                 </Link>
-              </>
+              </div>
             )}
           </div>
           <div className="flex items-center gap-5">

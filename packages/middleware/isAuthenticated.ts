@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import jwt, { TokenExpiredError } from "jsonwebtoken";
-import prisma from "@packages/libs/prisma";
+import prisma from "../../packages/libs/prisma";
 
 const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
   try {
@@ -20,7 +20,6 @@ const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
         token,
         process.env.ACCESS_TOKEN_SECRET!
       ) as typeof decoded;
-
     } catch (err: any) {
       if (err instanceof TokenExpiredError) {
         return res.status(401).json({ message: "Access token expired" });
@@ -30,14 +29,17 @@ const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
 
     let account;
     if (decoded.role === "user") {
-      account = await prisma.users.findUnique({
+      account = await prisma.user.findUnique({
         where: { id: decoded.id },
+        include: {
+          avatars: true,
+        },
       });
       req.user = account;
     } else if (decoded.role === "seller") {
-      account = await prisma.sellers.findUnique({
+      account = await prisma.seller.findUnique({
         where: { id: decoded.id },
-        include: { shop: true },
+        include: { shop: true, avatars: true },
       });
       req.seller = account;
     }

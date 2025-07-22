@@ -1,7 +1,7 @@
 /**
  * This is not a production server yet!
  * This is only a minimal backend to get started.
- */
+ */ 
 
 import express from "express";
 import * as path from "path";
@@ -13,12 +13,14 @@ import cookieParser from "cookie-parser";
 import initializeConfig from "./libs/initializeSiteConfig";
 
 const app = express();
+
+const port = process.env.PORT || 4000;
+
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "http://localhost:3002",
     ],
     allowedHeaders: ["Authorization", "Content-type"],
     credentials: true,
@@ -44,21 +46,42 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/auth", proxy("http://localhost:4001"));
-app.use("/product", proxy("http://localhost:4002"));
-app.use("/user", proxy("http://localhost:4003"));
+app.use("/user", proxy("http://localhost:4002"));
+app.use("/seller", proxy("http://localhost:4003"));
+app.use("/product", proxy("http://localhost:4004"));
+app.use("/order", proxy("http://localhost:4005"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
+app.get('/',(req,res)=>{
+  res.send({
+    message:"Welcome to api-gateway!"
+  })
+})
+
 app.get("/gateway-health", (req, res) => {
-  res.send({ message: "Welcome to api-gateway!" });
+  res.send({
+    message: "Health of api gate is good!",
+  });
 });
 
-const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-  console.log(`Swagger Auth Docs is available at localhost:${port}/auth/docs`);
+  console.log(`Api gateway is running on http://localhost${port}`)
+  console.log(`Check Health at http://localhost:${port}/gateway-health`);
   console.log(
-    `Swagger Product Docs is available at localhost:${port}/product/docs`
+    `Swagger Auth Docs is available at http://localhost:${port}/auth/docs`
+  );
+  console.log(
+    `Swagger User Docs is available at http://localhost:${port}/user/docs`
+  );
+  console.log(
+    `Swagger Seller Docs is available at http://localhost:${port}/seller/docs`
+  );
+  console.log(
+    `Swagger Product Docs is available at http://localhost:${port}/product/docs`
+  );
+  console.log(
+    `Swagger Order Docs is available at http://localhost:${port}/order/docs`
   );
   try {
     initializeConfig();

@@ -4,7 +4,7 @@ import { errorMiddleware } from "../../../packages/error-handler/error-middlewar
 import cookieParser from "cookie-parser";
 import router from "./routes/auth.routes";
 import swaggerUi from "swagger-ui-express";
-const swaggerDocument = require("./swagger-output.json");
+const swaggerDocument = require("./swagger-output.json"); 
 
 const port = process.env.PORT || 4001;
 
@@ -38,7 +38,7 @@ app.use("/api", router);
 app.use(errorMiddleware);
 
 const server = app.listen(port, () => {
-  console.log(`Auth Service is running on localhost${port}`);
+  console.log(`Auth Service is running on http://localhost${port}`);
 });
 
 server.on("error", (e) => {

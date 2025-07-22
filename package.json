@@ -9,7 +9,10 @@
     "seller-ui": "npx nx run seller-ui:dev --port=3001 --output-style=stream",
     "postinstall": "prisma generate --schema=./prisma/schema.prisma",
     "auth-docs": "node apps/auth-service/src/swagger.js",
-    "product-docs": "node apps/product-service/src/swagger.js"
+    "seller-docs": "node apps/seller-service/src/swagger.js",
+    "user-docs": "node apps/user-service/src/swagger.js",
+    "product-docs": "node apps/product-service/src/swagger.js",
+    "order-docs": "node apps/order-service/src/swagger.js"
   },
   "private": true,
   "dependencies": {

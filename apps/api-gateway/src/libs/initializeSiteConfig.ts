@@ -1,34 +1,118 @@
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import prisma from "@packages/libs/prisma";
 
 const initializeConfig = async () => {
   try {
-    const existingConfig = await prisma.site_config.findFirst();
+    const existingConfig = await prisma.siteConfig.findFirst();
     if (!existingConfig) {
-      await prisma.site_config.create({
+      await prisma.siteConfig.create({
         data: {
           categories: [
             "Electronics",
-            "Fashion",
+            "Apparel & Fashion",
+            "Clothing & Bedding",
             "Home & Kitchen",
             "Sports & Fitness",
+            "Books & Stationery",
+            "Beauty & Personal Care",
+            "Toys & Baby Products",
+            "Automotive",
+            "Groceries",
+            "Pet Supplies",
           ],
           subCategories: {
-            "Electronics": ["Mobiles", "Laptops", "Accessories", "Gaming"],
-            "Fashion": ["Men", "Women", "Kids", "Footwear"],
-            "Home & Kitchen": ["Furniture", "Appliances", "Decor"],
+            "Electronics": [
+              "Mobiles",
+              "Laptops",
+              "Accessories",
+              "Gaming",
+              "Televisions",
+              "Cameras",
+            ],
+            "Apparel & Fashion": [
+              "Men",
+              "Women",
+              "Kids",
+              "Footwear",
+              "Watches",
+              "Jewelry",
+              "Bags & Luggage",
+            ],
+            "Clothing & Bedding": [
+              "Bed Sheets",
+              "Blankets & Quilts",
+              "Pillows & Cushions",
+              "Mattress Covers",
+              "Curtains",
+              "Towels",
+              "Comforters",
+            ],
+            "Home & Kitchen": [
+              "Furniture",
+              "Appliances",
+              "Decor",
+              "Bedding",
+              "Storage",
+              "Lighting",
+            ],
             "Sports & Fitness": [
               "Gym Equipment",
               "Outdoor Sports",
               "Wearables",
+              "Bicycles",
+              "Yoga",
+            ],
+            "Books & Stationery": [
+              "Fiction",
+              "Non-Fiction",
+              "Educational",
+              "Comics",
+              "Office Supplies",
+              "Notebooks",
+            ],
+            "Beauty & Personal Care": [
+              "Makeup",
+              "Skincare",
+              "Haircare",
+              "Fragrances",
+              "Men's Grooming",
+              "Bath & Body",
+            ],
+            "Toys & Baby Products": [
+              "Toys",
+              "Baby Gear",
+              "Diapers",
+              "Feeding",
+              "Educational Toys",
+            ],
+            "Automotive": [
+              "Car Accessories",
+              "Bike Accessories",
+              "Spare Parts",
+              "Oils & Lubricants",
+              "Tools & Equipment",
+            ],
+            "Groceries": [
+              "Snacks",
+              "Beverages",
+              "Staples",
+              "Fruits & Vegetables",
+              "Dairy",
+              "Bakery",
+            ],
+            "Pet Supplies": [
+              "Dog Supplies",
+              "Cat Supplies",
+              "Aquarium",
+              "Pet Food",
+              "Grooming",
             ],
           },
         },
       });
     }
   } catch (error) {
-    console.log('Error while initializing the site config',error);
+    console.log("Error while initializing the site config", error);
   }
 };
 

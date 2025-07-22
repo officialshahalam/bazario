@@ -14,6 +14,7 @@ import bcrypt from "bcryptjs";
 import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import { setCookie } from "../utils/cookies/setCookies";
 import Stripe from "stripe";
+import { randomUUID } from "crypto";
 
 // resigter a new user
 export const userRegistration = async (
@@ -24,7 +25,7 @@ export const userRegistration = async (
   try {
     validateRegistrationData(req.body, "user");
     const { name, email } = req.body;
-    const existingUser = await prisma.users.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return next(new ValidationError("User already exist with this email"));
     }
@@ -49,14 +50,34 @@ export const verifyUser = async (
     if (!name || !email || !password || !otp) {
       return next(new ValidationError("All field are required!"));
     }
-    const existingUser = await prisma.users.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
     if (existingUser) {
       return next(new ValidationError("User already exist with this email"));
     }
     await verifyOtp(email, otp, next);
     const hashPassword = await bcrypt.hash(password, 10);
-    await prisma.users.create({
-      data: { name, email, password: hashPassword },
+    const avatars = [
+      {
+        file_id: randomUUID(),
+        url: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+          name
+        )}`,
+      },
+    ];
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashPassword,
+        avatars: {
+          create: avatars.map((avatar: any) => ({
+            file_id: avatar?.file_id,
+            url: avatar?.url,
+          })),
+        },
+      },
     });
     res.status(201).json({
       success: true,
@@ -77,7 +98,10 @@ export const loginUser = async (
     if (!email || !password) {
       return next(new ValidationError("email and passward are required"));
     }
-    const user = await prisma.users.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { avatars: true },
+    });
     if (!user) {
       return next(
         new AuthError("User does'not Exist !Please register first then login")
@@ -89,8 +113,8 @@ export const loginUser = async (
       return next(new AuthError("Invalid email or password"));
     }
 
-    res.clearCookie('seller-access-token');
-    res.clearCookie('seller-refresh-token');
+    res.clearCookie("seller-access-token");
+    res.clearCookie("seller-refresh-token");
 
     const accessToken = await jwt.sign(
       { id: user.id, role: "user" },
@@ -146,9 +170,9 @@ export const refreshToken = async (
 
     let account;
     if (decoded.role === "user") {
-      account = await prisma.users.findUnique({ where: { id: decoded.id } });
+      account = await prisma.user.findUnique({ where: { id: decoded.id } });
     } else if (decoded.role === "seller") {
-      account = await prisma.sellers.findUnique({
+      account = await prisma.seller.findUnique({
         where: { id: decoded.id },
         include: { shop: true },
       });
@@ -163,12 +187,12 @@ export const refreshToken = async (
       process.env.ACCESS_TOKEN_SECRET as string,
       { expiresIn: "15m" }
     );
-    if(decoded.role==='user'){
+    if (decoded.role === "user") {
       setCookie("access_token", newAccessToken, res);
-    }else if(decoded.role==='seller'){
+    } else if (decoded.role === "seller") {
       setCookie("seller-access-token", newAccessToken, res);
     }
-    req.role=decoded.role;
+    req.role = decoded.role;
 
     return res.status(200).json({
       success: true,
@@ -190,7 +214,6 @@ export const getUser = async (req: any, res: Response, next: NextFunction) => {
   }
 };
 
-// user forgot password
 export const userForgotPassword = async (
   req: Request,
   res: Response,
@@ -204,7 +227,6 @@ export const userForgotPassword = async (
   }
 };
 
-//verify forget password OTP
 export const verifyUserForgotPassword = async (
   req: Request,
   res: Response,
@@ -218,7 +240,6 @@ export const verifyUserForgotPassword = async (
   }
 };
 
-// reset user password
 export const resetUserPassword = async (
   req: Request,
   res: Response,
@@ -229,7 +250,7 @@ export const resetUserPassword = async (
     if (!email || !newPassword) {
       return next(new ValidationError("Email and New Passwor dare required"));
     }
-    const user = await prisma.users.findUnique({ where: { email: email } });
+    const user = await prisma.user.findUnique({ where: { email: email } });
     if (!user) {
       return next(new ValidationError("User not Found!"));
     }
@@ -243,7 +264,7 @@ export const resetUserPassword = async (
       );
     }
     const hashPassword = await bcrypt.hash(newPassword, 10);
-    await prisma.users.update({
+    await prisma.user.update({
       where: { email },
       data: { password: hashPassword },
     });
@@ -264,7 +285,7 @@ export const registerSeller = async (
   try {
     validateRegistrationData(req.body, "seller");
     const { name, email } = req.body;
-    const existingSeller = await prisma.sellers.findUnique({
+    const existingSeller = await prisma.seller.findUnique({
       where: { email: email },
     });
     if (existingSeller) {
@@ -291,17 +312,35 @@ export const verifySeller = async (
     if (!name || !email || !otp || !password || !phone_number || !country) {
       return next(new ValidationError("All fields are required"));
     }
-    const existingSeller = await prisma.sellers.findUnique({
+    const existingSeller = await prisma.seller.findUnique({
       where: { email: email },
     });
     if (existingSeller) {
       throw new ValidationError("Seller Already exist with this email!");
     }
+    const avatar = {
+      file_id: randomUUID(),
+      url: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+        name
+      )}`,
+    };
     await verifyOtp(email, otp, next);
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const seller = await prisma.sellers.create({
-      data: { name, email, password: hashPassword, country, phone_number },
+    const seller = await prisma.seller.create({
+      data: {
+        name,
+        email,
+        password: hashPassword,
+        country,
+        phone_number,
+        avatars: {
+          create: {
+            file_id: avatar?.file_id,
+            url: avatar?.url,
+          },
+        },
+      },
     });
     res.status(201).json({
       success: true,
@@ -338,7 +377,7 @@ export const createShop = async (
       shopData.website = website;
     }
 
-    const shop = await prisma.shops.create({ data: shopData });
+    const shop = await prisma.shop.create({ data: shopData });
 
     return res
       .status(201)
@@ -403,14 +442,14 @@ export const createStripeConnectLink = async (
     if (!sellerId) {
       return next(new ValidationError("Seller ID is required"));
     }
-    const seller = await prisma.sellers.findUnique({
+    const seller = await prisma.seller.findUnique({
       where: { id: sellerId },
     });
 
     if (!seller) {
       return next(new ValidationError("Seller is not available with this ID!"));
     }
-    await prisma.sellers.update({
+    await prisma.seller.update({
       where: { id: sellerId },
       data: {
         stripeId: "5f9c3b1e2a7d4f81c6a3",
@@ -437,7 +476,7 @@ export const loginSeller = async (
     if (!email || !password) {
       return next(new ValidationError("email and passward are required"));
     }
-    const seller = await prisma.sellers.findUnique({ where: { email } });
+    const seller = await prisma.seller.findUnique({ where: { email } });
     if (!seller) {
       return next(
         new AuthError("User does'not Exist !Please register first then login")
@@ -449,9 +488,8 @@ export const loginSeller = async (
       return next(new AuthError("Invalid email or password"));
     }
 
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
-
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
 
     const accessToken = await jwt.sign(
       { id: seller.id, role: "seller" },

@@ -13,12 +13,30 @@ const nextConfig = {
     svgr: false,
   },
   images: {
+    dangerouslyAllowSVG: true, 
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", 
     remotePatterns: [
       {
+        protocol: "https",
         hostname: "ik.imagekit.io",
       },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com", 
+      },
+      {
+        protocol: "https",
+        hostname: "www.freepik.com",
+      },
+      {
+        protocol: "https",
+        hostname: "static.vecteezy.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+      },
     ],
-    domains: ["ik.imagekit.io", "www.freepik.com", "static.vecteezy.com","img.freepik.com"],
   },
 };
 

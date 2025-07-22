@@ -8,7 +8,7 @@ import swaggerUi from "swagger-ui-express";
 const swaggerDocument = require("./swagger-output.json");
 
 
-const port = process.env.PORT || 4002;
+const port = process.env.PORT || 4004;
 
 const app = express();
 app.use(
@@ -37,9 +37,10 @@ app.use("/api", router);
 app.use(errorMiddleware);
 
 const server = app.listen(port, () => {
-  console.log(`Product Service is running on localhost${port}/api`);
+  console.log(`Product Service is running on http://localhost${port}`);
 });
 
 server.on("error", (e) => {
   console.log("Server Error", e);
 });
+ 
