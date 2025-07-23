@@ -1,8 +1,7 @@
 //@ts-check
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { composePlugins, withNx } = require('@nx/next');
-
+const { composePlugins, withNx } = require("@nx/next");
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -13,13 +12,32 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  images:{
-    remotePatterns:[
+  images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
       {
-        hostname:"ik.imagekit.io",
-      }
-    ]
-  }
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+      },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.freepik.com",
+      },
+      {
+        protocol: "https",
+        hostname: "static.vecteezy.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+      },
+    ],
+  },
 };
 
 const plugins = [
@@ -28,4 +46,3 @@ const plugins = [
 ];
 
 module.exports = composePlugins(...plugins)(nextConfig);
-

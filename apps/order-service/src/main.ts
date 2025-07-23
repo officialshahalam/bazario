@@ -4,7 +4,9 @@ import { errorMiddleware } from "../../../packages/error-handler/error-middlewar
 import cookieParser from "cookie-parser";
 import router from "./routes/order.routes";
 import swaggerUi from "swagger-ui-express";
-const swaggerDocument = require("./swagger-output.json"); 
+import { createOrder } from "./controllers/order.controller";
+const swaggerDocument = require("./swagger-output.json");
+import bodyParser from "body-parser";
 
 const port = process.env.PORT || 4005;
 
@@ -34,9 +36,20 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/docs-json", (req, res) => {
   res.json(swaggerDocument);
 });
+app.use(errorMiddleware);
 
 app.use("/api", router);
-app.use(errorMiddleware);
+
+// api
+app.post(
+  "/api/create-order",
+  bodyParser.raw({ type: "application/json" }),
+  (req, res, next) => {
+    (req as any).rawBody = req.body;
+    next();
+  },
+  createOrder
+);
 
 const server = app.listen(port, () => {
   console.log(`Order Service is running on http://localhost${port}`);

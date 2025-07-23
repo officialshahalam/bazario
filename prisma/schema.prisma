@@ -49,7 +49,7 @@ model Seller {
   isDeleted     Boolean        @default(false)
   deletedAt     DateTime?
 }
-
+ 
 model Shop {
   id               String              @id @default(auto()) @map("_id") @db.ObjectId
   name             String

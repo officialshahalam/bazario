@@ -11,43 +11,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-05-28.basil",
 });
 
-export const createPaymentIntent = async (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { amount, sellerStripeAccountId, sessionId } = req.body;
-    const customerAmount = Math.round(amount * 100);
-    const plateFormFee = Math.round(customerAmount * 0.1);
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: customerAmount,
-      currency: "usd",
-      payment_method_types: ["card"],
-      application_fee_amount: plateFormFee,
-      transfer_data: {
-        destination: sellerStripeAccountId,
-      },
-      metadata: {
-        sessionId,
-        userId: req?.user?.id,
-      },
-    });
-    return res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
-export const createPaymentSessiion = async (
+export const createPaymentSession = async (
   req: any,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { cart, selectedAddressId, coupon } = req.body;
+    console.log("selectedAddress id", selectedAddressId);
     const userId = req.user.id;
     if (!cart || !Array.isArray(cart) || cart?.length === 0) {
       return next(new ValidationError("Cart is empty or invalid"));
@@ -57,11 +28,11 @@ export const createPaymentSessiion = async (
         .map((item: any) => ({
           id: item.id,
           quantity: item?.quantity,
-          sale_prise: item?.sale_prise,
+          sale_price: item?.sale_price,
           shopId: item?.shopId,
           selectedOptions: item?.selectedOptions || {},
         }))
-        .sort((a, b) => a.id.localCompare(b.id))
+        .sort((a, b) => a.id.localeCompare(b.id))
     );
 
     const keys = await redis.keys("payment-session:*");
@@ -75,11 +46,11 @@ export const createPaymentSessiion = async (
               .map((item: any) => ({
                 id: item.id,
                 quantity: item?.quantity,
-                sale_prise: item?.sale_prise,
+                sale_price: item?.sale_price,
                 shopId: item?.shopId,
                 selectedOptions: item?.selectedOptions || {},
               }))
-              .sort((a: any, b: any) => a.id.localCompare(b.id))
+              .sort((a: any, b: any) => a.id.localeCompare(b.id))
           );
           if (existingCart === normalizedCart) {
             return res.status(200).json({
@@ -115,13 +86,15 @@ export const createPaymentSessiion = async (
     }));
 
     const totalAmount = cart.reduce(
-      (total: number, item: any) => total + item.quantity * item?.sale_prise
+      (total: number, item: any) => total + item.quantity * item?.sale_price,
+      0
     );
+
     const sessionId = crypto.randomUUID();
     const sessionData = {
       userId,
       cart,
-      seller: sellerData,
+      sellers: sellerData,
       totalAmount,
       shippingAddressId: selectedAddressId || null,
       coupon: coupon || null,
@@ -171,26 +144,60 @@ export const verifyingPaymentSession = async (
   }
 };
 
+export const createPaymentIntent = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { amount, sellerStripeAccountId, sessionId } = req.body;
+    const customerAmount = Math.round(amount * 100);
+    const plateFormFee = Math.round(customerAmount * 0.1);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: customerAmount,
+      currency: "usd",
+      payment_method_types: ["card"],
+      application_fee_amount: plateFormFee,
+      transfer_data: {
+        destination: sellerStripeAccountId,
+      },
+      metadata: {
+        sessionId,
+        userId: req?.user?.id,
+      },
+    });
+
+    return res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const createOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const stripeSignature = req.headers["stripe-signature"];
+    console.log("webhook called");
+    const stripeSignature = req.headers["stripe-signature"] as string;
     if (!stripeSignature) {
       return res.status(400).send("Missing stripe signature");
     }
-    const rowBody = (req as any).rowBody;
+    const rawBody = (req as any).rawBody;
+    console.log("🔍 Type of rawBody:", typeof rawBody);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
-        rowBody,
+        rawBody,
         stripeSignature,
         process.env.STRIPE_WEBHOOK_SECRET!
       );
     } catch (error: any) {
-      console.error("Webhook signature varification failed.", error.message);
+      console.error("Signature verification failed:", error.message);
       return res.status(400).send(`Webhook Error: ${error.message}`);
     }
     if (event.type === "payment_intent.succeeded") {
@@ -221,7 +228,7 @@ export const createOrder = async (
       for (const shopId in shopGrouped) {
         const orderItems = shopGrouped[shopId];
         let orderTotal = orderItems.reduce(
-          (sum: number, p: any) => sum + p.quantity * p.sale_prise,
+          (sum: number, p: any) => sum + p.quantity * p.sale_price,
           0
         );
         if (

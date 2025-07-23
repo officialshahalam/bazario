@@ -1,7 +1,7 @@
 /**
  * This is not a production server yet!
  * This is only a minimal backend to get started.
- */ 
+ */
 
 import express from "express";
 import * as path from "path";
@@ -16,12 +16,30 @@ const app = express();
 
 const port = process.env.PORT || 4000;
 
+// (async () => {
+//   try {
+//     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+//     const deleted = await stripe.accounts.del("acct_1Ro2s3FRmNqYAo78");
+//     console.log("deleted Account", deleted);
+//   } catch (error) {
+//     console.log("first", error);
+//   }
+// })();
+
+// (async () => {
+//   try {
+//     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+//     const account = await stripe.accounts.retrieve("acct_1R45R4FDocQI3syD"); // mohd shahalam id
+//     console.log("Country:", account); // e.g., 'IN' for India, 'US' for United States
+//   } catch (err) {
+//     console.log("first", err);
+//   }
+// })();
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-    ],
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     allowedHeaders: ["Authorization", "Content-type"],
     credentials: true,
   })
@@ -53,11 +71,11 @@ app.use("/order", proxy("http://localhost:4005"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
-app.get('/',(req,res)=>{
+app.get("/", (req, res) => {
   res.send({
-    message:"Welcome to api-gateway!"
-  })
-})
+    message: "Welcome to api-gateway!",
+  });
+});
 
 app.get("/gateway-health", (req, res) => {
   res.send({
@@ -66,7 +84,7 @@ app.get("/gateway-health", (req, res) => {
 });
 
 const server = app.listen(port, () => {
-  console.log(`Api gateway is running on http://localhost${port}`)
+  console.log(`Api gateway is running on http://localhost${port}`);
   console.log(`Check Health at http://localhost:${port}/gateway-health`);
   console.log(
     `Swagger Auth Docs is available at http://localhost:${port}/auth/docs`

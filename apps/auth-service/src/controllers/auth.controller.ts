@@ -16,6 +16,10 @@ import { setCookie } from "../utils/cookies/setCookies";
 import Stripe from "stripe";
 import { randomUUID } from "crypto";
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-05-28.basil",
+});
+
 // resigter a new user
 export const userRegistration = async (
   req: Request,
@@ -387,11 +391,6 @@ export const createShop = async (
   }
 };
 
-// create stripe connect account link
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil",
-});
-
 export const createStripeConnectLink = async (
   req: Request,
   res: Response,
@@ -399,68 +398,44 @@ export const createStripeConnectLink = async (
 ) => {
   try {
     // actual code
-    // {
-    //   const { sellerId } = req.body;
-    //   if (!sellerId) {
-    //     return next(new ValidationError("Seller ID is required"));
-    //   }
-    //   const seller = await prisma.sellers.findUnique({
-    //     where: { id: sellerId },
-    //   });
+    {
+      const { sellerId } = req.body;
+      if (!sellerId) {
+        return next(new ValidationError("Seller ID is required"));
+      }
+      const seller = await prisma.seller.findUnique({
+        where: { id: sellerId },
+      });
 
-    //   if (!seller) {
-    //     return next(
-    //       new ValidationError("Seller is not available with this ID!")
-    //     );
-    //   }
-    //   const account = await stripe.accounts.create({
-    //     type: "express",
-    //     email: seller?.email,
-    //     country: "IN",
-    //     capabilities: {
-    //       card_payments: { requested: true },
-    //       transfers: { requested: true },
-    //     },
-    //   });
-    //   await prisma.sellers.update({
-    //     where: { id: sellerId },
-    //     data: {
-    //       stripeId: account.id,
-    //     },
-    //   });
-    //   const accountLink = await stripe.accountLinks.create({
-    //     account: account.id,
-    //     refresh_url: `http://localhost:3000/success`,
-    //     return_url: `http://localhost:3000/success`,
-    //     type: "account_onboarding",
-    //   });
-    //   res.json({ url: accountLink.url });
-    // }
-
-    // demo code start
-    const { sellerId } = req.body;
-    if (!sellerId) {
-      return next(new ValidationError("Seller ID is required"));
+      if (!seller) {
+        return next(
+          new ValidationError("Seller is not available with this ID!")
+        );
+      }
+      const account = await stripe.accounts.create({
+        type: "express",
+        email: seller?.email,
+        country: "US",
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+      });
+      console.log('account is',account);
+      await prisma.seller.update({
+        where: { id: sellerId },
+        data: {
+          stripeId: account.id,
+        },
+      });
+      const accountLink = await stripe.accountLinks.create({
+        account: account.id,
+        refresh_url: `http://localhost:3001/success`,
+        return_url: `http://localhost:3001/success`,
+        type: "account_onboarding",
+      });
+      res.json({ url: accountLink.url });
     }
-    const seller = await prisma.seller.findUnique({
-      where: { id: sellerId },
-    });
-
-    if (!seller) {
-      return next(new ValidationError("Seller is not available with this ID!"));
-    }
-    await prisma.seller.update({
-      where: { id: sellerId },
-      data: {
-        stripeId: "5f9c3b1e2a7d4f81c6a3",
-      },
-    });
-    res.json({
-      success: true,
-      url: "http://localhost:3001/success",
-      message: "Successfully connect to the stripe",
-    });
-    // demo code end
   } catch (error) {
     return next(error);
   }

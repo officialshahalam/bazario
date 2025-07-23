@@ -1,9 +1,6 @@
 import Redis from "ioredis";
 
-const redis = new Redis({
-  host: process.env.REDIS_HOST || "redis", // docker service name
-  port: parseInt(process.env.REDIS_PORT || "6379", 10),
-});
+const redis = new Redis(process.env.REDIS_DATABASE_URL!);
 
 redis.on("connect", () => {
   console.log("Redis Connected successfully");

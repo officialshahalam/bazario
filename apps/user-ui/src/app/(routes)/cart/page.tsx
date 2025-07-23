@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [couponCode, setCouponCode] = useState("");
   const [selectedAddressId, setSelectedAddressId] = useState("");
+  console.log("selectedAddressId", selectedAddressId);
 
   const decreaseQuantity = (id: string) => {
     useStore.setState((state: any) => ({
@@ -58,6 +60,26 @@ const Page = () => {
     },
   });
 
+  const createPaymentSession = async () => {
+    setLoading(true);
+    try {
+      const res = await getAxiosInstance("order").post(
+        "/create-payment-session",
+        {
+          cart,
+          selectedAddressId,
+          coupon: {},
+        }
+      );
+      const sessionId = res?.data?.sessionId;
+      router.push(`/checkout?sessionId=${sessionId}`);
+    } catch (error) {
+      toast.error("Something went wrong. please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (addresses.length > 0 && !selectedAddressId) {
       const defaultAddr = addresses.find((addr: any) => addr.isDefault);
@@ -65,7 +87,7 @@ const Page = () => {
         setSelectedAddressId(defaultAddr?.id);
       }
     }
-  }, []);
+  }, [addresses]);
 
   return (
     <div className="w-full bg-white">
@@ -271,6 +293,7 @@ const Page = () => {
                   <span>${(subTotal - discountAmount).toFixed(2)}</span>
                 </div>
                 <button
+                  onClick={createPaymentSession}
                   disabled={loading}
                   className="w-full flex items-center justify-center gap-2 cursor-pointer mt-4 py-3 bg-[#010f1c] text-white hover:bg-[#0989ff] duration-200 transition-all rounded-lg"
                 >
