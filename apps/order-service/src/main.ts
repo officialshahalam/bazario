@@ -22,6 +22,15 @@ app.use(
     credentials: true,
   })
 );
+app.post(
+  "/api/create-order",
+  bodyParser.raw({ type: "application/json" }),
+  (req, res, next) => {
+    (req as any).rawBody = req.body;
+    next();
+  },
+  createOrder
+);
 
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -39,17 +48,7 @@ app.get("/docs-json", (req, res) => {
 app.use(errorMiddleware);
 
 app.use("/api", router);
-
 // api
-app.post(
-  "/api/create-order",
-  bodyParser.raw({ type: "application/json" }),
-  (req, res, next) => {
-    (req as any).rawBody = req.body;
-    next();
-  },
-  createOrder
-);
 
 const server = app.listen(port, () => {
   console.log(`Order Service is running on http://localhost${port}`);

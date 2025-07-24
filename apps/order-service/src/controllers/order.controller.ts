@@ -182,13 +182,11 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    console.log("webhook called");
-    const stripeSignature = req.headers["stripe-signature"] as string;
+    const stripeSignature = req.headers["stripe-signature"];
     if (!stripeSignature) {
       return res.status(400).send("Missing stripe signature");
     }
     const rawBody = (req as any).rawBody;
-    console.log("🔍 Type of rawBody:", typeof rawBody);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
@@ -197,7 +195,7 @@ export const createOrder = async (
         process.env.STRIPE_WEBHOOK_SECRET!
       );
     } catch (error: any) {
-      console.error("Signature verification failed:", error.message);
+      console.error("Webhook signature varification failed.", error.message);
       return res.status(400).send(`Webhook Error: ${error.message}`);
     }
     if (event.type === "payment_intent.succeeded") {
@@ -338,10 +336,12 @@ export const createOrder = async (
           {
             name,
             cart,
+            originalTotal: totalAmount, // Original total before discount
             totalAmount: coupon?.discountAmount
               ? totalAmount - coupon?.discountAmount
-              : totalAmount,
+              : totalAmount, // Final total after discount
             trackingUrl: `https://bazario.com/order/${sessionId}`,
+            coupon: coupon || null,
           }
         );
 
@@ -378,7 +378,7 @@ export const createOrder = async (
             title: "Plateform order alert",
             message: `A new order was placed by ${name}.`,
             creatorId: userId,
-            receiverId: "admin",
+            receiverId: "adminid",   // update to admin id
             redirect_link: `https://bazario.com/order/${sessionId}`,
           },
         });

@@ -21,7 +21,7 @@ const renderEmailTemplete=async(templateName:string,data:Record<string,any>):Pro
    const templatePath=path.join(
       process.cwd(),
       'apps',
-      'auth-service',
+      'order-service',
       'src',
       'utils',
       'email-templates',
