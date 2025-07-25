@@ -12,17 +12,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './{src,pages,components,app}/**/*.{ts,tsx,js,jsx,html}',
-    './src/**/*.{ts,tsx,js,jsx}',
-    '!./{src,pages,components,app}/**/*.{stories,spec}.{ts,tsx,js,jsx,html}',
-//     ...createGlobPatternsForDependencies(__dirname)
+    "./{src,pages,components,app}/**/*.{ts,tsx,js,jsx,html}",
+    "../user-ui/src/**/*.{ts,tsx,js,jsx}",
+    "../../packages/components/**/*.{js,jsx,ts,tsx}",
+    "!./{src,pages,components,app}/**/*.{stories,spec}.{ts,tsx,js,jsx,html}",
+    //     ...createGlobPatternsForDependencies(__dirname)
   ],
   theme: {
     extend: {
-      fontFamily:{
-        Poppins:['var(--font-poppins)'],
-        Roboto:['var(--font-roboto)']
-      }
+      fontFamily: {
+        Poppins: ["var(--font-poppins)"],
+        Roboto: ["var(--font-roboto)"],
+      },
     },
   },
   plugins: [],

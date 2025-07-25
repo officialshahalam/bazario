@@ -171,11 +171,9 @@ const Page = () => {
                 </p>
               </div>
             )}
-            {
-              activeTab==="Shipping Address" && !isLoading && (
-                <ShippingAddressSection/>
-              )
-            }
+            {activeTab === "Shipping Address" && !isLoading && (
+              <ShippingAddressSection />
+            )}
           </div>
           {/* right quick pannel */}
           <div className="w-full md:w-1/4 space-y-4">

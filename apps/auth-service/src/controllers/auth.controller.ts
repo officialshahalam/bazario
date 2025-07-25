@@ -150,62 +150,6 @@ export const loginUser = async (
   }
 };
 
-export const refreshToken = async (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const refreshToken =
-      req.cookies["refresh-token"] ||
-      req.cookies["seller-refresh-token"] ||
-      req.headers.authorization?.split(" ")[1];
-    if (!refreshToken) {
-      return new ValidationError("Unauthorized! No refresh token");
-    }
-    const decoded = (await jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET as string
-    )) as { id: string; role: string };
-
-    if (!decoded || !decoded.id || decoded.role) {
-      return new JsonWebTokenError("Forbidden! invalid refresh token");
-    }
-
-    let account;
-    if (decoded.role === "user") {
-      account = await prisma.user.findUnique({ where: { id: decoded.id } });
-    } else if (decoded.role === "seller") {
-      account = await prisma.seller.findUnique({
-        where: { id: decoded.id },
-        include: { shop: true },
-      });
-    }
-
-    if (!account) {
-      return new AuthError("Forbidden! User/seller not found");
-    }
-
-    const newAccessToken = await jwt.sign(
-      { id: decoded.id, role: decoded.role },
-      process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "15m" }
-    );
-    if (decoded.role === "user") {
-      setCookie("access_token", newAccessToken, res);
-    } else if (decoded.role === "seller") {
-      setCookie("seller-access-token", newAccessToken, res);
-    }
-    req.role = decoded.role;
-
-    return res.status(200).json({
-      success: true,
-    });
-  } catch (e) {
-    return next(e);
-  }
-};
-
 export const getUser = async (req: any, res: Response, next: NextFunction) => {
   try {
     const user = req.user;
@@ -415,13 +359,13 @@ export const createStripeConnectLink = async (
       const account = await stripe.accounts.create({
         type: "express",
         email: seller?.email,
-        country: "US",
+        country: "GB",
         capabilities: {
           card_payments: { requested: true },
           transfers: { requested: true },
         },
       });
-      console.log('account is',account);
+      console.log("account is", account);
       await prisma.seller.update({
         where: { id: sellerId },
         data: {
@@ -430,8 +374,8 @@ export const createStripeConnectLink = async (
       });
       const accountLink = await stripe.accountLinks.create({
         account: account.id,
-        refresh_url: `http://localhost:3001/success`,
-        return_url: `http://localhost:3001/success`,
+        refresh_url: `http://localhost:3001/login`,
+        return_url: `http://localhost:3001/login`,
         type: "account_onboarding",
       });
       res.json({ url: accountLink.url });
@@ -509,5 +453,160 @@ export const getSeller = async (
     });
   } catch (error) {
     return next(error);
+  }
+};
+
+export const logoutSeller = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {};
+
+export const loginAdmin = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return next(new ValidationError("email and passward are required"));
+    }
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { avatars: true },
+    });
+    if (!user) {
+      return next(
+        new AuthError("Admin does'not Exist !Please register first then login")
+      );
+    }
+
+    const ismatch = await bcrypt.compare(password, user.password!);
+    if (!ismatch) {
+      return next(new AuthError("Invalid email or password"));
+    }
+
+    const isAdmin = user.role === "admin";
+
+    if (!isAdmin) {
+      // sendLog({
+      //   type: "error",
+      //   message: `admin login failed form${email} - not an admin`,
+      //   source: "auth-service",
+      // });
+      return next(new AuthError("Invalid Access!"));
+    }
+
+    // sendLog({
+    //   type: "success",
+    //   message: `admin login successfully`,
+    //   source: "auth-service",
+    // });
+
+    res.clearCookie("seller-access-token");
+    res.clearCookie("seller-refresh-token");
+
+    const accessToken = await jwt.sign(
+      { id: user.id, role: "admin" },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      { expiresIn: "45m" }
+    );
+
+    const refreshToken = await jwt.sign(
+      { id: user.id, role: "admin" },
+      process.env.REFRESH_TOKEN_SECRET as string,
+      { expiresIn: "7d" }
+    );
+
+    // store the access and referesh token in httpOnly secure cookie
+    setCookie("access_token", accessToken, res);
+    setCookie("refresh_token", refreshToken, res);
+
+    res.status(200).json({
+      success: true,
+      message: "User LogedIn Successfully",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (e) {
+    return next(e);
+  }
+};
+
+export const getAdmin = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {};
+
+export const logoutAdmin = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {};
+
+export const updateUserPassword = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {};
+
+export const refreshToken = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const refreshToken =
+      req.cookies["refresh-token"] ||
+      req.cookies["seller-refresh-token"] ||
+      req.headers.authorization?.split(" ")[1];
+    if (!refreshToken) {
+      return new ValidationError("Unauthorized! No refresh token");
+    }
+    const decoded = (await jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string
+    )) as { id: string; role: string };
+
+    if (!decoded || !decoded.id || decoded.role) {
+      return new JsonWebTokenError("Forbidden! invalid refresh token");
+    }
+
+    let account;
+    if (decoded.role === "user") {
+      account = await prisma.user.findUnique({ where: { id: decoded.id } });
+    } else if (decoded.role === "seller") {
+      account = await prisma.seller.findUnique({
+        where: { id: decoded.id },
+        include: { shop: true },
+      });
+    }
+
+    if (!account) {
+      return new AuthError("Forbidden! User/seller not found");
+    }
+
+    const newAccessToken = await jwt.sign(
+      { id: decoded.id, role: decoded.role },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      { expiresIn: "15m" }
+    );
+    if (decoded.role === "user") {
+      setCookie("access_token", newAccessToken, res);
+    } else if (decoded.role === "seller") {
+      setCookie("seller-access-token", newAccessToken, res);
+    }
+    req.role = decoded.role;
+
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (e) {
+    return next(e);
   }
 };

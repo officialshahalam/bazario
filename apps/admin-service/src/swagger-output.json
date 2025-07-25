@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Admin Service Api",
+    "description": "Automatically generate swagger docs",
+    "version": "1.0.0"
+  },
+  "host": "localhost:4000/admin/api",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {}
+}

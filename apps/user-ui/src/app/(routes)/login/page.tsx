@@ -1,7 +1,7 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
 import GoogleButton from "apps/user-ui/src/shared/components/GoogleButton";
-import axios, { AxiosError } from "axios";
+import  { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 type FormData = {
   email: string;
-  password: string;
+  password: string; 
 };
 
 const Page = () => {
@@ -81,7 +81,7 @@ const Page = () => {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                   message: "Invalid email address",
                 },
               })}

@@ -1,4 +1,4 @@
-import { ValidationError } from "@packages/error-handler";
+import { NotFoundError, ValidationError } from "@packages/error-handler";
 import prisma from "@packages/libs/prisma";
 import redis from "@packages/libs/radis";
 import { NextFunction, Request, Response } from "express";
@@ -378,7 +378,7 @@ export const createOrder = async (
             title: "Plateform order alert",
             message: `A new order was placed by ${name}.`,
             creatorId: userId,
-            receiverId: "adminid",   // update to admin id
+            receiverId: process.env.ADMIN_USER_ID!,
             redirect_link: `https://bazario.com/order/${sessionId}`,
           },
         });
@@ -387,6 +387,214 @@ export const createOrder = async (
     }
     res.status(200).json({
       recieved: true,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getSellerOrders = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const shop = await prisma.shop.findUnique({
+      where: {
+        sellerId: req?.seller?.id,
+      },
+    });
+
+    const orders = await prisma.order.findMany({
+      where: {
+        shopId: shop?.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatars: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getOrderDetails = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = req.params.id;
+    const order = await prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+      include: {
+        items: true,
+      },
+    });
+    if (!order) {
+      return next(new NotFoundError("Order not found with the id"));
+    }
+    const shippingAddress = order?.shippingAddressId
+      ? await prisma?.address?.findUnique({
+          where: {
+            id: order?.shippingAddressId,
+          },
+        })
+      : null;
+    const coupon = order?.couponCode
+      ? await prisma.discountCode.findUnique({
+          where: {
+            discountCode: order?.couponCode,
+          },
+        })
+      : null;
+
+    const productIds = order.items?.map((item) => item?.productId);
+    const products = await prisma.product.findMany({
+      select: {
+        id: true,
+        title: true,
+        images: true,
+      },
+      where: {
+        id: { in: productIds },
+      },
+    });
+
+    const productMap = new Map(products.map((p) => [p.id, p]));
+    const items = order?.items.map((item) => ({
+      ...item,
+      selectedOptions: item?.selectedOptions,
+      product: productMap.get(item.productId) || null,
+    }));
+    res.status(200).json({
+      success: true,
+      order: {
+        ...order,
+        items,
+        shippingAddress,
+        couponCode: coupon,
+      },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const updateDeliveryStatus = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { orderId } = req.params;
+    const { deliveryStatus } = req.body;
+    if (!orderId || !deliveryStatus) {
+      return next(new ValidationError("Missing order id or delivery status"));
+    }
+    const allowedStatuses = [
+      "Ordered",
+      "Packed",
+      "Shipped",
+      "Out for delivery",
+      "Delivered",
+    ];
+    if (!allowedStatuses.includes(deliveryStatus)) {
+      return next(new ValidationError("Invalid Delivery status"));
+    }
+    const existingOrder = await prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+    });
+    if (!existingOrder) {
+      return next(new NotFoundError("Order not found!"));
+    }
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        deliveryStatus: deliveryStatus,
+        updatedAt: new Date(),
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Delivery status updated successfully",
+      updatedOrder,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const verifyCouponCode = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { couponCode, cart } = req.body;
+    if (!couponCode || !cart || cart.length === 0) {
+      return next(new ValidationError("Coupon code an dcart are required"));
+    }
+
+    const discount = await prisma.discountCode.findUnique({
+      where: {
+        discountCode: couponCode,
+      },
+    });
+
+    if (!discount) {
+      return next(new ValidationError("Coupon code is not valid!"));
+    }
+
+    const matchingProduct = cart.find((item: any) =>
+      item.discountCode?.some((d: any) => d === discount.id)
+    );
+
+    if (!matchingProduct) {
+      return res.status(200).json({
+        valid: false,
+        discount: 0,
+        discountAmount: 0,
+        message: "No Matching product found in cart for this coupon",
+      });
+    }
+
+    let discountAmount = 0;
+    const price = matchingProduct?.sale_price * matchingProduct?.quantity;
+    if (discount?.discountType === "percentage") {
+      discountAmount = (price * discount?.discountValue) / 100;
+    } else if (discount?.discountType === "flat") {
+      discountAmount = discount?.discountValue;
+    }
+
+    discountAmount = Math.min(discountAmount, price);
+
+    res.status(200).json({
+      valid: true,
+      discount: discount?.discountValue,
+      discountAmount: discountAmount.toFixed(2),
+      discountedProductId: matchingProduct?.id,
+      discountType: discount?.discountType,
+      message: "Discount Applied to 1 eligibal product",
     });
   } catch (error) {
     return next(error);

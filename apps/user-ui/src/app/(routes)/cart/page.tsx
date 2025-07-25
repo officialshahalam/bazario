@@ -26,7 +26,21 @@ const Page = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [couponCode, setCouponCode] = useState("");
   const [selectedAddressId, setSelectedAddressId] = useState("");
-  console.log("selectedAddressId", selectedAddressId);
+  const [error, setError] = useState("");
+  const [storedCouponCode, setStoredCouponCode] = useState("");
+
+  const { data: addresses = [] } = useQuery({
+    queryKey: ["shipping-addresses"],
+    queryFn: async () => {
+      const res = await getAxiosInstance("user").get("/shipping-addresses");
+      return res?.data?.addresses;
+    },
+  });
+
+  const subTotal = cart.reduce(
+    (total: number, item: any) => total + item.quantity * item.sale_price,
+    0
+  );
 
   const decreaseQuantity = (id: string) => {
     useStore.setState((state: any) => ({
@@ -47,20 +61,11 @@ const Page = () => {
     }));
   };
 
-  const subTotal = cart.reduce(
-    (total: number, item: any) => total + item.quantity * item.sale_price,
-    0
-  );
-
-  const { data: addresses = [] } = useQuery({
-    queryKey: ["shipping-addresses"],
-    queryFn: async () => {
-      const res = await getAxiosInstance("user").get("/shipping-addresses");
-      return res?.data?.addresses;
-    },
-  });
-
   const createPaymentSession = async () => {
+    if (addresses?.length === 0) {
+      toast.error("Please set your Delivery address to create an order");
+      return;
+    }
     setLoading(true);
     try {
       const res = await getAxiosInstance("order").post(
@@ -68,7 +73,12 @@ const Page = () => {
         {
           cart,
           selectedAddressId,
-          coupon: {},
+          coupon: {
+            code: storedCouponCode,
+            discountAmount,
+            discountPercent,
+            discountedProductId,
+          },
         }
       );
       const sessionId = res?.data?.sessionId;
@@ -77,6 +87,36 @@ const Page = () => {
       toast.error("Something went wrong. please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const couponCodeApplyHandler = async () => {
+    setError("");
+    if (!couponCode.trim()) {
+      setError("Coupon code is required");
+      return;
+    }
+    try {
+      const res = await getAxiosInstance("order").put("/verify-coupon", {
+        couponCode: couponCode.trim(),
+        cart,
+      });
+      if (res.data.valid) {
+        setStoredCouponCode(couponCode.trim());
+        setDiscountAmount(parseFloat(res?.data?.discountAmount));
+        setDiscountPercent(res?.data?.discount);
+        setCouponCode("");
+      } else {
+        setDiscountAmount(0);
+        setDiscountPercent(0);
+        setCouponCode("");
+        setError(res?.data?.message || "Coupon not valid for any item in cart");
+      }
+    } catch (error: any) {
+      setDiscountAmount(0);
+      setDiscountPercent(0);
+      setCouponCode("");
+      setError(error?.response?.data?.message);
     }
   };
 
@@ -243,14 +283,12 @@ const Page = () => {
                   />
                   <button
                     className="bg-blue-500 cursor-pointer text-white px-4 rounded-r-md hover:bg-blue-600 transition-all"
-                    // onClick={() => couponCodeApply}
+                    onClick={() => couponCodeApplyHandler()}
                   >
                     Apply
                   </button>
-                  {/* {error && (
-                    <p className="text-sm pt-2 text-red-500">{error}</p>
-                  )} */}
                 </div>
+                {error && <p className="text-sm pt-2 text-red-500">{error}</p>}
                 <hr className="my-4 text-slate-200" />
                 <div className="mb-4">
                   <h4 className="mb-2 text-base font-medium">

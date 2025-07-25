@@ -16,6 +16,7 @@ import Image from "next/image";
 import { enhancements } from "packages/utills/AIEnhancements";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import BreadCrumbs from "apps/seller-ui/src/shared/components/breadCrumbs/BreadCrumbs";
 const RichTextEditor = dynamic(
   () => import("packages/components/richTextEditor"),
   {
@@ -29,7 +30,7 @@ interface UploadedImage {
 }
 
 const CreateProducts = () => {
-  const [openImageModel, setOpenImageModel] = useState(false );
+  const [openImageModel, setOpenImageModel] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [pictureUploading, setPictureUploading] = useState(false);
   const [isChanged, setIsChanged] = useState(true);
@@ -37,7 +38,7 @@ const CreateProducts = () => {
   const [loading, setLoading] = useState(false);
   const [activeEffect, setActiveEffect] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
-  const router=useRouter();
+  const router = useRouter();
   const {
     register,
     control,
@@ -74,19 +75,19 @@ const CreateProducts = () => {
 
   const selectedCategory = watch("category");
   const regularPrice = watch("regular_price");
-  
+
   const subCategories = useMemo(() => {
     return selectedCategory ? subCategoriesData[selectedCategory] || [] : [];
   }, [selectedCategory, subCategoriesData]);
 
-  const onSubmit = async(data: any) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      await getAxiosInstance('product').post('/create-product',data);
+      await getAxiosInstance("product").post("/create-product", data);
       router.push("/dashboard/all-products");
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error(error.message);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -175,13 +176,7 @@ const CreateProducts = () => {
       <h2 className="text-2xl text-white font-Poppings font-semibold py-2">
         Create Product
       </h2>
-      <div className="flex items-center">
-        <Link href={"/dashboard"} className="text-[#80deea] cursor-pointer">
-          Dashboard
-        </Link>
-        <ChevronRight size={20} className="opacity-[.8]" />
-        <span>Create Product</span>
-      </div>
+      <BreadCrumbs title="create product" />
 
       {/* content Layout */}
       <div className="w-full py-4 flex gap-6">
@@ -291,7 +286,7 @@ const CreateProducts = () => {
                 )}
               </div>
               {/* Slags */}
-               <div className="mt-2">
+              <div className="mt-2">
                 <Input
                   label="Slug *"
                   placeholder="product-slug"
@@ -451,7 +446,7 @@ const CreateProducts = () => {
 
               <div className="mt-2">
                 <label className="block font-semibold text-gray-300 mb-1">
-                  Detailed Description * (Min 100 words)
+                  Detailed Description * (Min 20 words)
                 </label>
                 <Controller
                   name="detailed_description"
@@ -463,8 +458,8 @@ const CreateProducts = () => {
                         ?.split(/\s+/)
                         .filter((word: string) => word).length;
                       return (
-                        wordCount >= 100 ||
-                        "Desctiption must be at least 100 words"
+                        wordCount >= 20 ||
+                        "Desctiption must be at least 20 words"
                       );
                     },
                   }}
@@ -485,11 +480,10 @@ const CreateProducts = () => {
               <div className="mt-2">
                 <Input
                   label="Video URL"
-                  placeholder="https://www.youtube.com/embed/xyz123"
+                  placeholder="https://www.youtube.com/xyz123"
                   {...register("video_url", {
                     pattern: {
-                      value:
-                        /^https:\/\/(www\.)?youtube\.com\/embed\/[a-zA-Z0-9_~]+$/,
+                      value: /^https:\/\/(www\.)?youtube\.com\/.+$/,
                       message:
                         "Invalid YouTube embed URL! Use format: https://www.youtube.com/embed/xyz123",
                     },

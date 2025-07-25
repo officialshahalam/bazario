@@ -1,3 +1,4 @@
+import { runRedirectToLogin } from "../redirect";
 import { getAxiosInstance } from "./getAxios";
 
 export const setupInterceptors = (axiosInstance: any) => {
@@ -5,8 +6,10 @@ export const setupInterceptors = (axiosInstance: any) => {
   let refreshSubscribers: (() => void)[] = [];
 
   const handleLogout = () => {
-    if (window.location.pathname !== "/login") {
-      window.location.href = "/login";
+    const publicPaths = ["/login", "/signip", "/forgot-password"];
+    const currentPath = window.location.pathname;
+    if (!publicPaths.includes(currentPath)) {
+      runRedirectToLogin();
     }
   };
 
@@ -23,8 +26,11 @@ export const setupInterceptors = (axiosInstance: any) => {
     (res: any) => res,
     async (error: any) => {
       const originalRequest = error.config;
+      const is401 = error?.response?.status === 401;
+      const isRetry = originalRequest?._retry;
+      const isAuthRequired = originalRequest?.requireAuth === true;
 
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      if (is401 && !isRetry && isAuthRequired) {
         if (isRefreshing) {
           return new Promise((resolve) => {
             subscribeTokenRefresh(() =>
@@ -32,12 +38,14 @@ export const setupInterceptors = (axiosInstance: any) => {
             );
           });
         }
-
         originalRequest._retry = true;
         isRefreshing = true;
-
         try {
-          await getAxiosInstance("auth").post("/refresh-token", {});
+          await getAxiosInstance("auth").post(
+            "/refresh-token",
+            {},
+            { withCredentials: true }
+          );
           isRefreshing = false;
           onRefreshSuccess();
           return axiosInstance(originalRequest);

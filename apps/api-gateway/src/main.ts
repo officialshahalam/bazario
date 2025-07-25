@@ -20,26 +20,30 @@ const port = process.env.PORT || 4000;
 //   try {
 //     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-//     const deleted = await stripe.accounts.del("acct_1Ro2s3FRmNqYAo78");
+//     const deleted = await stripe.accounts.del("acct_1RouykiglO0");
 //     console.log("deleted Account", deleted);
 //   } catch (error) {
-//     console.log("first", error);
+//     console.log("error while deleting stripe account", error);
 //   }
 // })();
 
 // (async () => {
 //   try {
 //     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-//     const account = await stripe.accounts.retrieve("acct_1R45R4FDocQI3syD"); // mohd shahalam id
-//     console.log("Country:", account); // e.g., 'IN' for India, 'US' for United States
+//     const account = await stripe.accounts.retrieve("acct_1Ro2wssfQ0bI"); // mohd shahalam id
+//     console.log("Stripe account:", account); // e.g., 'IN' for India, 'US' for United States
 //   } catch (err) {
-//     console.log("first", err);
+//     console.log("Error while get stripe Account details", err);
 //   }
 // })();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+    ],
     allowedHeaders: ["Authorization", "Content-type"],
     credentials: true,
   })
@@ -68,6 +72,7 @@ app.use("/user", proxy("http://localhost:4002"));
 app.use("/seller", proxy("http://localhost:4003"));
 app.use("/product", proxy("http://localhost:4004"));
 app.use("/order", proxy("http://localhost:4005"));
+app.use("/admin", proxy("http://localhost:4006"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
@@ -88,6 +93,9 @@ const server = app.listen(port, () => {
   console.log(`Check Health at http://localhost:${port}/gateway-health`);
   console.log(
     `Swagger Auth Docs is available at http://localhost:${port}/auth/docs`
+  );
+  console.log(
+    `Swagger User Docs is available at http://localhost:${port}/admin/docs`
   );
   console.log(
     `Swagger User Docs is available at http://localhost:${port}/user/docs`
