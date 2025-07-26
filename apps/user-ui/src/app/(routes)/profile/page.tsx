@@ -1,8 +1,10 @@
 "use client";
-import { useQueryClient } from "@tanstack/react-query";
-import useUser from "apps/user-ui/src/hooks/useUser";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
 import QuickActionCard from "apps/user-ui/src/shared/components/cards/QuickActionCard";
 import StatCard from "apps/user-ui/src/shared/components/cards/StatCard";
+import ChangePassword from "apps/user-ui/src/shared/components/changePassword/ChangePassword";
+import OrdersTable from "apps/user-ui/src/shared/components/orderTable/OrdersTable";
 import ShippingAddressSection from "apps/user-ui/src/shared/components/section/ShippingAddressSection";
 import {
   Bell,
@@ -25,23 +27,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import React, { useEffect, useState } from "react";
-
-const NavItem = ({ label, Icon, active, danger, onClick }: any) => (
-  <button
-    onClick={onClick}
-    className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
-      active
-        ? "bg-blue-100 text-blue-600"
-        : danger
-        ? "text-red-500 hover:bg-red-50"
-        : "text-gray-700 hover:bg-gray-100"
-    }`}
-  >
-    {Icon && <Icon className="w-4 h-4" />}
-    {label}
-  </button>
-);
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -49,8 +36,26 @@ const Page = () => {
   const queryClient = useQueryClient();
   const queryTab = searchParams.get("active") || "Profile";
 
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useRequireAuth();
   const [activeTab, setActiveTab] = useState(queryTab);
+
+  const { data: orders, isLoading: orderLoading } = useQuery({
+    queryKey: ["user-orders"],
+    queryFn: async () => {
+      const res = await getAxiosInstance("order").get("get-user-orders");
+      return res?.data?.orders || [];
+    },
+  });
+
+  const totalOrders = orders?.length;
+  const processingOrders = orders?.filter(
+    (o: any) =>
+      o.deliveryStatus !== "Delivered" && o?.deliveryStatus !== "Cancelled"
+  ).length;
+
+  const completedOrders = orders?.filter(
+    (o: any) => o.deliveryStatus === "Delivered"
+  ).length;
 
   const logoutHandler = () => {};
 
@@ -80,9 +85,17 @@ const Page = () => {
           </h1>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <StatCard title="Total Orders" count={10} Icon={Clock} />
-          <StatCard title="Processing Orders" count={4} Icon={Truck} />
-          <StatCard title="Completed Orders" count={5} Icon={CheckCircle} />
+          <StatCard title="Total Orders" count={totalOrders} Icon={Clock} />
+          <StatCard
+            title="Processing Orders"
+            count={processingOrders}
+            Icon={Truck}
+          />
+          <StatCard
+            title="Completed Orders"
+            count={completedOrders}
+            Icon={CheckCircle}
+          />
         </div>
         <div className="mt-10 flex flex-col md:flex-row gap-6">
           {/* Left Navigation */}
@@ -137,7 +150,8 @@ const Page = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {activeTab}
             </h2>
-            {activeTab === "Profile" && !isLoading && user && (
+
+            {!isLoading && user && activeTab === "Profile" ? (
               <div className="space-y-4 text-sm text-gray-700">
                 <div className="flex items-center gap-3">
                   <Image
@@ -170,9 +184,14 @@ const Page = () => {
                   {user?.points || 0}
                 </p>
               </div>
-            )}
-            {activeTab === "Shipping Address" && !isLoading && (
+            ) : activeTab === "Shipping Address" ? (
               <ShippingAddressSection />
+            ) : activeTab === "My Orders" ? (
+              <OrdersTable orders={orders} isLoading={orderLoading} />
+            ) : activeTab === "Change Password" ? (
+              <ChangePassword />
+            ) : (
+              <></>
             )}
           </div>
           {/* right quick pannel */}
@@ -210,3 +229,19 @@ const Page = () => {
 };
 
 export default Page;
+
+const NavItem = ({ label, Icon, active, danger, onClick }: any) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+      active
+        ? "bg-blue-100 text-blue-600"
+        : danger
+        ? "text-red-500 hover:bg-red-50"
+        : "text-gray-700 hover:bg-gray-100"
+    }`}
+  >
+    {Icon && <Icon className="w-4 h-4" />}
+    {label}
+  </button>
+);

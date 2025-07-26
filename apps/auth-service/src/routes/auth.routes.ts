@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import {
   createShop,
   createStripeConnectLink,
+  getAdmin,
   getSeller,
   getUser,
   loginAdmin,
@@ -41,6 +42,7 @@ router.get("/logged-in-seller", isAuthenticated, isSeller, getSeller);
 router.get("/logout-seller", isAuthenticated, isSeller, logoutSeller);
 
 router.post("/login-admin", loginAdmin);
+router.get("/logged-in-admin", isAuthenticated, isAdmin, getAdmin);
 router.get("/logout-admin", isAuthenticated, isAdmin, logoutAdmin);
 
 router.post("/change-password", isAuthenticated, updateUserPassword);

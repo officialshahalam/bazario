@@ -17,7 +17,7 @@ import Stripe from "stripe";
 import { randomUUID } from "crypto";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil",
+  apiVersion: "2025-06-30.basil",
 });
 
 // resigter a new user
@@ -537,11 +537,17 @@ export const loginAdmin = async (
   }
 };
 
-export const getAdmin = async (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {};
+export const getAdmin = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const admin = req.user;
+    res.status(201).json({
+      success: true,
+      admin,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
 export const logoutAdmin = async (
   req: any,
@@ -553,7 +559,51 @@ export const updateUserPassword = async (
   req: any,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  try {
+    const userId = req?.user?.id;
+    const { currentPassword, newPassword, confirmPassword } = req?.body;
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return next(new ValidationError("all fields are required"));
+    }
+    if (newPassword !== confirmPassword) {
+      return next(new ValidationError("new password do not match"));
+    }
+    if (newPassword === currentPassword) {
+      return next(
+        new ValidationError("New password can not be the same as previous")
+      );
+    }
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user?.password) {
+      return next(new ValidationError("user not found or password not set"));
+    }
+    const isPassowrdMatch = await bcrypt.compare(
+      currentPassword,
+      user?.password
+    );
+
+    if (!isPassowrdMatch) {
+      return next(new AuthError("Incorrect current password"));
+    }
+    const hashPassword = await bcrypt.hash(newPassword, 12);
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: hashPassword,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Password update successfully",
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
 export const refreshToken = async (
   req: any,

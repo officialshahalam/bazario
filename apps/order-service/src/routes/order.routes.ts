@@ -2,14 +2,16 @@ import express, { Router } from "express";
 import {
   createPaymentIntent,
   createPaymentSession,
+  getAdminOrders,
   getOrderDetails,
   getSellerOrders,
+  getUserOrders,
   updateDeliveryStatus,
   verifyCouponCode,
   verifyingPaymentSession,
 } from "../controllers/order.controller";
 import isAuthenticated from "@packages/middleware/isAuthenticated";
-import { isSeller } from "@packages/middleware/authorizeRoles";
+import { isAdmin, isSeller, isUser } from "@packages/middleware/authorizeRoles";
 const router: Router = express.Router();
 
 router.post("/create-payment-session", isAuthenticated, createPaymentSession);
@@ -30,5 +32,7 @@ router.put(
   updateDeliveryStatus
 );
 router.put("/verify-coupon", isAuthenticated, verifyCouponCode);
+router.get("/get-user-orders", isAuthenticated, isUser, getUserOrders);
+router.get("/get-admin-orders", isAuthenticated, isAdmin, getAdminOrders);
 
 export default router;

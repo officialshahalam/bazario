@@ -21,7 +21,7 @@ const Page = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["seller-orders"],
-    queryFn: fetchOrders,
+    queryFn: fetchOrders, 
     staleTime: 1000 * 60 * 5,
   });
 

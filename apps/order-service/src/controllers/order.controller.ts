@@ -8,7 +8,7 @@ import { Prisma } from "@prisma/client";
 import { sendEmail } from "../utils/sendMail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil",
+  apiVersion: "2025-06-30.basil",
 });
 
 export const createPaymentSession = async (
@@ -595,6 +595,58 @@ export const verifyCouponCode = async (
       discountedProductId: matchingProduct?.id,
       discountType: discount?.discountType,
       message: "Discount Applied to 1 eligibal product",
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getUserOrders = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: req.user?.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        items: true,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getAdminOrders = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orders = await prisma.order.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: true,
+        shop: true,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      orders,
     });
   } catch (error) {
     return next(error);

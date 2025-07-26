@@ -1,4 +1,5 @@
 import React from "react";
+import SidebarWrapper from "../../shared/components/sidebar/SidebarWrapper";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         <div className="sticky top-0">
-          SideBar
+          <SidebarWrapper/>
         </div>
       </aside>
       <main className="flex-1">

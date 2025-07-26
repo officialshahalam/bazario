@@ -7,11 +7,9 @@ const { composePlugins, withNx } = require("@nx/next");
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
-  nx: {
-    // Set this to true if you would like to use SVGR
-    // See: https://github.com/gregberge/svgr
-    svgr: false,
-  },
+  // Use this to set Nx-specific options
+  // See: https://nx.dev/recipes/next/next-config-setup
+  nx: {},
   images: {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",

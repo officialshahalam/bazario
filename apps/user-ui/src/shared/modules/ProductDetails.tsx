@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import ReactImageMagnify from "react-image-magnify";
 import Ratings from "../components/ratings/Ratings";
 import Link from "next/link";
 import { useStore } from "../../store";
@@ -99,28 +98,11 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
         {/* left */}
         <div className="p-4">
           <div className="relative w-full">
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: "Product image",
-                  isFluidWidth: true,
-                  src: currentImage || "",
-                },
-                largeImage: {
-                  src: currentImage || "",
-                  width: 1200,
-                  height: 1200,
-                },
-                enlargedImageContainerDimensiions: {
-                  width: "150%",
-                  height: "150%",
-                },
-                enlargedImageStyle: {
-                  border: "none",
-                  boxShadow: "none",
-                },
-                enlargedImagePosition: "right",
-              }}
+            <Image
+              src={currentImage}
+              alt="Product image"
+              width={1200}
+              height={1200}
             />
           </div>
           {/* Thumbnail image array */}
