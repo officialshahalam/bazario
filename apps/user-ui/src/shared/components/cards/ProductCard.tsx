@@ -51,7 +51,7 @@ const ProductCard = ({
   }, [isEvent, product?.ending_date]);
 
   return (
-    <div className="w-full min-h-[350px] h-max bg-white rounded-lg relative">
+    <div className="w-full min-h-[350px] pb-8 h-max bg-white rounded-lg relative">
       {isEvent && (
         <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-semibold px-2 py-1 rounded-sm shadow-md uppercase animate-bounce">
           Offer
@@ -77,11 +77,10 @@ const ProductCard = ({
       >
         {product?.shop?.name}
       </Link>
-      <Link
-        href={`/shop/${product?.slug}`}
-        className="text-base font-semibold px-2 text-gray-800 "
-      >
-        {product?.title}
+      <Link href={`/shop/${product?.slug}`}>
+        <h1 className="text-base font-semibold px-2 text-gray-800 w-48 truncate">
+          {product?.title}
+        </h1>
       </Link>
       <div className="mt-2 px-2">
         <Ratings rating={product?.ratings} />
@@ -101,7 +100,7 @@ const ProductCard = ({
       </div>
 
       {isEvent && timeLeft && (
-        <div className="mt-2 ml-2">
+        <div className="absolute left-2 bottom-2">
           <span className="inline-block text-xs bg-orange-100 text-orange-500 px-2 py-[2px]">
             {timeLeft}
           </span>

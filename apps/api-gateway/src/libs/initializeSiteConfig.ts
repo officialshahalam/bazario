@@ -1,4 +1,3 @@
-
 import prisma from "@packages/libs/prisma";
 
 const initializeConfig = async () => {
@@ -108,6 +107,9 @@ const initializeConfig = async () => {
               "Grooming",
             ],
           },
+          logo: "https://ik.imagekit.io/aalam855/bazario/assets/Screenshot%202025-07-24%20at%2010.42.23%E2%80%AFAM.png?updatedAt=1753334329909",
+          banner:
+            "https://ik.imagekit.io/aalam855/bazario/assets/hero-bg.avif?updatedAt=1751187560434",
         },
       });
     }

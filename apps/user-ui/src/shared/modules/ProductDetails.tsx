@@ -19,6 +19,8 @@ import useLocationTracking from "../../hooks/useLocationTracking";
 import useDeviceTracking from "../../hooks/useDeviceTracking";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import ProductCard from "../components/cards/ProductCard";
+import { useRouter } from "next/navigation";
+import { isProtected } from "packages/utills/protected";
 
 const ProductDetails = ({ productDetails }: { productDetails: any }) => {
   const [currentImage, setCurrentImage] = useState(
@@ -38,6 +40,7 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
     1199,
   ]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const addToCart = useStore((state: any) => state.addToCart);
   const cart = useStore((state: any) => state.cart);
@@ -52,6 +55,7 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
   const { user } = useUser();
   const location = useLocationTracking();
   const deviceInfo = useDeviceTracking();
+  const router = useRouter();
 
   const discountPercentage = Math.round(
     ((productDetails?.regular_price - productDetails?.sale_price) /
@@ -85,6 +89,25 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
     if (currentIndex < productDetails?.images?.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setCurrentImage(productDetails?.images[currentIndex + 1]);
+    }
+  };
+
+  const handleChat = async () => {
+    if (isLoading) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await getAxiosInstance("chatting").post(
+        "/create-user-conversation-group",
+        { sellerId: productDetails?.shop?.sellerId },
+        isProtected
+      );
+      router.push(`/inbox?conversationId=${res?.data?.conversation?.id}`);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -358,7 +381,8 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
                   </span>
                 </div>
                 <Link
-                  href={"#"}
+                  href={`#`}
+                  onClick={() => handleChat()}
                   className="text-blue-500 text-sm flex items-center gap-1"
                 >
                   <MessageSquareText size={20} />

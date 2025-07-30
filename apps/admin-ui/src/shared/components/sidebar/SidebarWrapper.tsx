@@ -171,12 +171,12 @@ const SidebarWrapper = () => {
             <SidebarMenu title="Customization">
               <SideBarItem
                 title="All Customization"
-                href="/dashboard/all-customization"
-                isActive={activeSidebar === "/dashboard/all-customization"}
+                href="/dashboard/customization"
+                isActive={activeSidebar === "/dashboard/customization"}
                 icon={
                   <Columns3Cog
                     size={24}
-                    color={getIconColor("/dashboard/all-customization")}
+                    color={getIconColor("/dashboard/customization")}
                   />
                 }
               />

@@ -8,7 +8,10 @@ const admin = kafka.admin();
   try {
     await admin.connect();
     const result = await admin.createTopics({
-      topics: [{ topic: "users-events", numPartitions: 6 }],
+      topics: [
+        { topic: "users-events", numPartitions: 6 },
+        { topic: "chat.new_message", numPartitions: 6 },
+      ],
     });
     if (result) {
       console.log("Topic Created:");

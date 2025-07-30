@@ -12,13 +12,25 @@ import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import {saveAs} from 'file-saver'
+import { saveAs } from "file-saver";
 
 const AllProducts = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const deferredFilter = useDeferredValue(globalFilter);
   const [page, setPage] = useState(1);
   const limit = 10;
+
+  const exportCSV = () => {
+    const csvData = filteredProducts.map(
+      (p: any) =>
+        `${p.title},${p.sale_price},${p.stock},${p.category},${p.ratings},${p.shop.name}`
+    );
+    const blob = new Blob(
+      [`Title,Price,Stock,Category,Ratings,Shop\n${csvData.join("\n")}`],
+      { type: "text/csv;charset=utf-8" }
+    );
+    saveAs(blob, `product-page-${page}.csv`);
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["all-products", page],
@@ -143,18 +155,6 @@ const AllProducts = () => {
     onGlobalFilterChange: setGlobalFilter,
   });
 
-  const exportCSV = () => {
-    const csvData = filteredProducts.map(
-      (p: any) =>
-        `${p.title},${p.sale_price},${p.stock},${p.category},${p.ratings},${p.shop.name}`
-    );
-    const blob = new Blob(
-      [`Title,Price,Stock,Category,Ratings,Shop\n${csvData.join("\n")}`],
-      { type: "text/csv;charset=utf-8" }
-    );
-    saveAs(blob, `product-page-${page}.csv`);
-  };
-
   return (
     <div className="w-full min-h-screen p-8">
       <div className="flex justify-between items-center mt-1">
@@ -228,7 +228,7 @@ const AllProducts = () => {
         )}
         <div className="flex justify-between items-center mt-4">
           <button
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:opacity-50"
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
           >
@@ -238,7 +238,7 @@ const AllProducts = () => {
             Page {page} of {totalPage || 1}
           </span>
           <button
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:opacity-50"
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPage))}
             disabled={page === totalPage}
           >

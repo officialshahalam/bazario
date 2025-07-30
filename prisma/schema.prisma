@@ -19,7 +19,7 @@ model User {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   name                 String
   email                String              @unique
-  role                 Role?                @default(user)
+  role                 Role?               @default(user)
   password             String?
   avatars              Image[]
   shopReviews          ShopReview[]
@@ -28,7 +28,7 @@ model User {
   orders               Order[]
   notifications        Notification[]      @relation("NotificationReceiver")
   createdNotifications Notification[]      @relation("NotificationCreator")
-  createdConversations Conversation[]      @relation("ConversationCreator")
+  createdConversations ConversationGroup[] @relation("ConversationCreator")
   participants         Participant[]
   messages             Message[]
   uniqueShopVisits     UniqueShopVisitor[]
@@ -301,12 +301,12 @@ model Notification {
   updatedAt     DateTime @updatedAt
 }
 
-model Conversation {
+model ConversationGroup {
   id             String        @id @default(auto()) @map("_id") @db.ObjectId
   isGroup        Boolean       @default(false)
   name           String?
-  creatorId      String        @db.ObjectId
   creator        User          @relation(fields: [creatorId], references: [id], name: "ConversationCreator")
+  creatorId      String        @db.ObjectId
   participantIds String[]      @db.ObjectId
   participants   Participant[]
   messages       Message[]
@@ -315,32 +315,32 @@ model Conversation {
 }
 
 model Participant {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  conversationId String       @db.ObjectId
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
-  userId         String?      @db.ObjectId
-  user           User?        @relation(fields: [userId], references: [id])
-  sellerId       String?      @db.ObjectId
-  seller         Seller?      @relation(fields: [sellerId], references: [id])
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String            @db.ObjectId
+  conversation   ConversationGroup @relation(fields: [conversationId], references: [id])
+  userId         String?           @db.ObjectId
+  user           User?             @relation(fields: [userId], references: [id])
+  sellerId       String?           @db.ObjectId
+  seller         Seller?           @relation(fields: [sellerId], references: [id])
   lastSeenAt     DateTime?
-  isOnline       Boolean      @default(false)
-  unreadCount    Int          @default(0)
-  muted          Boolean      @default(false)
-  joinedAt       DateTime     @default(now())
+  isOnline       Boolean           @default(false)
+  unreadCount    Int               @default(0)
+  muted          Boolean           @default(false)
+  joinedAt       DateTime          @default(now())
 }
 
 model Message {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  conversationId String       @db.ObjectId
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
-  senderId       String       @db.ObjectId
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String            @db.ObjectId
+  conversation   ConversationGroup @relation(fields: [conversationId], references: [id])
+  senderId       String            @db.ObjectId
   senderType     String
-  userSender     User?        @relation(fields: [senderId], references: [id])
-  sellerSender   Seller?      @relation(fields: [senderId], references: [id])
+  userSender     User?             @relation(fields: [senderId], references: [id])
+  sellerSender   Seller?           @relation(fields: [senderId], references: [id])
   content        String?
   attachments    String[]
-  status         String       @default("sent")
-  createdAt      DateTime     @default(now())
+  status         String            @default("sent")
+  createdAt      DateTime          @default(now())
 
   @@unique([conversationId, senderId, content, createdAt])
 }

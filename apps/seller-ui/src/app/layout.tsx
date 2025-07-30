@@ -1,6 +1,5 @@
 import "./global.css";
 import Providers from "./Providers";
-import { Toaster } from "react-hot-toast";
 import { Poppins } from "next/font/google";
 
 export const metadata = {
@@ -14,7 +13,6 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-
 export default function RootLayout({
   children,
 }: {
@@ -25,10 +23,7 @@ export default function RootLayout({
       <body
         className={`min-h-screen font-sans antialiased ${poppins.variable}`}
       >
-        <Providers>
-          {children}
-          <Toaster />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

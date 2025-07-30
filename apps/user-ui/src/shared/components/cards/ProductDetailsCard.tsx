@@ -8,6 +8,8 @@ import { useStore } from "apps/user-ui/src/store";
 import useUser from "apps/user-ui/src/hooks/useUser";
 import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
 import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
+import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { isProtected } from "packages/utills/protected";
 
 const ProductDetailsCard = ({
   data,
@@ -21,6 +23,7 @@ const ProductDetailsCard = ({
   const [isSelected, setIsSelected] = useState(data?.colors?.[0] || "");
   const [isSizeSelected, setIsSizeSelected] = useState(data?.sizes?.[0] || "");
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const addToCart = useStore((state: any) => state.addToCart);
   const cart = useStore((state: any) => state.cart);
@@ -35,6 +38,26 @@ const ProductDetailsCard = ({
 
   const estimatedDelivery = new Date();
   estimatedDelivery.setDate(estimatedDelivery.getDate() + 5);
+
+  const handleChat = async () => {
+    if (isLoading) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await getAxiosInstance("chatting").post(
+        "/create-user-conversation-group",
+        { sellerId: data?.shop?.sellerId },
+        isProtected
+      );
+      router.push(`/inbox?conversationId=${res?.data?.conversation?.id}`);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       className="fixed flex items-center justify-center top-0 left-0 h-screen w-full bg-[#2d2b2b9c] z-50"
@@ -108,7 +131,7 @@ const ProductDetailsCard = ({
               </div>
               <button
                 className="flex cursor-pointer items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
-                onClick={() => router.push(`/inbox?shopId=${data?.shop?.id}`)}
+                onClick={() => handleChat()}
               >
                 💬 Chat with Seller
               </button>

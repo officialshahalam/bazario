@@ -73,6 +73,7 @@ app.use("/seller", proxy("http://localhost:4003"));
 app.use("/product", proxy("http://localhost:4004"));
 app.use("/order", proxy("http://localhost:4005"));
 app.use("/admin", proxy("http://localhost:4006"));
+app.use("/chatting", proxy("http://localhost:4007"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 

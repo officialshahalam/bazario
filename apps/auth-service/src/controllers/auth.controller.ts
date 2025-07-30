@@ -123,13 +123,13 @@ export const loginUser = async (
     const accessToken = await jwt.sign(
       { id: user.id, role: "user" },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "45m" }
+      { expiresIn: "365d" }
     );
 
     const refreshToken = await jwt.sign(
       { id: user.id, role: "user" },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "7d" }
+      { expiresIn: "365d" }
     );
 
     // store the access and referesh token in httpOnly secure cookie
@@ -413,13 +413,13 @@ export const loginSeller = async (
     const accessToken = await jwt.sign(
       { id: seller.id, role: "seller" },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "45m" }
+      { expiresIn: "365d" }
     );
 
     const refreshToken = await jwt.sign(
       { id: seller.id, role: "seller" },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "7d" }
+      { expiresIn: "365d" }
     );
 
     // store the access and referesh token in httpOnly secure cookie

@@ -4,8 +4,16 @@ import userAxios from "./instances/user";
 import orderAxios from "./instances/order";
 import sellerAxios from "./instances/seller";
 import adminAxios from "./instances/admin";
+import chattingAxios from "./instances/chatting";
 
-type ServiceName = "auth" | "admin" | "user" | "seller" | "product" | "order";
+type ServiceName =
+  | "auth"
+  | "admin"
+  | "user"
+  | "seller"
+  | "product"
+  | "order"
+  | "chatting"
 
 export const getAxiosInstance = (service: ServiceName) => {
   switch (service) {
@@ -21,6 +29,8 @@ export const getAxiosInstance = (service: ServiceName) => {
       return productAxios;
     case "order":
       return orderAxios;
+    case "chatting":
+      return chattingAxios;
     default:
       throw new Error("Unknown service name");
   }
