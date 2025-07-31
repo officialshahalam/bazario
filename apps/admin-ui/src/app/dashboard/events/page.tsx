@@ -22,7 +22,7 @@ const EventsPage = () => {
   const deferredGlobalFilter = useDeferredValue(globalFilter);
   const limit = 10;
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["events-list", page],
     queryFn: async () => {
       const res = await getAxiosInstance("admin").get(
