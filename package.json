@@ -14,7 +14,10 @@
     "seller-docs": "node apps/seller-service/src/swagger.js",
     "user-docs": "node apps/user-service/src/swagger.js",
     "product-docs": "node apps/product-service/src/swagger.js",
-    "order-docs": "node apps/order-service/src/swagger.js"
+    "order-docs": "node apps/order-service/src/swagger.js",
+    "notification-docs": "node apps/notification-service/src/swagger.js",
+    "logger-docs": "node apps/logger-service/src/swagger.js",
+    "chatting-docs": "node apps/chatting-service/src/swagger.js"
   },
   "private": true,
   "dependencies": {

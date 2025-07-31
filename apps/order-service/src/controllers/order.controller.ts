@@ -250,7 +250,7 @@ export const createOrder = async (
           }
         }
         // Create order
-        await prisma.order.create({
+        const order = await prisma.order.create({
           data: {
             userId,
             shopId,
@@ -340,7 +340,7 @@ export const createOrder = async (
             totalAmount: coupon?.discountAmount
               ? totalAmount - coupon?.discountAmount
               : totalAmount, // Final total after discount
-            trackingUrl: `https://bazario.com/order/${sessionId}`,
+            trackingUrl: `/order/${order?.id}`,
             coupon: coupon || null,
           }
         );

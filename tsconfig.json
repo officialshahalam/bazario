@@ -47,6 +47,9 @@
     },
     {
       "path": "./apps/recommendation-service"
+    },
+    {
+      "path": "./apps/notification-service"
     }
   ]
 }

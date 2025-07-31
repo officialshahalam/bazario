@@ -1,21 +1,58 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import express from 'express';
-import * as path from 'path';
-
-const app = express();
-
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to logger-service!' });
-});
+import express from "express";
+import WebSocket from "ws";
+import http from "http";
+import cors from "cors";
+import { consumeKafkaMessages } from "./logger-consumer";
+import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+const swaggerDocument = require("./swagger-output.json");
 
 const port = process.env.PORT || 4008;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+
+const app = express();
+app.use(
+  cors({
+    origin: ["http://localhost:3000","http://localhost:3001","http://localhost:3002"],
+    allowedHeaders: ["Authorization", "Content-type"],
+    credentials: true,
+  })
+);
+
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ limit: "100mb", extended: true }));
+app.use(cookieParser());
+
+//swagger doc
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get("/docs-json", (req, res) => {
+  res.json(swaggerDocument);
 });
-server.on('error', console.error);
+
+const wsServer = new WebSocket.Server({ noServer: true });
+
+export const clients = new Set<WebSocket>();
+
+wsServer.on("connection", (ws) => {
+  console.log("New logger client connected");
+  clients.add(ws);
+
+  ws.on("close", () => {
+    console.log("Logger client disconnected");
+    clients.delete(ws);
+  });
+});
+
+const server = http.createServer(app);
+
+server.on("upgrade", (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, (ws) => {
+    wsServer.emit("connection", ws, request);
+  });
+});
+
+server.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+});
+
+// start kafka consumer
+consumeKafkaMessages();

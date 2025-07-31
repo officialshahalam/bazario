@@ -4,6 +4,7 @@ import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
 import QuickActionCard from "apps/user-ui/src/shared/components/cards/QuickActionCard";
 import StatCard from "apps/user-ui/src/shared/components/cards/StatCard";
 import ChangePassword from "apps/user-ui/src/shared/components/changePassword/ChangePassword";
+import Notifications from "apps/user-ui/src/shared/components/notifications/Notifications";
 import OrdersTable from "apps/user-ui/src/shared/components/orderTable/OrdersTable";
 import ShippingAddressSection from "apps/user-ui/src/shared/components/section/ShippingAddressSection";
 import {
@@ -184,10 +185,12 @@ const Page = () => {
                   {user?.points || 0}
                 </p>
               </div>
-            ) : activeTab === "Shipping Address" ? (
-              <ShippingAddressSection />
             ) : activeTab === "My Orders" ? (
               <OrdersTable orders={orders} isLoading={orderLoading} />
+            ) : activeTab === "Notifications" ? (
+              <Notifications/>
+            ) : activeTab === "Shipping Address" ? (
+              <ShippingAddressSection />
             ) : activeTab === "Change Password" ? (
               <ChangePassword />
             ) : (

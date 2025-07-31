@@ -6,7 +6,7 @@ import router from "./routes/user.routes";
 import swaggerUi from "swagger-ui-express";
 const swaggerDocument = require("./swagger-output.json");
 
-const port = process.env.PORT || 4002;
+const port = process.env.PORT || 4004;
 
 const app = express();
 app.use(

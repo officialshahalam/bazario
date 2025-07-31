@@ -68,17 +68,20 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/auth", proxy("http://localhost:4001"));
-app.use("/user", proxy("http://localhost:4002"));
+app.use("/admin", proxy("http://localhost:4002"));
 app.use("/seller", proxy("http://localhost:4003"));
-app.use("/product", proxy("http://localhost:4004"));
-app.use("/order", proxy("http://localhost:4005"));
-app.use("/admin", proxy("http://localhost:4006"));
-app.use("/chatting", proxy("http://localhost:4007"));
+app.use("/user", proxy("http://localhost:4004"));
+app.use("/product", proxy("http://localhost:4005"));
+app.use("/order", proxy("http://localhost:4006"));
+app.use("/notification", proxy("http://localhost:4007"));
+app.use("/logger", proxy("http://localhost:4008"));
+app.use("/chatting", proxy("http://localhost:4009"));
+app.use("/recommendation", proxy("http://localhost:4010"));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.get("/", (req, res) => {
-  res.send({
+  res.send({ 
     message: "Welcome to api-gateway!",
   });
 });

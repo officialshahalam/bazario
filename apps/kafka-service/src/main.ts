@@ -11,6 +11,7 @@ const admin = kafka.admin();
       topics: [
         { topic: "users-events", numPartitions: 6 },
         { topic: "chat.new_message", numPartitions: 6 },
+        { topic: "logs", numPartitions: 6 },
       ],
     });
     if (result) {

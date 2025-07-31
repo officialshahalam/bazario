@@ -1,18 +1,18 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Admin Service Api",
+    "title": "Chatting Service Api",
     "description": "Automatically generate swagger docs",
     "version": "1.0.0"
   },
-  "host": "localhost:4000/admin/api",
+  "host": "localhost:4000/chatting/api",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/add-new-admin": {
-      "put": {
+    "/create-user-conversation-group": {
+      "post": {
         "description": "",
         "parameters": [
           {
@@ -21,10 +21,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "role": {
+                "sellerId": {
                   "example": "any"
                 }
               }
@@ -38,7 +35,7 @@
         }
       }
     },
-    "/get-all-admins": {
+    "/get-user-conversations": {
       "get": {
         "description": "",
         "responses": {
@@ -48,17 +45,28 @@
         }
       }
     },
-    "/get-all-sellers": {
+    "/get-seller-conversations": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get-messages/{conversationId}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "page",
-            "in": "query",
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
             "type": "string"
           },
           {
-            "name": "limit",
+            "name": "page",
             "in": "query",
             "type": "string"
           }
@@ -70,75 +78,22 @@
         }
       }
     },
-    "/get-all-users": {
+    "/get-seller-messages/{conversationId}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "page",
-            "in": "query",
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
             "type": "string"
           },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/get-all-products": {
-      "get": {
-        "description": "",
-        "parameters": [
           {
             "name": "page",
             "in": "query",
             "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/get-all-events": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/get-all": {
-      "get": {
-        "description": "",
         "responses": {
           "200": {
             "description": "OK"

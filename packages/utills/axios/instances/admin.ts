@@ -9,3 +9,4 @@ const adminAxios = axios.create({
 setupInterceptors(adminAxios);
 
 export default adminAxios;
+ 

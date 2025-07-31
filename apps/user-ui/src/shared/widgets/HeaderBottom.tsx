@@ -73,7 +73,7 @@ const HeaderBottom = () => {
           <div
             className={`absolute left-0 ${
               isSticky ? "top-[70px]" : "top-[50px]"
-            } w-[260px] h-[300px] bg-[#f5f5f5]`}
+            } w-[260px] h-[300px] overflow-y-auto bg-[#f5f5f5]`}
           >
             {data?.categories?.length > 0 ? (
               data.categories?.map((cat: string, i: number) => {

@@ -5,6 +5,8 @@ import orderAxios from "./instances/order";
 import sellerAxios from "./instances/seller";
 import adminAxios from "./instances/admin";
 import chattingAxios from "./instances/chatting";
+import notificationAxios from "./instances/notification";
+import loggerAxios from "./instances/logger";
 
 type ServiceName =
   | "auth"
@@ -13,6 +15,8 @@ type ServiceName =
   | "seller"
   | "product"
   | "order"
+  | "notification"
+  | "logger"
   | "chatting"
 
 export const getAxiosInstance = (service: ServiceName) => {
@@ -29,6 +33,10 @@ export const getAxiosInstance = (service: ServiceName) => {
       return productAxios;
     case "order":
       return orderAxios;
+    case "notification":
+      return notificationAxios;
+    case "logger":
+      return loggerAxios;
     case "chatting":
       return chattingAxios;
     default:

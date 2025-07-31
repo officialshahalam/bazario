@@ -15,6 +15,7 @@ import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import { setCookie } from "../utils/cookies/setCookies";
 import Stripe from "stripe";
 import { randomUUID } from "crypto";
+import { sendLog } from "@packages/utills/logs/send-logs";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-06-30.basil",
@@ -136,6 +137,12 @@ export const loginUser = async (
     setCookie("access_token", accessToken, res);
     setCookie("refresh_token", refreshToken, res);
 
+    await sendLog({
+      type: "success",
+      message: `User ${user?.name} login successfully`,
+      source: "auth-service",
+    });
+
     res.status(200).json({
       success: true,
       message: "User LogedIn Successfully",
@@ -153,6 +160,11 @@ export const loginUser = async (
 export const getUser = async (req: any, res: Response, next: NextFunction) => {
   try {
     const user = req.user;
+    await sendLog({
+      type: "success",
+      message: `user data retrieved ${user.email}`,
+      source: "auth-service",
+    });
     res.status(201).json({
       success: true,
       user,
@@ -490,19 +502,19 @@ export const loginAdmin = async (
     const isAdmin = user.role === "admin";
 
     if (!isAdmin) {
-      // sendLog({
-      //   type: "error",
-      //   message: `admin login failed form${email} - not an admin`,
-      //   source: "auth-service",
-      // });
+      sendLog({
+        type: "error",
+        message: `admin login failed form${email} - not an admin`,
+        source: "auth-service",
+      });
       return next(new AuthError("Invalid Access!"));
     }
 
-    // sendLog({
-    //   type: "success",
-    //   message: `admin login successfully`,
-    //   source: "auth-service",
-    // });
+    sendLog({
+      type: "success",
+      message: `admin login successfully`,
+      source: "auth-service",
+    });
 
     res.clearCookie("seller-access-token");
     res.clearCookie("seller-refresh-token");
@@ -510,13 +522,13 @@ export const loginAdmin = async (
     const accessToken = await jwt.sign(
       { id: user.id, role: "admin" },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "45m" }
+      { expiresIn: "365d" }
     );
 
     const refreshToken = await jwt.sign(
       { id: user.id, role: "admin" },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "7d" }
+      { expiresIn: "365d" }
     );
 
     // store the access and referesh token in httpOnly secure cookie
