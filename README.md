@@ -7,6 +7,12 @@
 
 > **A production-ready SaaS platform that enables businesses to launch and scale their own digital commerce infrastructure with real-time analytics, multi-party payments, and microservices architecture.**
 
+## 🎥 Live Demo
+
+**Watch the complete project walkthrough:** [View Demo Video on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7359124840928235521/)
+
+*See Bazario in action - from backend architecture to real-time admin dashboard and API documentation.*
+
 ## 🎯 Project Overview
 
 Bazario is **not just an e-commerce platform** — it's a fully functional **SaaS-based multi-tenant commerce infrastructure** that provides businesses with the tools to create, manage, and scale their digital storefronts without writing a single line of code.
@@ -113,9 +119,6 @@ Access the interactive Swagger documentation at `/api-docs` for each service:
 - **Secure Payments**: Stripe-powered checkout
 - **Real-time Support**: Integrated chat system
 
-## 🚀 Deployment
-
-The application is fully containerized and can be deployed on any cloud platform:
 
 ## 📞 Contact
 
