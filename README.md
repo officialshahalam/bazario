@@ -94,38 +94,20 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 
 ## 🔧 API Documentation
 
-Access the interactive Swagger documentation at `/api-docs` for each service:
-- Authentication endpoints
-- User management
+Access the interactive Swagger documentation at:
+- **Authentication endpoints**: [http://localhost:4000/auth/docs](http://localhost:4000/auth/docs)
+- User management endpoints http://localhost:4000/user/docs      
 - Product catalog
 - Order processing
 - Payment integration
 - Analytics and reporting
 
-## 🎯 Business Impact
-
-### **For Platform Owners**
-- **Revenue Insights**: Real-time analytics dashboard
-- **Automated Payments**: Commission handling via Stripe Connect
-- **Scalable Infrastructure**: Handle thousands of concurrent users
-
-### **For Sellers**
-- **Easy Onboarding**: Dedicated seller portal
-- **Inventory Management**: Real-time product updates
-- **Sales Analytics**: Performance tracking and insights
-
-### **For Customers**
-- **Seamless Shopping**: Optimized user experience
-- **Secure Payments**: Stripe-powered checkout
-- **Real-time Support**: Integrated chat system
-
-
 ## 📞 Contact
 
 **Shahalam** - Full Stack Developer  
-📧 Email: your.email@domain.com  
-💼 LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
-🐙 GitHub: [github.com/yourusername](https://github.com/yourusername)
+📧 Email: officialshahalam855@gmail.com 
+💼 LinkedIn: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/mohdshahalam855/)  
+🐙 GitHub: [github.com/yourusername](https://github.com/officialshahalam)
 
 ---
 
