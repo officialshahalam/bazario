@@ -1,83 +1,96 @@
-# If you update url the also change the url for axiosInstance
+# 🚀 Bazario - Multi-Tenant SaaS Commerce Infrastructure
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
+[![License](https://img.shields.io/badge/license-MIT-green.svg)]()
+[![Docker](https://img.shields.io/badge/docker-containerized-blue.svg)]()
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+> **A production-ready SaaS platform that enables businesses to launch and scale their own digital commerce infrastructure with real-time analytics, multi-party payments, and microservices architecture.**
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🎯 Project Overview
 
-## Finish your CI setup
+Bazario is **not just an e-commerce platform** — it's a fully functional **SaaS-based multi-tenant commerce infrastructure** that provides businesses with the tools to create, manage, and scale their digital storefronts without writing a single line of code.
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/5VqYyFl1G6)
+### 🏗️ Architecture Highlights
+- **Multi-Domain Architecture**: Three dedicated domains serving different user types
+- **Microservices Design**: 15 independent services for maximum scalability
+- **Event-Driven Communication**: Real-time data flow using Apache Kafka
+- **Performance Optimized**: Redis caching for lightning-fast responses
+- **Production Ready**: Fully Dockerized and deployed on AWS EC2
 
+## 🌐 Multi-Tenant Domain Structure
 
-## Run tasks
+| Domain | Purpose | Target Users |
+|--------|---------|--------------|
+| `bazario.com` | Main shopping portal | End customers |
+| `seller.bazario.com` | Seller dashboard & management | Vendors/Merchants |
+| `admin.bazario.com` | Platform administration | System administrators |
 
-To run the dev server for your app, use:
+## ⚡ Key Features
 
-```sh
-npx nx serve auth-service
-```
+### 🏛️ **Microservices Architecture**
+- **12 Express.js Backend Services**: Authentication, Orders, Payments, Products, Users, Analytics, and more
+- **3 Next.js Frontend Applications**: Optimized user experiences for each domain
+- **Nx Monorepo**: Unified codebase management with shared libraries and consistent tooling
 
-To create a production bundle:
+### 📊 **Real-Time Analytics Engine**
+- User activity tracking with **Apache Kafka**
+- Live behavioral analytics pipeline
+- Event-driven architecture for scalable data processing
 
-```sh
-npx nx build auth-service
-```
+### 💰 **Advanced Payment Infrastructure**
+- **Stripe Connect** integration for marketplace payments
+- Multi-party payment splitting (sellers + platform commission)
+- Secure transaction handling with automated reconciliation
 
-To see all available targets to run for a project, run:
+### 💬 **Integrated Communication System**
+- Real-time chat between users and sellers
+- Message queuing with Kafka for reliable delivery
 
-```sh
-npx nx show project auth-service
-```
+### 🎛️ **Smart Admin Dashboard**
+- Real-time revenue analytics and trends
+- Global user/seller distribution mapping
+- Device usage monitoring and insights
+- Live transaction status tracking with color-coded indicators
+- Comprehensive platform health monitoring
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### 📚 **Developer Experience**
+- **Swagger UI**: Interactive API documentation
+- RESTful API design with standardized responses
+- Comprehensive endpoint testing and validation
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### ⚡ **Performance & Scalability**
+- **Redis Caching**: Optimized data access for frequent queries
+- **Docker Containerization**: Consistent deployment across environments
+- **AWS EC2 Deployment**: Scalable cloud infrastructure
 
-## Add new projects
+## 🛠️ Technology Stack
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### **Backend**
+- **Node.js** with **Express.js** (12 microservices)
+- **Apache Kafka** for event streaming
+- **Redis** for caching and session management
+- **PostgreSQL/MongoDB** for data persistence
+- **Swagger** for API documentation
 
-Use the plugin's generator to create new projects.
+### **Frontend**
+- **Next.js** (3 applications)
+- **React** with modern hooks and context
+- **Tailwind CSS** for responsive design
+- **TypeScript** for type safety
 
-To generate a new application, use:
+### **DevOps & Infrastructure**
+- **Docker** for containerization
+- **Nx** for monorepo management
+- **AWS EC2** for deployment
+- **Stripe Connect** for payments
 
-```sh
-npx nx g @nx/node:app demo
-```
+## 🚀 Quick Start
 
-To generate a new library, use:
+### Prerequisites
+- Node.js 18+
+- Docker & Docker Compose
+- Redis
+- Kafka
 
-```sh
-npx nx g @nx/node:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
+### Installation
