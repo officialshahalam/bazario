@@ -85,12 +85,45 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 - **AWS EC2** for deployment
 - **Stripe Connect** for payments
 
-## 🚀 Quick Start
 
-### Prerequisites
-- Node.js 18+
-- Docker & Docker Compose
-- Redis
-- Kafka
+## 🔧 API Documentation
 
-### Installation
+Access the interactive Swagger documentation at `/api-docs` for each service:
+- Authentication endpoints
+- User management
+- Product catalog
+- Order processing
+- Payment integration
+- Analytics and reporting
+
+## 🎯 Business Impact
+
+### **For Platform Owners**
+- **Revenue Insights**: Real-time analytics dashboard
+- **Automated Payments**: Commission handling via Stripe Connect
+- **Scalable Infrastructure**: Handle thousands of concurrent users
+
+### **For Sellers**
+- **Easy Onboarding**: Dedicated seller portal
+- **Inventory Management**: Real-time product updates
+- **Sales Analytics**: Performance tracking and insights
+
+### **For Customers**
+- **Seamless Shopping**: Optimized user experience
+- **Secure Payments**: Stripe-powered checkout
+- **Real-time Support**: Integrated chat system
+
+## 🚀 Deployment
+
+The application is fully containerized and can be deployed on any cloud platform:
+
+## 📞 Contact
+
+**Shahalam** - Full Stack Developer  
+📧 Email: your.email@domain.com  
+💼 LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
+🐙 GitHub: [github.com/yourusername](https://github.com/yourusername)
+
+---
+
+**⭐ If this project interests you or demonstrates the kind of scalable architecture you're looking for, I'd love to discuss it further!**
