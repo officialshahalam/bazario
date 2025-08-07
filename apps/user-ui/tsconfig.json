@@ -12,13 +12,13 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
+    "incremental": true, 
     "plugins": [
       {
-        "name": "next" 
+        "name": "next"
       }
     ],
-    "paths": {
+    "paths": { 
       "@/*": ["./src/*"]
     },
     "outDir": "dist",
@@ -38,7 +38,7 @@
     ".next/types/**/*.ts",
     "../../packages/libs/kafka/index.ts"
   ],
-  "exclude": [ 
+  "exclude": [
     "out-tsc",
     "dist",
     "node_modules",

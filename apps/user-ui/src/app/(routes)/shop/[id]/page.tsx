@@ -50,8 +50,6 @@ export async function generateMetaData({
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchSellerDetails(params?.id);
-  
-
   return (
     <div>
       <SellerProfile shop={data?.shop} followersCount={data?.followersCount} />

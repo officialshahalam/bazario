@@ -84,13 +84,6 @@ const Page = () => {
     };
     ws?.send(JSON.stringify(payload));
 
-    setChats((prevChats) =>
-      prevChats.map((chat) =>
-        chat.conversationId
-          ? { ...chat, lastMessage: payload?.messageBody }
-          : chat
-      )
-    );
     setMessage("");
     scrollToBottom();
   };
@@ -121,7 +114,6 @@ const Page = () => {
 
   useEffect(() => {
     if (!ws) return;
-
     ws.onmessage = (event: any) => {
       const data = JSON.parse(event.data);
       if (data.type === "NEW_MESSAGE") {
@@ -161,7 +153,7 @@ const Page = () => {
         );
       }
     };
-  }, [ws, queryClient]);
+  }, [ws, queryClient, messages]);
 
   useEffect(() => {
     if (conversationId && chats.length > 0) {

@@ -13,8 +13,8 @@ const nextConfig = {
     svgr: false,
   },
   images: {
-    dangerouslyAllowSVG: true, 
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", 
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: "https",
@@ -22,7 +22,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "api.dicebear.com", 
+        hostname: "api.dicebear.com",
       },
       {
         protocol: "https",

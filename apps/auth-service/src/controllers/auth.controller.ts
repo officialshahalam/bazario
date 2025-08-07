@@ -18,7 +18,7 @@ import { randomUUID } from "crypto";
 import { sendLog } from "@packages/utills/logs/send-logs";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-06-30.basil",
+  apiVersion: "2025-07-30.basil",
 });
 
 // resigter a new user
@@ -459,9 +459,18 @@ export const getSeller = async (
 ) => {
   try {
     const seller = req.seller;
+    const sellerDetails = await prisma.seller.findFirst({
+      where: {
+        id: seller?.id,
+      },
+      include: {
+        avatars: true,
+        shop: true,
+      },
+    });
     res.status(201).json({
       success: true,
-      seller,
+      seller: sellerDetails,
     });
   } catch (error) {
     return next(error);

@@ -20,7 +20,7 @@ const port = process.env.PORT || 4000;
 //   try {
 //     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-//     const deleted = await stripe.accounts.del("acct_1RouykiglO0");
+//     const deleted = await stripe.accounts.del("acct_1uykiglO0");
 //     console.log("deleted Account", deleted);
 //   } catch (error) {
 //     console.log("error while deleting stripe account", error);
@@ -30,7 +30,7 @@ const port = process.env.PORT || 4000;
 // (async () => {
 //   try {
 //     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-//     const account = await stripe.accounts.retrieve("acct_1Ro2wssfQ0bI"); // mohd shahalam id
+//     const account = await stripe.accounts.retrieve("acct_1RwssfQ0bI"); // mohd shahalam id
 //     console.log("Stripe account:", account); // e.g., 'IN' for India, 'US' for United States
 //   } catch (err) {
 //     console.log("Error while get stripe Account details", err);
@@ -95,24 +95,16 @@ app.get("/gateway-health", (req, res) => {
 const server = app.listen(port, () => {
   console.log(`Api gateway is running on http://localhost${port}`);
   console.log(`Check Health at http://localhost:${port}/gateway-health`);
-  console.log(
-    `Swagger Auth Docs is available at http://localhost:${port}/auth/docs`
-  );
-  console.log(
-    `Swagger User Docs is available at http://localhost:${port}/admin/docs`
-  );
-  console.log(
-    `Swagger User Docs is available at http://localhost:${port}/user/docs`
-  );
-  console.log(
-    `Swagger Seller Docs is available at http://localhost:${port}/seller/docs`
-  );
-  console.log(
-    `Swagger Product Docs is available at http://localhost:${port}/product/docs`
-  );
-  console.log(
-    `Swagger Order Docs is available at http://localhost:${port}/order/docs`
-  );
+  console.log(`Swagger Auth Docs is available at http://localhost:${port}/auth/docs`);
+  console.log(`Swagger Admin Docs is available at http://localhost:${port}/admin/docs`);
+  console.log(`Swagger Seller Docs is available at http://localhost:${port}/seller/docs`);
+  console.log(`Swagger User Docs is available at http://localhost:${port}/user/docs`);
+  console.log(`Swagger Product Docs is available at http://localhost:${port}/product/docs`);
+  console.log(`Swagger Order Docs is available at http://localhost:${port}/order/docs`);
+  console.log(`Swagger Notification Docs is available at http://localhost:${port}/notification/docs`);
+  console.log(`Swagger Logger Docs is available at http://localhost:${port}/logger/docs`);
+  console.log(`Swagger Chatting Docs is available at http://localhost:${port}/chatting/docs`);
+  console.log(`Swagger Recommendation Docs is available at http://localhost:${port}/recommendation/docs`);
   try {
     initializeConfig();
     console.log("site config is initialized successfully");

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 
 // fetch userData from api
-const fetchUser = async () => {
+const fetchSeller = async () => {
   const response = await getAxiosInstance('auth').get("/logged-in-seller");
   return response.data.seller;
 };
@@ -16,7 +16,7 @@ const useSeller = () => {
     refetch,
   } = useQuery({
     queryKey: ["seller"],
-    queryFn: fetchUser,
+    queryFn: fetchSeller,
     staleTime: 1000 * 60 * 5,
     retry: 1,
   });

@@ -141,7 +141,7 @@ const ChatPage = () => {
         );
       }
     };
-  }, [ws, conversationId]);
+  }, [ws, conversationId, messages]);
 
   useEffect(() => {
     if (!conversationId || messages.length === 0) return;

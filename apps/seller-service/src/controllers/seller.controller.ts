@@ -40,7 +40,7 @@ export const getShopProducts = async (
   next: NextFunction
 ) => {
   try {
-    const { id: shopId } = req.params;
+    const { shopId } = req.params;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
     const skip = (page - 1) * limit;

@@ -73,7 +73,7 @@ const HeaderBottom = () => {
           <div
             className={`absolute left-0 ${
               isSticky ? "top-[70px]" : "top-[50px]"
-            } w-[260px] h-[300px] overflow-y-auto bg-[#f5f5f5]`}
+            } w-[260px] h-[300px] overflow-y-auto bg-[#d0d0d0] z-10`}
           >
             {data?.categories?.length > 0 ? (
               data.categories?.map((cat: string, i: number) => {
@@ -106,12 +106,12 @@ const HeaderBottom = () => {
                         ))}
                     </button>
                     {isExpanded && hasSub && (
-                      <div className="pl-4 bg-gray-50 border-t">
+                      <div className="pl-4 bg-[#d0d0d0] border-t">
                         {data.subCategories[cat].map(
                           (sub: string, j: number) => (
                             <Link
                               key={j}
-                              href={`/product?category=${encodeURIComponent(
+                              href={`/products?category=${encodeURIComponent(
                                 cat
                               )}`}
                               className="block px-4 py-2 text-sm text-gray-500"

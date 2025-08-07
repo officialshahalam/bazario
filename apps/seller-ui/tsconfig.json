@@ -35,7 +35,8 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../packages/libs/kafka/index.ts"
   ],
   "exclude": [
     "out-tsc",
@@ -45,5 +46,10 @@
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
     ".next"
+  ],
+  "references": [
+    {
+      "path": "../user-ui"
+    }
   ]
 }
