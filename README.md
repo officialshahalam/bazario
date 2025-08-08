@@ -96,15 +96,15 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 
 Access the interactive Swagger documentation for each microservice:
 
-- **Authentication endpoints**: [http://bazario/auth/docs](http://bazario/auth/docs)
-- **Admin endpoints**: [http://bazario/admin/docs](http://bazario/admin/docs)
-- **Seller endpoints**: [http://bazario/seller/docs](http://bazario/seller/docs)
-- **User endpoints**: [http://bazario/user/docs](http://bazario/user/docs)
-- **Product endpoints**: [http://bazario/product/docs](http://bazario/product/docs)
-- **Order endpoints**: [http://bazario/order/docs](http://bazario/order/docs)
-- **Notification endpoints**: [http://bazario/notification/docs](http://bazario/notification/docs)
-- **Chatting endpoints**: [http://bazario/chat/docs](http://bazario/chat/docs)
-- **Logger endpoints**: [http://bazario/logger/docs](http://bazario/logger/docs)
+- **Authentication endpoints**: [https://bazario/auth/docs](https://bazario/auth/docs)
+- **Admin endpoints**: [https://bazario/admin/docs](https://bazario/admin/docs)
+- **Seller endpoints**: [https://bazario/seller/docs](https://bazario/seller/docs)
+- **User endpoints**: [https://bazario/user/docs](https://bazario/user/docs)
+- **Product endpoints**: [https://bazario/product/docs](https://bazario/product/docs)
+- **Order endpoints**: [https://bazario/order/docs](https://bazario/order/docs)
+- **Notification endpoints**: [https://bazario/notification/docs](https://bazario/notification/docs)
+- **Chatting endpoints**: [https://bazario/chat/docs](https://bazario/chat/docs)
+- **Logger endpoints**: [https://bazario/logger/docs](https://bazario/logger/docs)
 
 Each documentation provides interactive API testing, request/response examples, authentication requirements, error handling, and parameter validation.
 
