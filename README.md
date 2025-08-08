@@ -96,15 +96,15 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 
 Access the interactive Swagger documentation for each microservice:
 
-- **Authentication endpoints**: [http://localhost:4000/auth/docs](http://localhost:4000/auth/docs)
-- **Admin endpoints**: [http://localhost:4000/admin/docs](http://localhost:4000/admin/docs)
-- **Seller endpoints**: [http://localhost:4000/seller/docs](http://localhost:4000/seller/docs)
-- **User endpoints**: [http://localhost:4000/user/docs](http://localhost:4000/user/docs)
-- **Product endpoints**: [http://localhost:4000/product/docs](http://localhost:4000/product/docs)
-- **Order endpoints**: [http://localhost:4000/order/docs](http://localhost:4000/order/docs)
-- **Notification endpoints**: [http://localhost:4000/notification/docs](http://localhost:4000/notification/docs)
-- **Chatting endpoints**: [http://localhost:4000/chat/docs](http://localhost:4000/chat/docs)
-- **Logger endpoints**: [http://localhost:4000/logger/docs](http://localhost:4000/logger/docs)
+- **Authentication endpoints**: [http://localhost:4000/auth/docs](http://bazario/auth/docs)
+- **Admin endpoints**: [http://localhost:4000/admin/docs](http://bazario/admin/docs)
+- **Seller endpoints**: [http://localhost:4000/seller/docs](http://bazario/seller/docs)
+- **User endpoints**: [http://localhost:4000/user/docs](http://bazario/user/docs)
+- **Product endpoints**: [http://localhost:4000/product/docs](http://bazario/product/docs)
+- **Order endpoints**: [http://localhost:4000/order/docs](http://bazario/order/docs)
+- **Notification endpoints**: [http://localhost:4000/notification/docs](http://bazario/notification/docs)
+- **Chatting endpoints**: [http://localhost:4000/chat/docs](http://bazario/chat/docs)
+- **Logger endpoints**: [http://localhost:4000/logger/docs](http://bazario/logger/docs)
 
 Each documentation provides interactive API testing, request/response examples, authentication requirements, error handling, and parameter validation.
 
