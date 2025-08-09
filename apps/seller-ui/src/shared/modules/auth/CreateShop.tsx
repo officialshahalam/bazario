@@ -33,7 +33,6 @@ const CreateShop = ({
 
   const onSubmit = async (data: any) => {
     const shopData = { ...data, sellerId };
-    console.log("first", shopData);
     await shopCreateMutation.mutate(shopData);
   };
 

@@ -43,6 +43,7 @@ const Home = () => {
   if (!data) {
     return <p className="text-center text-sm text-red-500">Shop not found!</p>;
   }
+  
   return (
     <div className="relative bg-gray-900 text-gray-100 pb-10">
       <Link href={'/dashboard'} className="flex w-fit gap-2 justify-start px-2 py-1 items-center">

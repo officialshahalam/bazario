@@ -377,7 +377,6 @@ export const createStripeConnectLink = async (
           transfers: { requested: true },
         },
       });
-      console.log("account is", account);
       await prisma.seller.update({
         where: { id: sellerId },
         data: {

@@ -1,8 +1,3 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import express from "express";
 import * as path from "path";
 import cors from "cors";
@@ -55,6 +50,7 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 
+
 // rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -64,6 +60,7 @@ const limiter = rateLimit({
   legacyHeaders: true,
   keyGenerator: (req: any) => req.ip,
 });
+
 
 app.use(limiter);
 
