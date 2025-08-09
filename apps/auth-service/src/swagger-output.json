@@ -22,10 +22,10 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "Mohd Shahalam"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "officialshahalam855@gmail.com"
                 }
               }
             }
@@ -49,16 +49,16 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "Mohd Shahalam"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "officialshahalam855@gmail.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "admin1"
                 },
                 "otp": {
-                  "example": "any"
+                  "example": "3425"
                 }
               }
             }
