@@ -40,7 +40,7 @@ const ProductDetailsCard = ({
   estimatedDelivery.setDate(estimatedDelivery.getDate() + 5);
 
   const handleChat = async () => {
-    if (isLoading) {
+    if (isLoading) { 
       return;
     }
     try {
@@ -54,9 +54,10 @@ const ProductDetailsCard = ({
     } catch (error) {
       console.log("error", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); 
     }
   };
+  
 
   return (
     <div

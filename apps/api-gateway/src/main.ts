@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // (async () => {
-//   try {
+//   try { 
 //     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //     const deleted = await stripe.accounts.del("acct_1uykiglO0");
@@ -50,7 +50,6 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 
-
 // rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -64,7 +63,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.use("/auth", proxy("http://localhost:4001"));
+app.use("/auth", proxy("http://localhost:4001")); //localhost:4000/auth
 app.use("/admin", proxy("http://localhost:4002"));
 app.use("/seller", proxy("http://localhost:4003"));
 app.use("/user", proxy("http://localhost:4004"));

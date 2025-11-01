@@ -10,7 +10,7 @@ import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import ChatInput from "apps/seller-ui/src/shared/components/chats/ChatInput";
 
 const ChatPage = () => {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); 
   const { seller } = useSeller();
   const router = useRouter();
   const messageContainerRef = useRef<HTMLDivElement | null>(null);

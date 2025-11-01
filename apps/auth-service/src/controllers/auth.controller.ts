@@ -21,15 +21,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-07-30.basil",
 });
 
-// resigter a new user
 export const userRegistration = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    validateRegistrationData(req.body, "user");
     const { name, email } = req.body;
+    validateRegistrationData(req.body, "user");
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return next(new ValidationError("User already exist with this email"));

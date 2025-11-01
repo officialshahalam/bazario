@@ -15,7 +15,7 @@ export const newConversation = async (
   req: any,
   res: Response,
   next: NextFunction
-) => {
+) => {  
   try {
     const { sellerId } = req.body;
     const userId = req.user.id;
@@ -170,7 +170,7 @@ export const getSellerConversation = async (
         const userParticipant = await prisma.participant.findFirst({
           where: {
             conversationId: group.id,
-            userId: { not: null },
+            userId: { not: null }, 
           },
         });
         //get the sellers full information
@@ -200,7 +200,7 @@ export const getSellerConversation = async (
           const redisResult = await redis.get(redisKey);
           isOnline = !!redisResult;
         }
-
+        
         const unreadCount = await getUnseenCount("seller", group?.id);
 
         return {

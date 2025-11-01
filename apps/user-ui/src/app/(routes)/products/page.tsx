@@ -10,6 +10,7 @@ import { getTrackBackground, Range } from "react-range";
 const MIN = 0;
 const MAX = 1199;
 const STEP = 1;
+
 const colors = [
   { name: "Black", code: "#000000" },
   { name: "Red", code: "#ff0000" },

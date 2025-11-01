@@ -13,7 +13,7 @@ async function fetchProductDetails(slug: string) {
 }
 
 export async function generateMetaData({
-  params,
+  params, 
 }: {
   params: { slug: string };
 }): Promise<Metadata> {

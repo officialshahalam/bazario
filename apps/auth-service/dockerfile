@@ -1,0 +1,53 @@
+# ===============================
+# Stage 1 — Build the service
+# ===============================
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# 1️⃣ Copy package and workspace files
+COPY apps/${SERVICE_NAME}/package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+
+# 2️⃣ Copy shared workspace dependencies
+COPY packages ./packages
+COPY prisma ./prisma
+
+# 3️⃣ Enable corepack and install dependencies
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN pnpm install --prod
+
+# 4️⃣ Generate Prisma client (if applicable)
+RUN npx prisma generate
+
+# 5️⃣ Copy the built output (assuming Nx build already done)
+COPY apps/${SERVICE_NAME}/dist ./dist
+
+# ===============================
+# 🚀 Stage 2 — Production runtime
+# ===============================
+FROM node:20-alpine
+
+# 6️⃣ Install dumb-init for proper PID 1 signal handling
+RUN apk add --no-cache dumb-init
+
+# 7️⃣ Create non-root user
+RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
+
+WORKDIR /app
+
+# 8️⃣ Copy necessary files from builder stage
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nodejs:nodejs /app/package.json ./package.json
+
+# 9️⃣ Switch to non-root user
+USER nodejs
+
+# 🔟 Expose the service port
+EXPOSE 4000
+
+# 🏁 Run the service with dumb-init
+CMD ["dumb-init", "node", "dist/main.js"]

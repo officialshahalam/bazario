@@ -38,6 +38,20 @@ const admin = kafka.admin();
 
 const eventQueue: any[] = [];
 
+export const consumeKafkaMessage = async () => {
+  await consumer.connect();
+  await consumer.subscribe({ topic: "users-events", fromBeginning: false });
+  await consumer.run({
+    eachMessage: async ({ message }) => {
+      if (!message.value) return;
+      const event = JSON.parse(message.value.toString());
+      eventQueue.push(event);
+    },
+  });
+};
+
+consumeKafkaMessage().catch((e) => console.log(e));
+
 const processQueue = async () => {
   if (eventQueue.length === 0) return;
   const events = [...eventQueue];
@@ -66,16 +80,3 @@ const processQueue = async () => {
 
 setInterval(processQueue, 3000);
 
-export const consumeKafkaMessage = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: "users-events", fromBeginning: false });
-  await consumer.run({
-    eachMessage: async ({ message }) => {
-      if (!message.value) return;
-      const event = JSON.parse(message.value.toString());
-      eventQueue.push(event);
-    },
-  });
-};
-
-consumeKafkaMessage().catch((e) => console.log(e));

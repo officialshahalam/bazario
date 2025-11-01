@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start":"npm run dev & npm run stripe-listen & npm run ui",
+    "start":"npm run dev & npm run ui",
     "dev": "npx nx run-many --target=serve --all --maxParallel=10 --output-style=stream",
     "stripe-listen":"stripe listen --forward-to localhost:4006/api/create-order",
     "ui": "npm run user-ui & npm run seller-ui & npm run admin-ui",

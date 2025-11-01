@@ -12,13 +12,13 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true, 
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": { 
+    "paths": {
       "@/*": ["./src/*"]
     },
     "outDir": "dist",

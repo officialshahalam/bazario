@@ -162,7 +162,7 @@ export const createProduct = async (
   next: NextFunction
 ) => {
   try {
-    console.log('reached');
+    console.log("reached");
     const {
       title,
       short_description,
@@ -214,7 +214,7 @@ export const createProduct = async (
         new ValidationError("Slug Already uses! please use a different slug")
       );
     }
-    
+
     const newProduct = await prisma.product.create({
       data: {
         title,
@@ -246,7 +246,7 @@ export const createProduct = async (
               file_id: image.fileId,
               url: image.file_url,
             })),
-        }, 
+        },
         starting_date: null,
         ending_date: null,
       },
@@ -521,6 +521,7 @@ export const getFilteredProducts = async (
       page = 1,
       limit = 12,
     } = req.query;
+    
     const parsedPriceRange =
       typeof priceRange === "string"
         ? priceRange.split(",").map(Number)

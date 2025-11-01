@@ -6,7 +6,7 @@ export const incrementUnseenCount = async (
 ) => {
   const key = `unseen:${receiverType}_${conversationId}`;
   await redis.incr(key);
-};
+}; 
 
 export const getUnseenCount = async (
   receiverType: "user" | "seller",
@@ -24,3 +24,4 @@ export const clearUnseenCount = async (
   const key = `unseen:${receiverType}_${conversationId}`;
   await redis.del(key);
 };
+  

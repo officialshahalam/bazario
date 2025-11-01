@@ -74,10 +74,10 @@ const Page = () => {
           cart,
           selectedAddressId,
           coupon: {
-            code: storedCouponCode,
+            code: storedCouponCode, 
             discountAmount,
             discountPercent,
-            discountedProductId,
+            discountedProductId, 
           },
         }
       );

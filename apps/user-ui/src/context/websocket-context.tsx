@@ -15,10 +15,12 @@ export const WebSocketProvider = ({
   children: React.ReactNode;
   user: any;
 }) => {
-  const [wsReady, setWsReady] = useState(false);
-  const wsRef = useRef<WebSocket | null>(null);
+  // Global variables
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
-
+  const wsRef = useRef<WebSocket | null>(null);
+  const [wsReady, setWsReady] = useState(false);
+  
+  
   useEffect(() => {
     if (!user?.id) return;
     const ws = new WebSocket(process.env.NEXT_PUBLIC_CHATTING_WEBSOCKET_URI!);
@@ -35,8 +37,7 @@ export const WebSocketProvider = ({
         const { conversationId, count } = data.payload;
         setUnreadCounts((prev) => ({ ...prev, [conversationId]: count }));
       }
-    };
-
+    }; 
     return () => {
       ws.close();
     };
@@ -51,4 +52,6 @@ export const WebSocketProvider = ({
   );
 };
 
+
+// hook to use context
 export const useWebSocket = () => useContext(WebSocketContext);

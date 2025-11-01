@@ -44,7 +44,7 @@ const ProductDetailsCard = ({
       return;
     }
     try {
-      setIsLoading(true);
+      setIsLoading(true); 
       const res = await getAxiosInstance("chatting").post(
         "/create-user-conversation-group",
         { sellerId: data?.shop?.sellerId },

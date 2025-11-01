@@ -12,7 +12,7 @@ interface BufferedMessage {
 }
 
 const TOPIC = "chat.new_message";
-const GROUP_ID = "chat-message-db-writer";
+const GROUP_ID = "chat-message-db-writer"; 
 const BATCH_INTERVAL_MS = 3000;
 
 let buffer: BufferedMessage[] = [];
@@ -51,7 +51,7 @@ export async function startConsumer() {
     },
   });
 }
-
+ 
 
 
 // Flush the buffer to the database and reset the timer
@@ -73,9 +73,9 @@ async function flushBufferToDb() {
       content: msg.content,
       createdAt: new Date(msg.createdAt),
     }));
-
+ 
     await prisma.message.createMany({
-      data: prismaPayload,
+      data: prismaPayload, 
     });
 
     // Redis unseen counter (only if DB insert successful)

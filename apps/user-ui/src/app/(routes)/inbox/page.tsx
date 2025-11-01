@@ -62,7 +62,7 @@ const Page = () => {
         c.conversationId === chat.conversationId ? { ...c, unreadCount: 0 } : c
       )
     );
-    ws?.send(
+    ws.send(
       JSON.stringify({
         type: "MARK_AS_SEEN",
         conversationId: chat?.conversationId,
@@ -109,8 +109,6 @@ const Page = () => {
       }, 0);
     });
   };
-
-  const getLastMessage = (chat: any) => chat?.lastMessage || "";
 
   useEffect(() => {
     if (!ws) return;
@@ -188,7 +186,6 @@ const Page = () => {
                 chats.map((chat) => {
                   const isActive =
                     selectedChat?.conversationId === chat?.conversationId;
-                  console.log("char is", chat);
                   return (
                     <button
                       key={chat?.conversationId}

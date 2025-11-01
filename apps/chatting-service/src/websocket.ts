@@ -34,11 +34,12 @@ export async function createWebSocketServer(server: HttpServer) {
           const isSeller = registeredUserId.startsWith("seller_");
           const redisKey = isSeller
             ? `online:seller:${registeredUserId.replace("seller_", "")}`
-            : `online:user:${registeredUserId}`;
+            : `online:user:${registeredUserId.replace("user_", "")}`;
           await redis.set(redisKey, "1");
           await redis.expire(redisKey, 300);
           return;
         }
+
         const data: IncommingMessage = JSON.parse(messageStr);
         if (data?.type === "MARK_AS_SEEN" && registeredUserId) {
           const seenKey = `${registeredUserId}_${data?.conversationId}`;
@@ -46,9 +47,9 @@ export async function createWebSocketServer(server: HttpServer) {
           return;
         }
         const {
-          conversationId,
           fromUserId,
           toUserId,
+          conversationId,
           messageBody,
           senderType,
         } = data;

@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import ImagePlaceholder from "apps/seller-ui/src/shared/components/imagePlaceholder";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
-import { ChevronRight, Wand, X } from "lucide-react";
-import Link from "next/link";
+import { Wand, X } from "lucide-react";
 import ColorSelector from "packages/components/colorSelector";
 import CustomProperties from "packages/components/customProperties";
 import CustomSpecifications from "packages/components/customSpecifications";
@@ -83,6 +82,7 @@ const CreateProducts = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
+      console.log("first", data);
       await getAxiosInstance("product").post("/create-product", data);
       router.push("/dashboard/all-products");
     } catch (error: any) {

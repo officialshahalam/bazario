@@ -36,4 +36,4 @@ server.on("error", console.error);
 //websocker
 createWebSocketServer(server);
 // start kafka consumer
-startConsumer().catch((err) => console.log(err));
+startConsumer().catch((err) => console.log(err)); 

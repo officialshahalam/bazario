@@ -25,7 +25,7 @@ app.use(cookieParser());
 //swagger doc
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/docs-json", (req, res) => {
-  res.json(swaggerDocument);
+  res.json(swaggerDocument); 
 });
 
 const wsServer = new WebSocket.Server({ noServer: true });

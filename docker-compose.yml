@@ -2,24 +2,22 @@ version: "3.8"
 
 services:
   bazario-app:
-    image: bazario-img
-    container_name: bazario-con
+    image: aalam855/bazario:latest
+    container_name: bazario
     ports:
       - "3000:3000"
       - "3001:3001"
+      - "3002:3002"
       - "4000:4000"
-      - "4001:4001"
-      - "4002:4002"
-      - "4003:4003"
-      - "4004:4004"
-      - "4005:4005"
     env_file:
       - .env
     depends_on:
+      - zookeeper
       - kafka
       - redis
+    restart: unless-stopped
     networks:
-      - bazario-network
+      - bazario-net
 
   redis:
     image: redis/redis-stack:latest
@@ -27,8 +25,9 @@ services:
     ports:
       - "6379:6379"
       - "8001:8001"
+    restart: unless-stopped
     networks:
-      - bazario-network
+      - bazario-net
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
@@ -38,25 +37,27 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    restart: unless-stopped
     networks:
-      - bazario-network
+      - bazario-net
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     container_name: kafka
     ports:
-      - "9092:9092"
+      - "9092:9092" 
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
-      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    restart: unless-stopped
     networks:
-      - bazario-network
+      - bazario-net
 
 networks:
-  bazario-network:
+  bazario-net:
     driver: bridge

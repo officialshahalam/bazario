@@ -17,7 +17,7 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
-  const handleSearchClik = async () => {
+  const handleSearchClick = async () => {
     if (!searchQuery.trim()) return;
     setLoadingSuggestions(true);
     try {
@@ -49,14 +49,14 @@ const Header = () => {
             className="w-full px-4 font-Poppins font-medium border-[2.5px] border-[#3489ff] outline-none h-[55px]"
           />
           <div
-            onClick={handleSearchClik}
+            onClick={handleSearchClick}
             className="w-[60px] cursor-pointer flex items-center justify-center h-[55px] bg-[#3489ff] absolute top-0 right-0"
           >
             <Search color="#fff" />
           </div>
         </div>
         <div className="flex items-center gap-8">
-          <div >
+          <div>
             {isLoading ? (
               <div className="spinner"></div>
             ) : user ? (

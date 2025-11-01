@@ -8,17 +8,16 @@ import { Prisma } from "@prisma/client";
 import { sendEmail } from "../utils/sendMail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-06-30.basil",
+  apiVersion: "2025-07-30.basil",
 });
 
 export const createPaymentSession = async (
   req: any,
-  res: Response,
+  res: Response, 
   next: NextFunction
 ) => {
   try {
     const { cart, selectedAddressId, coupon } = req.body;
-    console.log("selectedAddress id", selectedAddressId);
     const userId = req.user.id;
     if (!cart || !Array.isArray(cart) || cart?.length === 0) {
       return next(new ValidationError("Cart is empty or invalid"));

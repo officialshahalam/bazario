@@ -1,10 +1,23 @@
 import { kafka } from "@packages/libs/kafka";
-
 import { clients } from "./main";
 
 const consumer = kafka.consumer({ groupId: "log-events-group" });
 
 const logQueue: string[] = [];
+//consume log message from kafka
+
+export const consumeKafkaMessages = async () => {
+  await consumer.connect();
+  await consumer.subscribe({ topic: "logs", fromBeginning: false });
+
+  await consumer.run({
+    eachMessage: async ({ message }) => {
+      if (!message.value) return;
+      const log = message.value.toString();
+      logQueue.push(log);
+    },
+  });
+};
 
 //websocket processing function for logs
 const processLog = () => {
@@ -20,21 +33,6 @@ const processLog = () => {
 };
 
 setInterval(processLog, 3000);
-
-//consume log message from kafka
-
-export const consumeKafkaMessages = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: "logs", fromBeginning: false });
-
-  await consumer.run({
-    eachMessage: async ({ message }) => {
-      if (!message.value) return;
-      const log = message.value.toString();
-      logQueue.push(log);
-    },
-  });
-};
 
 // start ksfks consumer
 consumeKafkaMessages().catch(console.error);

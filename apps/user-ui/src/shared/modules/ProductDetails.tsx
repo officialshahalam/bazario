@@ -98,7 +98,7 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
     }
     try {
       setIsLoading(true);
-      const res = await getAxiosInstance("chatting").post(
+      const res = await getAxiosInstance("chatting").post( 
         "/create-user-conversation-group",
         { sellerId: productDetails?.shop?.sellerId },
         isProtected
