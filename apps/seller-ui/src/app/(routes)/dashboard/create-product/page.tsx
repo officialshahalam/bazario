@@ -32,7 +32,7 @@ const CreateProducts = () => {
   const [openImageModel, setOpenImageModel] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [pictureUploading, setPictureUploading] = useState(false);
-  const [isChanged, setIsChanged] = useState(true);
+  const [isChanged, ] = useState(true);
   const [images, setImages] = useState<(UploadedImage | null)[]>([null]);
   const [loading, setLoading] = useState(false);
   const [activeEffect, setActiveEffect] = useState<string | null>(null);

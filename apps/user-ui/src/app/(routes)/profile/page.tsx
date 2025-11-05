@@ -1,12 +1,9 @@
 "use client";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
-import QuickActionCard from "apps/user-ui/src/shared/components/cards/QuickActionCard";
-import StatCard from "apps/user-ui/src/shared/components/cards/StatCard";
-import ChangePassword from "apps/user-ui/src/shared/components/changePassword/ChangePassword";
-import Notifications from "apps/user-ui/src/shared/components/notifications/Notifications";
-import OrdersTable from "apps/user-ui/src/shared/components/orderTable/OrdersTable";
-import ShippingAddressSection from "apps/user-ui/src/shared/components/section/ShippingAddressSection";
+
+import { Suspense, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import {
   Bell,
   CheckCircle,
@@ -26,15 +23,19 @@ import {
   Receipt,
   PhoneCall,
 } from "lucide-react";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
-import React, { useEffect, useState } from "react";
 
-const Page = () => {
+import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
+import QuickActionCard from "apps/user-ui/src/shared/components/cards/QuickActionCard";
+import StatCard from "apps/user-ui/src/shared/components/cards/StatCard";
+import ChangePassword from "apps/user-ui/src/shared/components/changePassword/ChangePassword";
+import Notifications from "apps/user-ui/src/shared/components/notifications/Notifications";
+import OrdersTable from "apps/user-ui/src/shared/components/orderTable/OrdersTable";
+import ShippingAddressSection from "apps/user-ui/src/shared/components/section/ShippingAddressSection";
+import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
+const ProfileContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const queryTab = searchParams.get("active") || "Profile";
 
   const { user, isLoading } = useRequireAuth();
@@ -53,12 +54,13 @@ const Page = () => {
     (o: any) =>
       o.deliveryStatus !== "Delivered" && o?.deliveryStatus !== "Cancelled"
   ).length;
-
   const completedOrders = orders?.filter(
     (o: any) => o.deliveryStatus === "Delivered"
   ).length;
 
-  const logoutHandler = () => {};
+  const logoutHandler = () => {
+    // TODO: implement logout logic
+  };
 
   useEffect(() => {
     if (activeTab !== queryTab) {
@@ -71,10 +73,10 @@ const Page = () => {
   return (
     <div className="bg-gray-50 p-6 pb-14">
       <div className="md:max-w-7xl mx-auto">
-        {/* Gretting */}
+        {/* Greeting */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold □text-gray-800">
-            Welcome back, {""}
+          <h1 className="text-3xl font-bold text-gray-800">
+            Welcome back,{" "}
             <span className="text-blue-600">
               {isLoading ? (
                 <Loader2 className="inline animate-spin w-5 h-5" />
@@ -85,6 +87,8 @@ const Page = () => {
             👋
           </h1>
         </div>
+
+        {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <StatCard title="Total Orders" count={totalOrders} Icon={Clock} />
           <StatCard
@@ -98,6 +102,7 @@ const Page = () => {
             Icon={CheckCircle}
           />
         </div>
+
         <div className="mt-10 flex flex-col md:flex-row gap-6">
           {/* Left Navigation */}
           <div className="bg-white p-4 rounded-md shadow-sm border border-gray-100 w-full md:w-1/5">
@@ -115,9 +120,9 @@ const Page = () => {
                 onClick={() => setActiveTab("My Orders")}
               />
               <NavItem
-                label="Indox"
+                label="Inbox"
                 Icon={Inbox}
-                active={activeTab === "Indox"}
+                active={activeTab === "Inbox"}
                 onClick={() => router.push("/inbox")}
               />
               <NavItem
@@ -146,7 +151,8 @@ const Page = () => {
               />
             </nav>
           </div>
-          {/* Main content */}
+
+          {/* Main Content */}
           <div className="bg-white p-6 rounded-md shadow-sm border border-gray-100 w-full md:w-[55%]">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {activeTab}
@@ -188,16 +194,15 @@ const Page = () => {
             ) : activeTab === "My Orders" ? (
               <OrdersTable orders={orders} isLoading={orderLoading} />
             ) : activeTab === "Notifications" ? (
-              <Notifications/>
+              <Notifications />
             ) : activeTab === "Shipping Address" ? (
               <ShippingAddressSection />
             ) : activeTab === "Change Password" ? (
               <ChangePassword />
-            ) : (
-              <></>
-            )}
+            ) : null}
           </div>
-          {/* right quick pannel */}
+
+          {/* Right Quick Panel */}
           <div className="w-full md:w-1/4 space-y-4">
             <QuickActionCard
               Icon={Gift}
@@ -207,7 +212,7 @@ const Page = () => {
             <QuickActionCard
               Icon={BadgeCheck}
               title="Your Badges"
-              description="View your earned achivements."
+              description="View your earned achievements."
             />
             <QuickActionCard
               Icon={Settings}
@@ -222,7 +227,7 @@ const Page = () => {
             <QuickActionCard
               Icon={PhoneCall}
               title="Support center"
-              description="Need hepl? Contact support."
+              description="Need help? Contact support."
             />
           </div>
         </div>
@@ -230,8 +235,6 @@ const Page = () => {
     </div>
   );
 };
-
-export default Page;
 
 const NavItem = ({ label, Icon, active, danger, onClick }: any) => (
   <button
@@ -248,3 +251,12 @@ const NavItem = ({ label, Icon, active, danger, onClick }: any) => (
     {label}
   </button>
 );
+
+// Wrap component in Suspense to fix Next.js build issue
+const Page = () => (
+  <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+    <ProfileContent />
+  </Suspense>
+);
+
+export default Page;

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   bazario:
-    image: aalam855/bazario:1.0.0
+    image: aalam855/bazario:latest
     container_name: bazario
     ports:
       - "3000:3000"

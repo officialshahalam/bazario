@@ -6,16 +6,16 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import { isProtected } from "packages/utills/protected";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 
-const Page = () => {
+const ChatContent = () => {
   const searchParams = useSearchParams();
   const { user } = useRequireAuth();
   const router = useRouter();
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
-  const conversationId = searchParams.get("conversationId");
   const queryClient = useQueryClient();
+  const conversationId = searchParams.get("conversationId");
 
   const [chats, setChats] = useState<any[]>([]);
   const [selectedChat, setSelectedChat] = useState<any | null>(null);
@@ -339,5 +339,11 @@ const Page = () => {
     </div>
   );
 };
+
+const Page = () => (
+  <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+    <ChatContent />
+  </Suspense>
+);
 
 export default Page;

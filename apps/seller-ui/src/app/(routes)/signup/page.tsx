@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { countries } from "../../../configs/constants";
 import Link from "next/link";
 import CreateShop from "../../../shared/modules/auth/CreateShop";

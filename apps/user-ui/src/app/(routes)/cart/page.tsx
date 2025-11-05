@@ -21,7 +21,7 @@ const Page = () => {
   const removeFromCart = useStore((state: any) => state.removeFromCart);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [discountedProductId, setDiscountedProductId] = useState("");
+  const [discountedProductId, ] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [couponCode, setCouponCode] = useState("");

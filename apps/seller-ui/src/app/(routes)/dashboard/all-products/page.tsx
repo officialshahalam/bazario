@@ -25,8 +25,6 @@ import DeleteConfirmationModal from "apps/seller-ui/src/shared/components/modals
 
 const AllProducts = () => {
   const [globalFilter, setGlobalFilter] = useState("");
-  const [analyticsData, setAnalyticsData] = useState(null);
-  const [showAnalytics, setShowAnalytics] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>();
   const queryClient = useQueryClient();

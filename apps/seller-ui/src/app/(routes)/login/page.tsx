@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,10 @@ const Login = () => {
 
   const loginMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      const response=await getAxiosInstance('auth').post("/login-seller",data);
+      const response = await getAxiosInstance("auth").post(
+        "/login-seller",
+        data
+      );
       return response.data;
     },
     onSuccess: (data) => {

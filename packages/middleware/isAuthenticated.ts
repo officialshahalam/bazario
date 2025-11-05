@@ -27,7 +27,6 @@ const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
       return res.status(401).json({ message: "Invalid access token" });
     }
 
-
     let account;
     if (decoded.role === "user" || decoded.role === "admin") {
       account = await prisma.user.findUnique({
@@ -49,7 +48,7 @@ const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
       return res.status(401).json({ message: "Account not found" });
     }
     req.role = decoded.role;
-    next();
+    return next();
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }

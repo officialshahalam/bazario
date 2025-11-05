@@ -45,7 +45,7 @@ const UsersPage = () => {
   const limit = 10;
   const queryClient = useQueryClient();
 
-  const { data, isLoading }: UseQueryResult<UsersResponse, Error> = useQuery({
+  const { data }: UseQueryResult<UsersResponse, Error> = useQuery({
     queryKey: ["users-list", page],
     queryFn: async () => {
       const res = await getAxiosInstance("admin").get(

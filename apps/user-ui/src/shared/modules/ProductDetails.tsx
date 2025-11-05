@@ -35,7 +35,7 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
   );
 
   const [quantity, setQuantity] = useState(1);
-  const [priceRange, setPriceRange] = useState([
+  const [priceRange, ] = useState([
     productDetails?.sale_price,
     1199,
   ]);

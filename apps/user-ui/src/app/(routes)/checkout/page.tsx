@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { loadStripe, Appearance } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ import CheckOutForm from "apps/user-ui/src/shared/components/checkout/CheckOutFo
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
-const Page = () => {
+const CheckOutContent = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [coupon, setCoupon] = useState();
@@ -36,7 +36,7 @@ const Page = () => {
 
         const { totalAmount, sellers, cart, coupon } = verifyRes.data.session;
 
-        // Validate session data
+        // Validate session dataz
         if (
           !sellers ||
           sellers.length === 0 ||
@@ -107,7 +107,7 @@ const Page = () => {
           <button
             onClick={() => router.push("/cart")}
             className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
-          > 
+          >
             Back to Cart
           </button>
         </div>
@@ -128,5 +128,11 @@ const Page = () => {
     )
   );
 };
+
+const Page = () => (
+  <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+    <CheckOutContent />
+  </Suspense>
+);
 
 export default Page;

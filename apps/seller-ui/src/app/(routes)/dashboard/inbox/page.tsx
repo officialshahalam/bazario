@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,7 +8,7 @@ import useSeller from "apps/seller-ui/src/hooks/useSeller";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import ChatInput from "apps/seller-ui/src/shared/components/chats/ChatInput";
 
-const ChatPage = () => {
+const ChatContent = () => {
   const searchParams = useSearchParams();
   const { seller } = useSeller();
   const router = useRouter();
@@ -188,7 +188,7 @@ const ChatPage = () => {
             ) : chats.length === 0 ? (
               <p className="text-center py-5 text-sm">
                 No conversation available yet!
-              </p> 
+              </p>
             ) : (
               chats.map((chat) => {
                 const isActive =
@@ -326,4 +326,10 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+const Page = () => (
+  <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+    <ChatContent />
+  </Suspense>
+);
+
+export default Page;

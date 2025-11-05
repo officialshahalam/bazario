@@ -1,6 +1,6 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import DeleteDiscountCodeModal from "apps/seller-ui/src/shared/components/modals/deleteDiscountCodeModal";
+import DeleteDiscountCodeModal from "apps/seller-ui/src/shared/components/modals/DeleteDiscountCodeModal";
 import { AxiosError } from "axios";
 import { ChevronRight, Plus, Trash, X } from "lucide-react";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const DiscountCode = () => {
+const DiscountCode = () => { 
   const queryClient = useQueryClient();
 
   const [showModal, setShowModal] = useState<boolean>(false);

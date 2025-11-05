@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
@@ -12,7 +12,6 @@ type FormData = {
   email: string;
   password: string;
 };
- 
 
 const Page = () => {
   const [step, setStep] = useState<"email" | "otp" | "reset">("email");

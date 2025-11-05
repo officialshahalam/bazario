@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 
 const statuses = [
@@ -18,7 +18,6 @@ const Page = () => {
   const { orderId } = params;
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   const fetchOrder = async () => {
     try {

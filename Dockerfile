@@ -18,6 +18,6 @@ COPY . .
 RUN npx prisma generate
 
 # Optional: Expose port if needed (e.g., 3000)
-EXPOSE 3000 3001 4000 4001 4002 4003 4004 4005 4006 4007 4008 4009 4010
+EXPOSE 3000 3001 302 4000 4001 4002 4003 4004 4005 4006 4007 4008 4009 4010
 
 CMD ["npm", "run", "start"]

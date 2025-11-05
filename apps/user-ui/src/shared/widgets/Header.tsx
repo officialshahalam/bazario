@@ -14,8 +14,8 @@ const Header = () => {
   const cart = useStore((state: any) => state.cart);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<any[]>([]);
-  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [, setSuggestions] = useState<any[]>([]);
+  const [, setLoadingSuggestions] = useState(false);
 
   const handleSearchClick = async () => {
     if (!searchQuery.trim()) return;
