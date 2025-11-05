@@ -1,6 +1,5 @@
 "use client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useWebSocket } from "apps/user-ui/src/context/websocket-context";
 import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
 import ChatInput from "apps/user-ui/src/shared/components/chats/ChatInput";
 import Image from "next/image";
@@ -17,8 +16,6 @@ const Page = () => {
   const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
   const conversationId = searchParams.get("conversationId");
   const queryClient = useQueryClient();
-  const socketContext = useWebSocket();
-  const ws = socketContext?.ws;
 
   const [chats, setChats] = useState<any[]>([]);
   const [selectedChat, setSelectedChat] = useState<any | null>(null);
@@ -26,6 +23,20 @@ const Page = () => {
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
   const [hasFetchedOnce, setHasFetchedOnce] = useState(false);
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const socket = new WebSocket(
+      process.env.NEXT_PUBLIC_CHATTING_WEBSOCKET_URI!
+    );
+    socket.onopen = () => {
+      socket.send(`user_${user.id}`);
+      setWs(socket);
+    };
+
+    return () => socket.close();
+  }, [user?.id]);
 
   const { data: conversation, isLoading } = useQuery({
     queryKey: ["conversation"],
@@ -62,12 +73,14 @@ const Page = () => {
         c.conversationId === chat.conversationId ? { ...c, unreadCount: 0 } : c
       )
     );
-    ws.send(
-      JSON.stringify({
-        type: "MARK_AS_SEEN",
-        conversationId: chat?.conversationId,
-      })
-    );
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(
+        JSON.stringify({
+          type: "MARK_AS_SEEN",
+          conversationId: chat?.conversationId,
+        })
+      );
+    }
     router.push(`?conversationId=${chat?.conversationId}`);
   };
 

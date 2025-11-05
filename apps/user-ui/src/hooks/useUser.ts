@@ -3,33 +3,33 @@ import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import { useAuthStore } from "../store/authStore";
 import { isProtected } from "packages/utills/protected";
 
-// fetch userData from api
-const fetchUser = async (isLoggedIn: boolean) => {
-  const config = isLoggedIn ? isProtected : {};
+const fetchUser = async () => {
   const response = await getAxiosInstance("auth").get(
     "/logged-in-user",
-    config
+    isProtected
   );
   return response.data.user;
 };
 
 const useUser = () => {
-  const { isLoggedIn, setIsLoggedIn } = useAuthStore();
+  const { setIsLoggedIn } = useAuthStore();
+
   const {
     data: user,
     isPending,
     isError,
   } = useQuery({
     queryKey: ["user"],
-    queryFn: () => fetchUser(isLoggedIn),
+    queryFn: fetchUser,
     staleTime: 1000 * 60 * 5,
     retry: false,
-    // @ts-ignore
-    onSuccess: () => {
-      setIsLoggedIn(true);
-    },
-    onError: () => {
-      setIsLoggedIn(false);
+    meta: {
+      onSuccess: () => {
+        setIsLoggedIn(true);
+      },
+      onError: () => {
+        setIsLoggedIn(false);
+      },
     },
   });
 

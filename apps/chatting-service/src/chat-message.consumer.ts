@@ -30,7 +30,7 @@ export async function startConsumer() {
     fromBeginning: false,
   });
 
-  console.log(`Kafka consumer connected and subscribed to "${TOPIC}".`);
+  console.log(`✅ Kafka consumer connected and subscribed to "${TOPIC}".`);
 
   // Start consuming
   await consumer.run({

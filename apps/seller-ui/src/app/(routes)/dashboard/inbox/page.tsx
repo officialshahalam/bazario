@@ -5,25 +5,39 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useSeller from "apps/seller-ui/src/hooks/useSeller";
-import { useWebSocket } from "apps/seller-ui/src/context/websocket-context";
 import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import ChatInput from "apps/seller-ui/src/shared/components/chats/ChatInput";
 
 const ChatPage = () => {
-  const searchParams = useSearchParams(); 
+  const searchParams = useSearchParams();
   const { seller } = useSeller();
   const router = useRouter();
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollAnchorRef = useRef<HTMLDivElement | null>(null);
   const conversationId = searchParams.get("conversationId");
   const queryClient = useQueryClient();
-  const socketContext = useWebSocket();
-  const ws = socketContext?.ws;
 
   const [chats, setChats] = useState<any[]>([]);
   const [selectedChat, setSelectedChat] = useState<any | null>(null);
   const [message, setMessage] = useState("");
   const [hasFetchedOnce, setHasFetchedOnce] = useState(false);
+
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+    if (!seller?.id) return;
+
+    const socket = new WebSocket(
+      process.env.NEXT_PUBLIC_CHATTING_WEBSOCKET_URI!
+    );
+
+    socket.onopen = () => {
+      socket.send(`seller_${seller.id}`);
+      setWs(socket);
+    };
+
+    return () => socket.close();
+  }, [seller?.id]);
 
   const { data: conversations, isLoading } = useQuery({
     queryKey: ["conversations"],
@@ -174,7 +188,7 @@ const ChatPage = () => {
             ) : chats.length === 0 ? (
               <p className="text-center py-5 text-sm">
                 No conversation available yet!
-              </p>
+              </p> 
             ) : (
               chats.map((chat) => {
                 const isActive =

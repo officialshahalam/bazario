@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start":"npm run dev & npm run ui",
     "dev": "npx nx run-many --target=serve --all --maxParallel=10 --output-style=stream",
-    "stripe-listen":"stripe listen --forward-to localhost:4006/api/create-order",
     "ui": "npm run user-ui & npm run seller-ui & npm run admin-ui",
+    "start":"npm run dev & npm run ui",
+    "stripe-listen":"stripe listen --forward-to localhost:4006/api/create-order",
     "user-ui": "npx nx run user-ui:dev --port=3000 --output-style=stream",
     "seller-ui": "npx nx run seller-ui:dev --port=3001 --output-style=stream",
     "admin-ui": "npx nx run admin-ui:dev --port=3002 --output-style=stream",

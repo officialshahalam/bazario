@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  bazario-app:
-    image: aalam855/bazario:latest
+  bazario:
+    image: aalam855/bazario:1.0.0
     container_name: bazario
     ports:
       - "3000:3000"

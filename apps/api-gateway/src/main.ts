@@ -11,27 +11,6 @@ const app = express();
 
 const port = process.env.PORT || 4000;
 
-// (async () => {
-//   try { 
-//     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-//     const deleted = await stripe.accounts.del("acct_1uykiglO0");
-//     console.log("deleted Account", deleted);
-//   } catch (error) {
-//     console.log("error while deleting stripe account", error);
-//   }
-// })();
-
-// (async () => {
-//   try {
-//     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-//     const account = await stripe.accounts.retrieve("acct_1RwssfQ0bI"); // mohd shahalam id
-//     console.log("Stripe account:", account); // e.g., 'IN' for India, 'US' for United States
-//   } catch (err) {
-//     console.log("Error while get stripe Account details", err);
-//   }
-// })();
-
 app.use(
   cors({
     origin: [
@@ -60,24 +39,23 @@ const limiter = rateLimit({
   keyGenerator: (req: any) => req.ip,
 });
 
-
 app.use(limiter);
 
-app.use("/auth", proxy("http://localhost:4001")); //localhost:4000/auth
-app.use("/admin", proxy("http://localhost:4002"));
-app.use("/seller", proxy("http://localhost:4003"));
-app.use("/user", proxy("http://localhost:4004"));
-app.use("/product", proxy("http://localhost:4005"));
-app.use("/order", proxy("http://localhost:4006"));
-app.use("/notification", proxy("http://localhost:4007"));
-app.use("/logger", proxy("http://localhost:4008"));
-app.use("/chatting", proxy("http://localhost:4009"));
-app.use("/recommendation", proxy("http://localhost:4010"));
+app.use("/auth", proxy(process.env.AUTH_SERVICE_URL!));
+app.use("/admin", proxy(process.env.ADMIN_SERVICE_URL!));
+app.use("/seller", proxy(process.env.SELLER_SERVICE_URL!));
+app.use("/user", proxy(process.env.USER_SERVICE_URL!));
+app.use("/product", proxy(process.env.PRODUCT_SERVICE_URL!));
+app.use("/order", proxy(process.env.ORDER_SERVICE_URL!));
+app.use("/notification", proxy(process.env.NOTIFICATION_SERVICE_URL!));
+app.use("/logger", proxy(process.env.LOGGER_SERVICE_URL!));
+app.use("/chatting", proxy(process.env.CHATTING_SERVICE_URL!));
+app.use("/recommendation", proxy(process.env.RECOMMENDATION_SERVICE_URL!));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.get("/", (req, res) => {
-  res.send({ 
+  res.send({
     message: "Welcome to api-gateway!",
   });
 });
@@ -91,16 +69,36 @@ app.get("/gateway-health", (req, res) => {
 const server = app.listen(port, () => {
   console.log(`Api gateway is running on http://localhost${port}`);
   console.log(`Check Health at http://localhost:${port}/gateway-health`);
-  console.log(`Swagger Auth Docs is available at http://localhost:${port}/auth/docs`);
-  console.log(`Swagger Admin Docs is available at http://localhost:${port}/admin/docs`);
-  console.log(`Swagger Seller Docs is available at http://localhost:${port}/seller/docs`);
-  console.log(`Swagger User Docs is available at http://localhost:${port}/user/docs`);
-  console.log(`Swagger Product Docs is available at http://localhost:${port}/product/docs`);
-  console.log(`Swagger Order Docs is available at http://localhost:${port}/order/docs`);
-  console.log(`Swagger Notification Docs is available at http://localhost:${port}/notification/docs`);
-  console.log(`Swagger Logger Docs is available at http://localhost:${port}/logger/docs`);
-  console.log(`Swagger Chatting Docs is available at http://localhost:${port}/chatting/docs`);
-  console.log(`Swagger Recommendation Docs is available at http://localhost:${port}/recommendation/docs`);
+  console.log(
+    `Swagger Auth Docs is available at http://localhost:${port}/auth/docs`
+  );
+  console.log(
+    `Swagger Admin Docs is available at http://localhost:${port}/admin/docs`
+  );
+  console.log(
+    `Swagger Seller Docs is available at http://localhost:${port}/seller/docs`
+  );
+  console.log(
+    `Swagger User Docs is available at http://localhost:${port}/user/docs`
+  );
+  console.log(
+    `Swagger Product Docs is available at http://localhost:${port}/product/docs`
+  );
+  console.log(
+    `Swagger Order Docs is available at http://localhost:${port}/order/docs`
+  );
+  console.log(
+    `Swagger Notification Docs is available at http://localhost:${port}/notification/docs`
+  );
+  console.log(
+    `Swagger Logger Docs is available at http://localhost:${port}/logger/docs`
+  );
+  console.log(
+    `Swagger Chatting Docs is available at http://localhost:${port}/chatting/docs`
+  );
+  console.log(
+    `Swagger Recommendation Docs is available at http://localhost:${port}/recommendation/docs`
+  );
   try {
     initializeConfig();
     console.log("site config is initialized successfully");

@@ -16,10 +16,10 @@ const typeColorMap: Record<LogType, string> = {
   success: "text-green-400",
   error: "text-red-500",
   warning: "text-yellow-500",
-  info: "text-blue-300",
+  info: "text-blue-300", 
   debug: "text-gray-400",
 };
-
+ 
 const Page = () => {
   const [logs, setLogs] = useState<LogItem[]>([]);
   const [filteredLogs, setFilteredLogs] = useState<LogItem[]>([]);

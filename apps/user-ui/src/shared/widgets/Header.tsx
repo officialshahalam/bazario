@@ -9,7 +9,7 @@ import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import Image from "next/image";
 
 const Header = () => {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const wishlist = useStore((state: any) => state.wishlist);
   const cart = useStore((state: any) => state.cart);
 
@@ -57,9 +57,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-8">
           <div>
-            {isLoading ? (
-              <div className="spinner"></div>
-            ) : user ? (
+            {user ? (
               <div className="flex items-center gap-2">
                 <Link
                   href={"/profile"}
@@ -90,9 +88,7 @@ const Header = () => {
                 </Link>
                 <Link href={"/login"}>
                   <span className="block font-medium">Hello,</span>
-                  <span className="font-semibold">
-                    {isLoading ? "..." : "Sign In"}
-                  </span>
+                  <span className="font-semibold">Sign In</span>
                 </Link>
               </div>
             )}
