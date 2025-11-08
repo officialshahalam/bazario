@@ -2,6 +2,19 @@
   "name": "@./kafka-service",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "tslib": "^2.6.0",
+    "typescript": "^5.0.0",
+    "kafkajs": "^2.2.4",
+    "@prisma/client": "^6.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prisma": "^6.7.0"
+  },
   "nx": {
     "targets": {
       "serve": {
@@ -22,6 +35,11 @@
           "production": {
             "buildTarget": "@./kafka-service:build:production"
           }
+        }
+      },"clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "rimraf apps/kafka-service/dist && rimraf apps/kafka-service/node_modules"
         }
       }
     }

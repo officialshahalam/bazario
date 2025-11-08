@@ -15,7 +15,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "http://localhost:3002",
-    ],
+    ], 
     allowedHeaders: ["Authorization", "Content-type"],
     credentials: true,
   })

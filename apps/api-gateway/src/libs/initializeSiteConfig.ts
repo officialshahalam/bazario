@@ -1,6 +1,6 @@
 import prisma from "@packages/libs/prisma";
 
-const initializeConfig = async () => {
+export const initializeConfig = async () => {
   try {
     const existingConfig = await prisma.siteConfig.findFirst();
     if (!existingConfig) {
@@ -118,4 +118,6 @@ const initializeConfig = async () => {
   }
 };
 
-export default initializeConfig;
+
+
+

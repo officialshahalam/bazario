@@ -2,7 +2,9 @@
 // Updated to use singular model names
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  output        = "../node_modules/.prisma/client"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -325,7 +327,7 @@ model Participant {
   lastSeenAt     DateTime?
   isOnline       Boolean           @default(false)
   unreadCount    Int               @default(0)
-  muted          Boolean           @default(false) 
+  muted          Boolean           @default(false)
   joinedAt       DateTime          @default(now())
 }
 
@@ -341,5 +343,6 @@ model Message {
   attachments    String[]
   status         String            @default("sent")
   createdAt      DateTime          @default(now())
+
   @@unique([conversationId, senderId, content, createdAt])
 }

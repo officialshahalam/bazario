@@ -4,7 +4,7 @@ import { updateUserAnalytics } from "./services/analytics.service";
 const consumer = kafka.consumer({ groupId: "user-event-group" });
 const admin = kafka.admin();
 
-(async function () {
+(async function () { 
   try {
     await admin.connect();
     const result = await admin.createTopics({
@@ -62,7 +62,7 @@ const processQueue = async () => {
     }
     const validActions = [
       "add_to_cart",
-      "remove_from_cart",
+      "remove_from_cart", 
       "add_to_wishlist",
       "remove_from_wishlist",
       "product_view",

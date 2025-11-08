@@ -3,7 +3,7 @@
 import { kafka } from "packages/libs/kafka";
 
 const producer = kafka.producer();
-
+ 
 export const sendKafkaEvent = async (eventData: {
   userId?: string;
   productId?: string;

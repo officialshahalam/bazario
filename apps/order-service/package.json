@@ -2,6 +2,39 @@
   "name": "@./order-service",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "cookie-parser": "^1.4.6",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.9",
+    "nodemailer": "^6.9.0",
+    "swagger-ui-express": "^4.6.0",
+    "swagger-autogen": "^2.2.1",
+    "tslib": "^2.6.0",
+    "typescript": "^5.0.0",
+    "path": "^0.12.7",
+    "@prisma/client": "^6.7.0",
+    "stripe": "^12.0.0",
+    "crypto": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "ioredis": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/node": "^20.0.0",
+    "@types/nodemailer": "^6.4.0",
+    "@types/body-parser": "^1.19.2",
+    "@types/jsonwebtoken": "^9.0.10",
+    "prisma": "^6.7.0"
+  },
   "nx": {
     "targets": {
       "serve": {
@@ -24,9 +57,10 @@
           }
         }
       },
-      "test": {
+      "clean": {
+        "executor": "nx:run-commands",
         "options": {
-          "passWithNoTests": true
+          "command": "rimraf apps/order-service/dist && rimraf apps/order-service/node_modules"
         }
       }
     }
