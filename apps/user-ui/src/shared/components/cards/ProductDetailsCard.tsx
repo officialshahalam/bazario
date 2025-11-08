@@ -8,8 +8,9 @@ import { useStore } from "apps/user-ui/src/store";
 import useUser from "apps/user-ui/src/hooks/useUser";
 import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
 import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
-import { isProtected } from "packages/utills/protected";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
+import { isProtected } from "apps/user-ui/src/utils/protected";
+
 
 const ProductDetailsCard = ({
   data,

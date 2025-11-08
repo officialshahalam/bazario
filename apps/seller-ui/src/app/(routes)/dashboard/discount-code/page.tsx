@@ -1,11 +1,13 @@
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Input from "apps/seller-ui/src/shared/components/input";
 import DeleteDiscountCodeModal from "apps/seller-ui/src/shared/components/modals/DeleteDiscountCodeModal";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
 import { AxiosError } from "axios";
 import { ChevronRight, Plus, Trash, X } from "lucide-react";
 import Link from "next/link";
-import Input from "packages/components/input";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
+
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";

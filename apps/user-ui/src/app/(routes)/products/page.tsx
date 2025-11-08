@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ProductCard from "apps/user-ui/src/shared/components/cards/ProductCard";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import React, { useEffect, useState } from "react";
 import { getTrackBackground, Range } from "react-range";
 

@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import useSeller from "../hooks/useSeller";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import { ArrowLeft, Loader2 } from "lucide-react";
 import SellerProfile from "../shared/components/sellerProfile";
 import Link from "next/link";
+import { getAxiosInstance } from "../utils/axios/getAxios";
 
 const Home = () => {
   const { seller } = useSeller();

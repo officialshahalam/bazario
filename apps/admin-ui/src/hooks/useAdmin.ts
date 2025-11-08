@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "../utils/axios/getAxios";
+
 
 const useAdmin = () => {
   const {

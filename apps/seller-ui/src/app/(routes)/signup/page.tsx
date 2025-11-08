@@ -8,7 +8,8 @@ import { countries } from "../../../configs/constants";
 import Link from "next/link";
 import CreateShop from "../../../shared/modules/auth/CreateShop";
 import StripeLogo from "../../../assets/svgs/StripeLogo";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
+
 
 const SignUp = () => {
   const [activeStep, setActiveStep] = useState(1);

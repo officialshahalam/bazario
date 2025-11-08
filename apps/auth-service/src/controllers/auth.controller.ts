@@ -18,7 +18,6 @@ import { randomUUID } from "crypto";
 import { sendLog } from "@packages/utills/logs/send-logs";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-07-30.basil",
 });
 
 export const userRegistration = async (

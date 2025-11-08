@@ -5,7 +5,7 @@ import  { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import React, { useEffect, useState } from "react";
 import { shopCategories, countries } from "apps/user-ui/src/configs/constants";
 import ShopCard from "apps/user-ui/src/shared/components/cards/ShopCard";

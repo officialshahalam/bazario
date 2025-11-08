@@ -5,7 +5,7 @@ import { Search, ShoppingCart, User, Heart } from "lucide-react";
 import HeaderBottom from "./HeaderBottom";
 import useUser from "../../hooks/useUser";
 import { useStore } from "../../store";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import Image from "next/image";
 
 const Header = () => {

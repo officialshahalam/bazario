@@ -1,8 +1,11 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import BreadCrumbs from "apps/admin-ui/src/shared/components/breadCrumbs/BreadCrumbs";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
+
 import Link from "next/link";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
+
 import React from "react";
 
 const Page = () => {

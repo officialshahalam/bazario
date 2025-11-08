@@ -20,7 +20,7 @@ import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
 import useUser from "apps/user-ui/src/hooks/useUser";
 import { sendKafkaEvent } from "apps/user-ui/src/actions/track-user";
 import ProductCard from "../cards/ProductCard";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 
 const TABS = ["Products", "Offers", "Reviews"];
 

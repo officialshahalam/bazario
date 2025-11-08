@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { loadStripe, Appearance } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import { XCircle } from "lucide-react";
 import CheckOutForm from "apps/user-ui/src/shared/components/checkout/CheckOutForm";
 

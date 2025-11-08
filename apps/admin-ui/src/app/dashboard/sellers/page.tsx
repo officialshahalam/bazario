@@ -16,10 +16,11 @@ import {
   UseQueryResult,
 } from "@tanstack/react-query";
 import { saveAs } from "file-saver";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import BreadCrumbs from "apps/admin-ui/src/shared/components/breadCrumbs/BreadCrumbs";
 import Image from "next/image";
 import Link from "next/link";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
 
 // Types
 type Seller = {

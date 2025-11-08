@@ -5,8 +5,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useSeller from "apps/seller-ui/src/hooks/useSeller";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import ChatInput from "apps/seller-ui/src/shared/components/chats/ChatInput";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
 
 const ChatContent = () => {
   const searchParams = useSearchParams();

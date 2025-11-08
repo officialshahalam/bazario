@@ -4,9 +4,10 @@ import useRequireAuth from "apps/user-ui/src/hooks/useRequireAuth";
 import ChatInput from "apps/user-ui/src/shared/components/chats/ChatInput";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
-import { isProtected } from "packages/utills/protected";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
+
 import React, { Suspense, useEffect, useRef, useState } from "react";
+import { isProtected } from "apps/user-ui/src/utils/protected";
 
 const ChatContent = () => {
   const searchParams = useSearchParams();

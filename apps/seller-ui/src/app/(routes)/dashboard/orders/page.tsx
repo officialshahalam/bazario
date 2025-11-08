@@ -9,8 +9,9 @@ import {
 import { Search, Eye } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import BreadCrumbs from "apps/seller-ui/src/shared/components/breadCrumbs/BreadCrumbs";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
 
 const fetchOrders = async () => {
   const res=await getAxiosInstance("order").get('/get-seller-orders');

@@ -7,8 +7,9 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import BreadCrumbs from "apps/admin-ui/src/shared/components/breadCrumbs/BreadCrumbs";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
 
 const columns = [
   { accessorKey: "name", header: "Name" },

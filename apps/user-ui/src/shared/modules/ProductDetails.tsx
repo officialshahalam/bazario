@@ -17,10 +17,11 @@ import { useStore } from "../../store";
 import useUser from "../../hooks/useUser";
 import useLocationTracking from "../../hooks/useLocationTracking";
 import useDeviceTracking from "../../hooks/useDeviceTracking";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import ProductCard from "../components/cards/ProductCard";
 import { useRouter } from "next/navigation";
-import { isProtected } from "packages/utills/protected";
+import { isProtected } from "../../utils/protected";
+
 
 const ProductDetails = ({ productDetails }: { productDetails: any }) => {
   const [currentImage, setCurrentImage] = useState(

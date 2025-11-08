@@ -13,8 +13,9 @@ import { useQuery } from "@tanstack/react-query";
 import { saveAs } from "file-saver";
 import Image from "next/image";
 import Link from "next/link";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import BreadCrumbs from "apps/admin-ui/src/shared/components/breadCrumbs/BreadCrumbs";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
 
 const EventsPage = () => {
   const [globalFilter, setGlobalFilter] = useState("");

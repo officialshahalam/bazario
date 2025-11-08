@@ -2,10 +2,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import Input from "packages/components/input";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Input from "../shared/components/input";
+import { getAxiosInstance } from "../utils/axios/getAxios";
+
 
 type FormData = {
   email: string;

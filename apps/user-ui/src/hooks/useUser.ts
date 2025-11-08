@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import { useAuthStore } from "../store/authStore";
-import { isProtected } from "packages/utills/protected";
+import { isProtected } from "../utils/protected";
+
 
 const fetchUser = async () => {
   const response = await getAxiosInstance("auth").get(

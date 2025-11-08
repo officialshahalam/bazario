@@ -3,7 +3,7 @@ import React from "react";
 import Hero from "../shared/modules/Hero";
 import SectionTitle from "../shared/components/section/SectionTitle";
 import { useQuery } from "@tanstack/react-query";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import ProductCard from "../shared/components/cards/ProductCard";
 import ShopCard from "../shared/components/cards/ShopCard";
 

@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import Link from "next/link";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import React from "react";
 
 const Notifications = () => {

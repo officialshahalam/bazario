@@ -8,11 +8,12 @@ import {
 } from "@tanstack/react-table";
 
 import { Search, Eye, Star, ChevronRight, Download } from "lucide-react";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { saveAs } from "file-saver";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
 
 const AllProducts = () => {
   const [globalFilter, setGlobalFilter] = useState("");

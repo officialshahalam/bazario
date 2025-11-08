@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { countries } from "apps/user-ui/src/configs/constants";
 import { Plus, Trash2, MapPin, X } from "lucide-react";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 
 const ShippingAddressSection = () => {
   const [showModal, setShowModal] = useState(false);

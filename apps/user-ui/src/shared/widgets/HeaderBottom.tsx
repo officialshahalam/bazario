@@ -13,7 +13,7 @@ import Link from "next/link";
 import useUser from "../../hooks/useUser";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "../../store";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 
 const HeaderBottom = () => {
   const [show, setShow] = useState(false);

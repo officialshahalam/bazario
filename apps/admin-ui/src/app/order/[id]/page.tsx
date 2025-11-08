@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
+
 
 const statuses = [
   "Ordered",

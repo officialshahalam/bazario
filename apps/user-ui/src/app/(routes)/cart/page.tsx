@@ -4,11 +4,12 @@ import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
 import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
 import useUser from "apps/user-ui/src/hooks/useUser";
 import { useStore } from "apps/user-ui/src/store";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 

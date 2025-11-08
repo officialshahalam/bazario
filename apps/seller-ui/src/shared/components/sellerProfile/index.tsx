@@ -14,7 +14,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../cards/ProductCard";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
+
 
 const TABS = ["Products", "Offers", "Reviews"];
 

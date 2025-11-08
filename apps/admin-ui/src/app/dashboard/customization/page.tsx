@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import BreadCrumbs from "apps/admin-ui/src/shared/components/breadCrumbs/BreadCrumbs";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/admin-ui/src/utils/axios/getAxios";
+
 
 const tabs = ["Categories", "Logo", "Banner"];
 

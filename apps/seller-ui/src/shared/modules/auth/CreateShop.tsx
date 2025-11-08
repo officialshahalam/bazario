@@ -2,7 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { shopCategories } from "../../../configs/constants";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
+
 
 const CreateShop = ({
   sellerId,

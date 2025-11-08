@@ -3,21 +3,21 @@ import React, { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import ImagePlaceholder from "apps/seller-ui/src/shared/components/imagePlaceholder";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
 import { Wand, X } from "lucide-react";
-import ColorSelector from "packages/components/colorSelector";
-import CustomProperties from "packages/components/customProperties";
-import CustomSpecifications from "packages/components/customSpecifications";
-import Input from "packages/components/input";
 import dynamic from "next/dynamic";
-import SizeSelector from "packages/components/sizeSelector";
 import Image from "next/image";
-import { enhancements } from "packages/utills/AIEnhancements";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import BreadCrumbs from "apps/seller-ui/src/shared/components/breadCrumbs/BreadCrumbs";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
+import ColorSelector from "apps/seller-ui/src/shared/components/colorSelector";
+import Input from "apps/seller-ui/src/shared/components/input";
+import CustomSpecifications from "apps/seller-ui/src/shared/components/customSpecifications";
+import CustomProperties from "apps/seller-ui/src/shared/components/customProperties";
+import SizeSelector from "apps/seller-ui/src/shared/components/sizeSelector";
+import { enhancements } from "apps/seller-ui/src/utils/AIEnhancements";
 const RichTextEditor = dynamic(
-  () => import("packages/components/richTextEditor"),
+  () => import("apps/seller-ui/src/shared/components/richTextEditor"),
   {
     ssr: false,
   }
@@ -32,7 +32,7 @@ const CreateProducts = () => {
   const [openImageModel, setOpenImageModel] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [pictureUploading, setPictureUploading] = useState(false);
-  const [isChanged, ] = useState(true);
+  const [isChanged] = useState(true);
   const [images, setImages] = useState<(UploadedImage | null)[]>([null]);
   const [loading, setLoading] = useState(false);
   const [activeEffect, setActiveEffect] = useState<string | null>(null);

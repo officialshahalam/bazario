@@ -1,8 +1,9 @@
 "use server";
 
 import ProductDetails from "apps/seller-ui/src/shared/modules/ProductDetails";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
 import { Metadata } from "next";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import React from "react";
 
 async function fetchProductDetails(slug: string) {

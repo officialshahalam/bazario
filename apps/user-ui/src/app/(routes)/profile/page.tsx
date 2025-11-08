@@ -31,7 +31,7 @@ import ChangePassword from "apps/user-ui/src/shared/components/changePassword/Ch
 import Notifications from "apps/user-ui/src/shared/components/notifications/Notifications";
 import OrdersTable from "apps/user-ui/src/shared/components/orderTable/OrdersTable";
 import ShippingAddressSection from "apps/user-ui/src/shared/components/section/ShippingAddressSection";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+import { getAxiosInstance } from "apps/user-ui/src/utils/axios/getAxios";
 
 const ProfileContent = () => {
   const searchParams = useSearchParams();

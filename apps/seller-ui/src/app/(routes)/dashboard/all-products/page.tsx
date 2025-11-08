@@ -15,13 +15,14 @@ import {
   Plus,
   BarChart,
   Star,
-  ChevronRight,
+  ChevronRight, 
 } from "lucide-react";
-import { getAxiosInstance } from "packages/utills/axios/getAxios";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import DeleteConfirmationModal from "apps/seller-ui/src/shared/components/modals/DeleteConfirmationModal";
+import { getAxiosInstance } from "apps/seller-ui/src/utils/axios/getAxios";
 
 const AllProducts = () => {
   const [globalFilter, setGlobalFilter] = useState("");

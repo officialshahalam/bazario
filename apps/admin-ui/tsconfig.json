@@ -22,13 +22,11 @@
       "@/*": ["./src/*"]
     },
     "outDir": "dist",
-    "rootDir": "../../",
+    "rootDir": "/",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": [
     "../../apps/admin-ui/.next/types/**/*.ts",
-    "../../packages/**/*.tsx",
-    "../../packages/**/*.ts",
     "../../dist/apps/admin-ui/.next/types/**/*.ts",
     "next-env.d.ts",
     "src/**/*.js",
