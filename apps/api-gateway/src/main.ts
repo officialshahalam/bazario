@@ -44,7 +44,7 @@ app.set("trust proxy", isProduction ? "loopback" : 1);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: (req: any) => (req.user ? 1000 : 100),
-  message: { error: "Too many requests, try again later." },
+  message: { error: "Too many requests! try again later." },
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req: any) => req.ip,
@@ -335,63 +335,63 @@ app.get("/", (_req, res) => {
             target="_blank"
             class="card"
           >
-            <h3>Auth Service Docs</h3>
+            <h3>Auth Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/admin/"
             target="_blank"
             class="card"
           >
-            <h3>Admin Service Docs</h3>
+            <h3>Admin Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/seller/"
             target="_blank"
             class="card"
           >
-            <h3>Seller Service Docs</h3>
+            <h3>Seller Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/user/"
             target="_blank"
             class="card"
           >
-            <h3>user Service Docs</h3>
+            <h3>user Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/product/"
             target="_blank"
             class="card"
           >
-            <h3>Product Service Docs</h3>
+            <h3>Product Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/order/"
             target="_blank"
             class="card"
           >
-            <h3>Order Service Docs</h3>
+            <h3>Order Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/notification/"
             target="_blank"
             class="card"
           >
-            <h3>Npotification Service Docs</h3>
+            <h3>Notification Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/chatting/"
             target="_blank"
             class="card"
           >
-            <h3>Chatting Service Docs</h3>
+            <h3>Chatting Service Swagger Docs</h3>
           </a>
           <a
             href="https://api.bazario.officialshahalam.me/logger/"
             target="_blank"
             class="card"
           >
-            <h3>Logger Service Docs</h3>
+            <h3>Logger Service Swagger Docs</h3>
           </a>
         </div>
 
@@ -434,3 +434,4 @@ const server = app.listen(port, () => {
 server.on("error", (e) => {
   console.log("❌ Server Error:", e);
 });
+
