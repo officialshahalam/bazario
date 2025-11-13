@@ -1,16 +1,22 @@
-import express from 'express';
-import * as path from 'path';
+import express from "express";
+import * as path from "path";
 
 const app = express();
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
-app.get('/', (req, res) => {
-  res.send({ message: 'Welcome to recommendation-service!' });
+//swagger doc
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    message: "Recommendation Service is healthy!",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
 });
 
 const port = process.env.PORT || 4010;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+  console.log(`Recommendation Service is running on http://localhost${port}`);
 });
-server.on('error', console.error);
+server.on("error", console.error);

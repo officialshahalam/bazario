@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import {
   checkOtpRestrictions,
+  cookieClear,
+  cookieSet,
   handleForgotPassword,
   sendOtp,
   traceOtpRequests,
@@ -12,13 +14,12 @@ import prisma from "@packages/libs/prisma";
 import { AuthError, ValidationError } from "@packages/error-handler";
 import bcrypt from "bcryptjs";
 import jwt, { JsonWebTokenError } from "jsonwebtoken";
-import { setCookie } from "../utils/cookies/setCookies";
+
 import Stripe from "stripe";
 import { randomUUID } from "crypto";
 import { sendLog } from "@packages/utills/logs/send-logs";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
 
 export const userRegistration = async (
   req: Request,
@@ -116,8 +117,8 @@ export const loginUser = async (
       return next(new AuthError("Invalid email or password"));
     }
 
-    res.clearCookie("seller-access-token");
-    res.clearCookie("seller-refresh-token");
+    cookieClear("seller-access-token", res);
+    cookieClear("seller-refresh-token", res);
 
     const accessToken = await jwt.sign(
       { id: user.id, role: "user" },
@@ -132,8 +133,8 @@ export const loginUser = async (
     );
 
     // store the access and referesh token in httpOnly secure cookie
-    setCookie("access_token", accessToken, res);
-    setCookie("refresh_token", refreshToken, res);
+    cookieSet("access_token", accessToken, res);
+    cookieSet("refresh_token", refreshToken, res);
 
     await sendLog({
       type: "success",
@@ -416,8 +417,8 @@ export const loginSeller = async (
       return next(new AuthError("Invalid email or password"));
     }
 
-    res.clearCookie("access_token");
-    res.clearCookie("refresh_token");
+    cookieClear("access_token", res);
+    cookieClear("refresh_token", res);
 
     const accessToken = await jwt.sign(
       { id: seller.id, role: "seller" },
@@ -432,8 +433,8 @@ export const loginSeller = async (
     );
 
     // store the access and referesh token in httpOnly secure cookie
-    setCookie("seller-access-token", accessToken, res);
-    setCookie("seller-refresh-token", refreshToken, res);
+    cookieSet("seller-access-token", accessToken, res);
+    cookieSet("seller-refresh-token", refreshToken, res);
 
     res.status(200).json({
       success: true,
@@ -522,8 +523,8 @@ export const loginAdmin = async (
       source: "auth-service",
     });
 
-    res.clearCookie("seller-access-token");
-    res.clearCookie("seller-refresh-token");
+    cookieClear("seller-access-token", res);
+    cookieClear("seller-refresh-token", res);
 
     const accessToken = await jwt.sign(
       { id: user.id, role: "admin" },
@@ -538,8 +539,8 @@ export const loginAdmin = async (
     );
 
     // store the access and referesh token in httpOnly secure cookie
-    setCookie("access_token", accessToken, res);
-    setCookie("refresh_token", refreshToken, res);
+    cookieSet("access_token", accessToken, res);
+    cookieSet("refresh_token", refreshToken, res);
 
     res.status(200).json({
       success: true,
@@ -665,9 +666,9 @@ export const refreshToken = async (
       { expiresIn: "15m" }
     );
     if (decoded.role === "user") {
-      setCookie("access_token", newAccessToken, res);
+      cookieSet("access_token", newAccessToken, res);
     } else if (decoded.role === "seller") {
-      setCookie("seller-access-token", newAccessToken, res);
+      cookieSet("seller-access-token", newAccessToken, res);
     }
     req.role = decoded.role;
 

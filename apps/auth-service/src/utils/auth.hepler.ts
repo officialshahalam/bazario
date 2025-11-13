@@ -5,8 +5,32 @@ import { sendEmail } from "./sendMail";
 import { NextFunction, Request, Response } from "express";
 import prisma from "@packages/libs/prisma";
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const cookieSet = (name: string, value: string, res: Response) => {
+  const isProd = process.env.NODE_ENV === "production";
 
+  res.cookie(name, value, {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    domain: isProd ? ".bazario.officialshahalam.me" : "localhost",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+};
+
+export const cookieClear = (name: string, res: Response) => {
+  const isProd = process.env.NODE_ENV === "production";
+
+  res.clearCookie(name, {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    domain: isProd ? ".bazario.officialshahalam.me" : "localhost",
+    path: "/",
+  });
+};
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const validateRegistrationData = (
   data: any,
   userType: "user" | "seller"

@@ -12,7 +12,7 @@ type IncommingMessage = {
   fromUserId: string;
   toUserId: string;
   messageBody: string;
-  conversationId: string;
+  conversationId: string; 
   senderType: string;
 };
 

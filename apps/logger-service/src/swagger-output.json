@@ -5,10 +5,8 @@
     "description": "Automatically generate swagger docs",
     "version": "1.0.0"
   },
-  "host": "localhost:4000/logger/api",
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "host": "api.bazario.officialshahalam.me",
+  "schemes": ["https"],
+  "basePath": "/logger/api",
   "paths": {}
 }
