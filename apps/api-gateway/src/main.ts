@@ -242,24 +242,23 @@ app.get("/", (_req, res) => {
         </style>
       </head>
       <body>
-        <h1>🎉 Welcome to the Bazario API Gateway!</h1>
+        <h1>🎉 Seamlessly Connect to the Bazario Ecosystem!</h1>
         <p>Seamlessly connect to all Bazario services and UIs.</p>
-
         <!-- 🌐 Frontend Domains -->
         <h2>🌐 Frontend Domains</h2>
         <div class="services">
           <a
-            href="https://bazario.officialshahalam.me"
+            href="https://admin.bazario.officialshahalam.me"
             target="_blank"
             class="card"
           >
-            <h3>User UI</h3>
+            <h3>Admin UI</h3>
             <div class="credentials">
               <p>
                 <span class="label">Test Email:</span>
-                <span class="value">ansarishahalam855@gmail.com</span>
+                <span class="value">officialshahalam855@gmail.com</span>
                 <button
-                  onclick="copyText('ansarishahalam855@gmail.com', event)"
+                  onclick="copyText('officialshahalam855@gmail.com', event)"
                   class="copy-btn"
                 >
                   Copy
@@ -274,7 +273,6 @@ app.get("/", (_req, res) => {
               </p>
             </div>
           </a>
-
           <a
             href="https://seller.bazario.officialshahalam.me"
             target="_blank"
@@ -301,19 +299,18 @@ app.get("/", (_req, res) => {
               </p>
             </div>
           </a>
-
           <a
-            href="https://admin.bazario.officialshahalam.me"
+            href="https://bazario.officialshahalam.me"
             target="_blank"
             class="card"
           >
-            <h3>Admin UI</h3>
+            <h3>User UI</h3>
             <div class="credentials">
               <p>
                 <span class="label">Test Email:</span>
-                <span class="value">officialshahalam855@gmail.com</span>
+                <span class="value">ansarishahalam855@gmail.com</span>
                 <button
-                  onclick="copyText('officialshahalam855@gmail.com', event)"
+                  onclick="copyText('ansarishahalam855@gmail.com', event)"
                   class="copy-btn"
                 >
                   Copy
