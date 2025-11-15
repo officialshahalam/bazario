@@ -36,7 +36,7 @@ services:
   kafka-service:
     image: aalam855/bazario-kafka-service:latest
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka
     restart: unless-stopped
@@ -49,7 +49,7 @@ services:
     ports:
       - "4000:4000"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -67,7 +67,7 @@ services:
     ports:
       - "4001:4001"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -85,7 +85,7 @@ services:
     ports:
       - "4002:4002"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -103,7 +103,7 @@ services:
     ports:
       - "4003:4003"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -115,13 +115,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   user-service:
     image: aalam855/bazario-user-service:latest
     ports:
       - "4004:4004"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -133,13 +133,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   product-service:
     image: aalam855/bazario-product-service:latest
     ports:
       - "4005:4005"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -151,13 +151,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   order-service:
     image: aalam855/bazario-order-service:latest
     ports:
       - "4006:4006"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -169,13 +169,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   notification-service:
     image: aalam855/bazario-notification-service:latest
     ports:
       - "4007:4007"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -187,13 +187,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   logger-service:
     image: aalam855/bazario-logger-service:latest
     ports:
       - "4008:4008"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -205,13 +205,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   chatting-service:
     image: aalam855/bazario-chatting-service:latest
     ports:
       - "4009:4009"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -223,13 +223,13 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
   recommendation-service:
     image: aalam855/bazario-recommendation-service:latest
     ports:
       - "4010:4010"
     env_file:
-      - .env.production
+      - .env
     depends_on:
       - kafka-service
       - redis
@@ -241,7 +241,7 @@ services:
       retries: 3
     networks:
       - bazario-net
-      
+
 networks:
   bazario-net:
     driver: bridge

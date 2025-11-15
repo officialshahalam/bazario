@@ -3,22 +3,41 @@ import dotenv from "dotenv";
 import ejs from "ejs";
 import path from "path";
 
-dotenv.config(); 
+dotenv.config();
+
+export const getTemplatePath = (templateName: string) => {
+  // Path for LOCAL development
+  const localPath = path.join(
+    process.cwd(),
+    "apps",
+    "auth-service",
+    "src",
+    "assets",
+    "email-templates",
+    `${templateName}.ejs`
+  );
+
+  // Path for PRODUCTION (Docker)
+  const prodPath = path.join(
+    process.cwd(),
+    "src",
+    "assets",
+    "email-templates",
+    `${templateName}.ejs`
+  );
+
+  if (process.env.NODE_ENV === "production") {
+    return prodPath;
+  }
+  return localPath;
+};
 
 // render a EJS mail templete
 const renderEmailTemplete = async (
   templateName: string,
   data: Record<string, any>
 ): Promise<string> => {
-  const templatePath = path.join(
-    process.cwd(),
-    "apps",
-    "auth-service",
-    "src",
-    "utils",
-    "email-templates",
-    `${templateName}.ejs`
-  );
+  const templatePath = getTemplatePath(templateName);
   return ejs.renderFile(templatePath, data);
 };
 

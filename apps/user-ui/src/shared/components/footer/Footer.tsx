@@ -161,10 +161,10 @@ const Footer = () => {
               <div className="flex items-center space-x-2">
                 <Mail size={16} className="text-gray-500" />
                 <a
-                  href="mailto:support@eshop.com"
+                  href="mailto:officialshahalam855@gmail.com"
                   className="text-gray-600 hover:text-gray-800 transition-colors text-sm"
                 >
-                  support@eshop.com
+                  mailto:officialshahalam855@gmail.com
                 </a>
               </div>
               <div className="flex items-start space-x-2">
@@ -181,7 +181,7 @@ const Footer = () => {
         {/* Bottom Border */}
         <div className="mt-8 pt-8 border-t border-gray-200">
           <div className="text-center text-gray-500 text-sm">
-            © 2024 eShop. All rights reserved.
+            © 2024 Bazario. All rights reserved.
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ const allowedOrigins = [
   "https://admin.bazario.officialshahalam.me",
   "https://api.bazario.officialshahalam.me",
   "http://localhost:4000",
+  "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost:3002",
 ];
