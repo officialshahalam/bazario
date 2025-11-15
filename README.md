@@ -27,11 +27,11 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 
 ## 🌐 Multi-Tenant Domain Structure
 
-| Domain               | Purpose                       | Target Users          |
-| -------------------- | ----------------------------- | --------------------- |
-| `bazario.com`        | Main shopping portal          | End customers         |
-| `seller.bazario.com` | Seller dashboard & management | Vendors/Merchants     |
-| `admin.bazario.com`  | Platform administration       | System administrators |
+| Domain                                       | Purpose                       | Target Users          |
+| -------------------------------------------- | ----------------------------- | --------------------- |
+| `https://bazario.officialshahala.me`         | Main shopping portal          | End customers         |
+| `https://seller.bazario.officialshahalam.me` | Seller dashboard & management | Vendors/Merchants     |
+| `https://admin.bazario.officialshahalam.me`  | Platform administration       | System administrators |
 
 ## ⚡ Key Features
 
@@ -106,15 +106,15 @@ Bazario is **not just an e-commerce platform** — it's a fully functional **Saa
 
 Access the interactive Swagger documentation for each microservice:
 
-- **Authentication endpoints**: [https://bazario/auth/docs](https://bazario/auth/docs)
-- **Admin endpoints**: [https://bazario/admin/docs](https://bazario/admin/docs)
-- **Seller endpoints**: [https://bazario/seller/docs](https://bazario/seller/docs)
-- **User endpoints**: [https://bazario/user/docs](https://bazario/user/docs)
-- **Product endpoints**: [https://bazario/product/docs](https://bazario/product/docs)
-- **Order endpoints**: [https://bazario/order/docs](https://bazario/order/docs)
-- **Notification endpoints**: [https://bazario/notification/docs](https://bazario/notification/docs)
-- **Chatting endpoints**: [https://bazario/chat/docs](https://bazario/chat/docs)
-- **Logger endpoints**: [https://bazario/logger/docs](https://bazario/logger/docs)
+- **Authentication endpoints**: [https://api.bazario.officialshahalam.me/auth/](https://api.bazario.officialshahalam.me/auth/)
+- **Admin endpoints**: [https://api.bazario.officialshahalam.me/admin/](https://api.bazario.officialshahalam.me/admin/)
+- **Seller endpoints**: [https://api.bazario.officialshahalam.me/seller/](https://api.bazario.officialshahalam.me/seller/)
+- **User endpoints**: [https://api.bazario.officialshahalam.me/user/](https://api.bazario.officialshahalam.me/user/)
+- **Product endpoints**: [https://api.bazario.officialshahalam.me/product/](https://api.bazario.officialshahalam.me/product/)
+- **Order endpoints**: [https://api.bazario.officialshahalam.me/order/](https://api.bazario.officialshahalam.me/order/)
+- **Notification endpoints**: [https://api.bazario.officialshahalam.me/notification/](https://api.bazario.officialshahalam.me/notification/)
+- **Chatting endpoints**: [https://api.bazario.officialshahalam.me/chatting/](https://api.bazario.officialshahalam.me/chatting/)
+- **Logger endpoints**: [https://api.bazario.officialshahalam.me/logger/](https://api.bazario.officialshahalam.me/logger/)
 
 Each documentation provides interactive API testing, request/response examples, authentication requirements, error handling, and parameter validation.
 
