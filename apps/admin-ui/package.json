@@ -17,7 +17,7 @@
     "framer-motion": "^12.23.9",
     "jotai": "^2.12.5",
     "lucide-react": "^0.517.0",
-    "next": "~15.2.4",
+    "next": "~15.2.6",
     "react": "18.3.1",
     "react-apexcharts": "^1.7.0",
     "react-dom": "18.3.1",
